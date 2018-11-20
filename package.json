@@ -1,0 +1,65 @@
+{
+  "name": "clean-ui-admin-template",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": ".",
+  "devDependencies": {
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.0.2",
+    "node-sass": "^4.9.0",
+    "prettier": "^1.5.3",
+    "querystring": "^0.2.0",
+    "react-app-rewire-eslint": "^0.2.3",
+    "react-app-rewire-less": "2.1.1",
+    "react-app-rewired": "^1.5.2",
+    "react-dnd": "^2.6.0",
+    "react-dnd-html5-backend": "^2.6.0",
+    "react-scripts": "^1.1.4",
+    "redux-devtools-extension": "^2.13.0",
+    "redux-logger": "^3.0.1",
+    "sass-loader": "^7.0.1"
+  },
+  "dependencies": {
+    "react": "^16.4.0",
+    "react-custom-scrollbars": "^4.2.1",
+    "react-dom": "^16.4.0",
+    "react-helmet": "^5.2.0",
+    "react-infinite-scroller": "^1.1.4",
+    "react-loadable": "^5.4.0",
+    "react-redux": "^5.0.7",
+    "react-redux-spinner": "^1.1.3",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.6",
+    "redux": "^3.7.2",
+    "redux-act": "^1.3.0",
+    "redux-thunk": "^2.2.0",
+    "antd": "^3.5.3",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.1.1",
+    "classnames": "^2.2.5",
+    "immutability-helper": "^2.7.0",
+    "immutable": "^3.8.2",
+    "lodash": "^4.17.10",
+    "prop-types": "^15.5.10",
+    "rc-drawer": "^1.4.4",
+    "moment": "^2.19.3",
+    "moment-timezone": "^0.5.14",
+    "enquire-js": "^0.2.1",
+    "react-container-query": "^0.11.0",
+    "peity-react": "^0.0.7",
+    "@rowno/sparkline": "^3.0.1"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "eject": "react-scripts eject",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --tab-width 2 --print-width 100 --single-quote --trailing-comma all --no-semi --parser babylon --write"
+    ]
+  }
+}
