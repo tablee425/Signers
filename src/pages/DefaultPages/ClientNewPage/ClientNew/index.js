@@ -7,13 +7,12 @@ const Panel = Collapse.Panel
 
 class ClientNew extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
-  state = {
-  }
+  state = {}
 
   componentDidMount() {
-    debugger;
+    debugger
   }
 
   render() {
@@ -22,12 +21,10 @@ class ClientNew extends React.Component {
         <div className="card-header">
           <div className="utils__title">
             <strong>New Client</strong>
-            <div className="clientNewPage__searchInputContainer">
-            </div>
+            <div className="clientNewPage__searchInputContainer" />
           </div>
         </div>
-        <div className="card-body">
-        </div>
+        <div className="card-body" />
       </section>
     )
   }

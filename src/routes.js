@@ -59,7 +59,8 @@ class Routes extends React.Component {
         <Route exact path="/clients" component={ClientPage} />
         <Route exact path="/clients/new" component={ClientNewPage} />
         <Route exact path="/dashboard/alpha" component={DashboardAlphaPage} />
-        <Route render={() => (
+        <Route
+          render={() => (
             <Page>
               <NotFoundPage />
             </Page>
