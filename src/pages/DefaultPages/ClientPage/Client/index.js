@@ -1,28 +1,65 @@
 import React from 'react'
-import { Collapse } from 'antd'
+import { Collapse, Slider, Calendar, Badge, Table, Input, Dropdown, Button, Icon, Menu } from 'antd'
 import './style.scss'
+import {
+  tableData,
+} from './data.json'
 
 const Panel = Collapse.Panel
+const tableColumns = [
+  {
+    title: 'Picture',
+    dataIndex: 'Picture',
+    key: 'picture',
+  },
+  {
+    title: 'Client Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: '# Total Projects',
+    dataIndex: 'tp',
+    key: 'tp',
+    sorter: (a, b) => a.tp - b.tp,
+  },
+  {
+    title: '# Active Projects',
+    dataIndex: 'ap',
+    key: 'ap',
+    sorter: (a, b) => a.ap - b.ap,
+  },
+  {
+    title: '# Own Signers',
+    dataIndex: 'os',
+    key: 'os',
+    sorter: (a, b) => a.os - b.os,
+  }
+]
 
 class Client extends React.Component {
+  state = {
+    tableData: tableData,
+  }
+
+  handleChange = (pagination, filters, sorter) => {
+    console.log('Various parameters', pagination, filters, sorter)
+  }
+
   render() {
     return (
       <section className="card">
         <div className="card-header">
           <div className="utils__title">
-            <strong>Client Page</strong>
+            <strong>Clients</strong>
           </div>
         </div>
         <div className="card-body">
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-            has been the industry's standard dummy text ever since the 1500s, when an unknown
-            printer took a galley of type and scrambled it to make a type specimen book. It has
-            survived not only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s with the release of
-            Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-            publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          </p>
+          <Table
+            columns={tableColumns}
+            dataSource={this.state.tableData}
+            onChange={this.handleChange}
+          />
         </div>
       </section>
     )
