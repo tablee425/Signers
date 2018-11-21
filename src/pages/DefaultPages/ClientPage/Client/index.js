@@ -2,6 +2,7 @@ import React from 'react'
 import { Collapse, Slider, Calendar, Badge, Table, Input, Dropdown, Button, Icon, Menu } from 'antd'
 import './style.scss'
 import { tableData } from './data.json'
+import { Link, withRouter } from 'react-router-dom'
 
 const Panel = Collapse.Panel
 const tableColumns = [
@@ -50,6 +51,18 @@ class Client extends React.Component {
         <div className="card-header">
           <div className="utils__title">
             <strong>Clients</strong>
+            <div className="clientPage__searchInputContainer">
+              <Input
+                className="livesearch__topInput"
+                placeholder="Type to search..."
+                prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                style={{ width: 300, marginRight: 15 }}
+                onFocus={this.showLiveSearch}
+              />
+              <Link to={`/clients/new`} className="text-muted">
+                <Button type="primary">New Client</Button>
+              </Link>
+            </div>
           </div>
         </div>
         <div className="card-body">

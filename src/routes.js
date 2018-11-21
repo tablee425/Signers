@@ -5,6 +5,10 @@ import Loadable from 'react-loadable'
 import Page from 'components/LayoutComponents/Page'
 import NotFoundPage from 'pages/DefaultPages/NotFoundPage'
 import HomePage from 'pages/DefaultPages/HomePage'
+import DashboardAlphaPage from 'pages/Dashboard/DashboardAlphaPage'
+import ClientPage from 'pages/DefaultPages/ClientPage'
+import ClientNewPage from 'pages/DefaultPages/ClientNewPage'
+import LoginPage from 'pages/DefaultPages/LoginPage'
 
 const loadable = loader =>
   Loadable({
@@ -20,6 +24,9 @@ const loadableRoutes = {
   },
   '/clients': {
     component: loadable(() => import('pages/DefaultPages/ClientPage')),
+  },
+  '/clients/new': {
+    component: loadable(() => import('pages/DefaultPages/ClientNewPage')),
   },
 
   // Dashboards
@@ -48,13 +55,11 @@ class Routes extends React.Component {
     return (
       <ConnectedSwitch>
         <Route exact path="/" component={HomePage} />
-        {Object.keys(loadableRoutes).map(path => {
-          const { exact, ...props } = loadableRoutes[path]
-          props.exact = exact === void 0 || exact || false // set true as default
-          return <Route key={path} path={path} {...props} />
-        })}
-        <Route
-          render={() => (
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/clients" component={ClientPage} />
+        <Route exact path="/clients/new" component={ClientNewPage} />
+        <Route exact path="/dashboard/alpha" component={DashboardAlphaPage} />
+        <Route render={() => (
             <Page>
               <NotFoundPage />
             </Page>
