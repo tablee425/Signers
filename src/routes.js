@@ -22,7 +22,6 @@ const loadableRoutes = {
     component: loadable(() => import('pages/DefaultPages/ClientPage')),
   },
 
-
   // Dashboards
   '/dashboard/alpha': {
     component: loadable(() => import('pages/Dashboard/DashboardAlphaPage')),
