@@ -6,9 +6,9 @@ export default [
     icon: 'icmn icmn-stack',
   },
   {
-    title: 'Empty Page',
-    key: 'empty',
-    url: '/empty',
+    title: 'Client Page',
+    key: 'client',
+    url: '/clients',
     icon: 'icmn icmn-books',
   },
 ]

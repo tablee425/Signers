@@ -4,13 +4,13 @@ import './style.scss'
 
 const Panel = Collapse.Panel
 
-class Empty extends React.Component {
+class Client extends React.Component {
   render() {
     return (
       <section className="card">
         <div className="card-header">
           <div className="utils__title">
-            <strong>Empty Page</strong>
+            <strong>Client Page</strong>
           </div>
         </div>
         <div className="card-body">
@@ -28,4 +28,4 @@ class Empty extends React.Component {
   }
 }
 
-export default Empty
+export default Client

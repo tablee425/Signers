@@ -1,11 +1,11 @@
 import React from 'react'
 import Page from 'components/LayoutComponents/Page'
 import Helmet from 'react-helmet'
-import Empty from './Empty'
+import Client from './Client'
 
-class EmptyPage extends React.Component {
+class ClientPage extends React.Component {
   static defaultProps = {
-    pathName: 'Empty Page',
+    pathName: 'Clients',
     roles: ['agent', 'administrator'],
   }
 
@@ -13,11 +13,11 @@ class EmptyPage extends React.Component {
     const props = this.props
     return (
       <Page {...props}>
-        <Helmet title="Empty Page" />
-        <Empty />
+        <Helmet title="Clients" />
+        <Client />
       </Page>
     )
   }
 }
 
-export default EmptyPage
+export default ClientPage

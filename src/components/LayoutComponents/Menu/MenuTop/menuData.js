@@ -1,14 +1,13 @@
 export default [
   {
-    title: 'Dashboard Alpha',
+    title: 'Dashboard',
     key: 'dashboardAlpha',
     url: '/dashboard/alpha',
-    icon: 'icmn icmn-stack',
   },
   {
     title: 'Clients',
-    key: 'empty',
-    url: '/empty',
+    key: 'client',
+    url: '/clients',
   },
   {
     title: 'Projects',
