@@ -1,9 +1,7 @@
 import React from 'react'
 import { Collapse, Slider, Calendar, Badge, Table, Input, Dropdown, Button, Icon, Menu } from 'antd'
 import './style.scss'
-import {
-  tableData,
-} from './data.json'
+import { tableData } from './data.json'
 
 const Panel = Collapse.Panel
 const tableColumns = [
@@ -34,7 +32,7 @@ const tableColumns = [
     dataIndex: 'os',
     key: 'os',
     sorter: (a, b) => a.os - b.os,
-  }
+  },
 ]
 
 class Client extends React.Component {
