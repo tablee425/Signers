@@ -14,7 +14,7 @@ import {
   Menu,
   Pagination,
   List,
-  Avatar
+  Avatar,
 } from 'antd'
 import './style.scss'
 import { Link, withRouter } from 'react-router-dom'
@@ -246,18 +246,23 @@ class ClientNew extends React.Component {
                       renderItem={item => (
                         <List.Item>
                           <List.Item.Meta
-                            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                            avatar={
+                              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                            }
                             title={<a href="https://ant.design">{item.title}</a>}
                             description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                           />
                         </List.Item>
                       )}
-                    ></List>
+                    />
                   </div>
                   <div>
                     <Pagination
-                      showSizeChanger onShowSizeChanging={this.onShowSizeChange} defaultCurrent={1} total={data.length}
-                    ></Pagination>
+                      showSizeChanger
+                      onShowSizeChanging={this.onShowSizeChange}
+                      defaultCurrent={1}
+                      total={data.length}
+                    />
                   </div>
                   <div className="form-actions">
                     <Button
