@@ -38,6 +38,7 @@ class ClientNew extends React.Component {
   }
   state = {
     redirect: 0,
+    tabKey: '1'
   }
 
   componentDidMount() {}
@@ -87,12 +88,23 @@ class ClientNew extends React.Component {
     })
   }
 
+  onChangeTabs = (key) => {
+    this.setState({ tabKey: key })
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
-    const { redirect } = this.state
+    const { redirect, tabKey } = this.state
     if (redirect == 1) {
       return <Redirect push to="/clients" />
     }
+    const operations = (
+      tabKey == '2' &&
+      <div>
+        <Button>Notify All Signers</Button>
+        <Button type="primary">Upload CSV Signers Team</Button>
+      </div>
+    )
     let src = 'resources/images/avatars/1.jpg'
     return (
       <div>
@@ -128,7 +140,7 @@ class ClientNew extends React.Component {
 
         <div className="card">
           <div className="card-body">
-            <Tabs defaultActiveKey="1">
+            <Tabs defaultActiveKey="1" tabBarExtraContent={operations} onChange={this.onChangeTabs}>
               <TabPane tab={<span>Information</span>} key="1">
                 <Form onSubmit={this.handleSubmit} className="login-form">
                   <h5 className="text-black mt-4">

@@ -104,7 +104,7 @@ class Layout extends React.Component {
                   <Content />
                 </AntContent>
                 <AntFooter>
-                  <Footer />
+                  {/* <Footer /> */}
                 </AntFooter>
               </AntLayout>
             </AntLayout>
