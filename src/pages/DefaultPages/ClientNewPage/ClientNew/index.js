@@ -12,9 +12,11 @@ import {
   Button,
   Icon,
   Menu,
+  Pagination,
+  List,
+  Avatar
 } from 'antd'
 import './style.scss'
-import Avatar from 'components/CleanComponents/Avatar'
 import { Link, withRouter } from 'react-router-dom'
 import FileInput from 'react-simple-file-input'
 import { Redirect } from 'react-router'
@@ -23,6 +25,20 @@ const Panel = Collapse.Panel
 const TabPane = Tabs.TabPane
 const FormItem = Form.Item
 const allowedFileTypes = ['image/png', 'image/jpeg', 'image/gif']
+const data = [
+  {
+    title: 'Ant Design Title 1',
+  },
+  {
+    title: 'Ant Design Title 2',
+  },
+  {
+    title: 'Ant Design Title 3',
+  },
+  {
+    title: 'Ant Design Title 4',
+  },
+]
 function fileIsIncorrectFiletype(file) {
   if (allowedFileTypes.indexOf(file.type) === -1) {
     return true
@@ -88,8 +104,17 @@ class ClientNew extends React.Component {
     })
   }
 
+  saveTeam = e => {
+    e.preventDefault()
+    this.setState({ redirect: 1 })
+  }
+
   onChangeTabs = key => {
     this.setState({ tabKey: key })
+  }
+
+  onShowSizeChange = (current, pageSize) => {
+    console.log(current, pageSize)
   }
 
   render() {
@@ -100,7 +125,7 @@ class ClientNew extends React.Component {
     }
     const operations = tabKey == '2' && (
       <div>
-        <Button>Notify All Signers</Button>
+        <Button style={{ marginRight: 20 }}>Notify All Signers</Button>
         <Button type="primary">Upload CSV Signers Team</Button>
       </div>
     )
@@ -212,7 +237,49 @@ class ClientNew extends React.Component {
                   </div>
                 </Form>
               </TabPane>
-              <TabPane tab={<span>Own Signers Team</span>} key="2" />
+              <TabPane tab={<span>Own Signers Team</span>} key="2">
+                <Form onSubmit={this.saveTeam} className="login-form">
+                  <div>
+                    <List
+                      itemLayout="horizontal"
+                      dataSource={data}
+                      renderItem={item => (
+                        <List.Item>
+                          <List.Item.Meta
+                            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                            title={<a href="https://ant.design">{item.title}</a>}
+                            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                          />
+                        </List.Item>
+                      )}
+                    ></List>
+                  </div>
+                  <div>
+                    <Pagination
+                      showSizeChanger onShowSizeChanging={this.onShowSizeChange} defaultCurrent={1} total={data.length}
+                    ></Pagination>
+                  </div>
+                  <div className="form-actions">
+                    <Button
+                      style={{ width: 150 }}
+                      type="primary"
+                      htmlType="submit"
+                      className="clientNewPage__saveBtn mr-3"
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      style={{ width: 150 }}
+                      className="clientNewPage__cancelBtn"
+                      onClick={() => {
+                        this.setState({ redirect: 1 })
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </Form>
+              </TabPane>
             </Tabs>
           </div>
         </div>
