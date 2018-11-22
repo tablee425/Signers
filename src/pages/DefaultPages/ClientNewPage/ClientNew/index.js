@@ -38,7 +38,7 @@ class ClientNew extends React.Component {
   }
   state = {
     redirect: 0,
-    tabKey: '1'
+    tabKey: '1',
   }
 
   componentDidMount() {}
@@ -88,7 +88,7 @@ class ClientNew extends React.Component {
     })
   }
 
-  onChangeTabs = (key) => {
+  onChangeTabs = key => {
     this.setState({ tabKey: key })
   }
 
@@ -98,8 +98,7 @@ class ClientNew extends React.Component {
     if (redirect == 1) {
       return <Redirect push to="/clients" />
     }
-    const operations = (
-      tabKey == '2' &&
+    const operations = tabKey == '2' && (
       <div>
         <Button>Notify All Signers</Button>
         <Button type="primary">Upload CSV Signers Team</Button>

@@ -103,9 +103,7 @@ class Layout extends React.Component {
                 <AntContent style={{ height: '100%' }}>
                   <Content />
                 </AntContent>
-                <AntFooter>
-                  {/* <Footer /> */}
-                </AntFooter>
+                <AntFooter>{/* <Footer /> */}</AntFooter>
               </AntLayout>
             </AntLayout>
           </div>
