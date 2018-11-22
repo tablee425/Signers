@@ -41,8 +41,7 @@ class Client extends React.Component {
     tableData: tableData,
   }
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   handleChange = (pagination, filters, sorter) => {
     console.log('Various parameters', pagination, filters, sorter)
