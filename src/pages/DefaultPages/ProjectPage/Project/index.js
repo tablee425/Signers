@@ -75,12 +75,12 @@ class Project extends React.Component {
         {
           title: 'Type',
           dataIndex: 'type',
-          key: 'type'
+          key: 'type',
         },
         {
           title: 'Location',
           dataIndex: 'location',
-          key: 'location'
+          key: 'location',
         },
         {
           title: 'Action',
