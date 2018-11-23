@@ -112,7 +112,9 @@ class ProjectDetail extends React.Component {
                 <h2>Project Name</h2>
               </h4>
               <div className="productDetailPage__editprojectBtn">
-                <Button type="primary" onClick={this.goToEditProject}>Edit Project</Button>
+                <Button type="primary" onClick={this.goToEditProject}>
+                  Edit Project
+                </Button>
               </div>
             </div>
           </div>
