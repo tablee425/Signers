@@ -16,7 +16,7 @@ import {
   List,
   Avatar,
   Select,
-  DatePicker
+  DatePicker,
 } from 'antd'
 import './style.scss'
 import { Link, withRouter } from 'react-router-dom'
@@ -118,7 +118,7 @@ class ProjectNew extends React.Component {
               <h4 className="text-black mt-2">
                 <strong>Project Requirements</strong>
               </h4>
-              
+
               <div className="row">
                 <div style={{ marginLeft: 15 }}>
                   <h6 className="form-label mt-4">Requires Volunteers</h6>
@@ -138,7 +138,10 @@ class ProjectNew extends React.Component {
                   <h6 className="form-label mt-4">Volunteers Needed</h6>
                   <FormItem>
                     {getFieldDecorator('volunteersNeeded', {
-                      rules: [{ required: true, message: 'Please input the field' }, { validator: this.validateNumber }],
+                      rules: [
+                        { required: true, message: 'Please input the field' },
+                        { validator: this.validateNumber },
+                      ],
                     })(<Input style={{ width: 130 }} />)}
                   </FormItem>
                 </div>
@@ -159,7 +162,7 @@ class ProjectNew extends React.Component {
                       rules: [{ required: true, message: 'Please input the field' }],
                     })(<TextArea rows={4} style={{ width: 600 }} />)}
                   </FormItem>
-                </div>                
+                </div>
               </div>
 
               <div className="row">
@@ -179,7 +182,6 @@ class ProjectNew extends React.Component {
                   <RangePicker />
                 </div>
               </div>
-
             </div>
           </div>
 
