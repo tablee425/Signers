@@ -77,7 +77,7 @@ class Report extends React.Component {
         {
           title: 'Paid Date',
           dataIndex: 'paiddate',
-          key: 'paiddate'
+          key: 'paiddate',
         },
       ],
     })
