@@ -1,0 +1,31 @@
+@import '../../../../resources/mixins';
+
+.clientNewPage {
+    &__leftSideContainer {
+        position: absolute;
+        top: rem(50);
+        left: rem(150);
+    }
+    &__rightSideContainer {
+        position: absolute;
+        top: rem(50);
+        right: rem(30);
+        text-align: center;
+    }
+    &__avatar {
+        width: rem(100);
+        height: rem(100);
+        border-radius: rem(50);
+    }
+    &__changeImageSpan {
+        border:rem(1) solid lightgray;
+        padding-left: rem(15);
+        padding-right: rem(15);
+        padding-top: rem(5);
+        padding-bottom: rem(5);
+        border-radius: rem(5);
+    }
+    &__cancelBtn {
+        text-align: center;
+    }
+}
