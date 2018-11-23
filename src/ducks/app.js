@@ -58,8 +58,8 @@ export const initAuth = roles => (dispatch, getState) => {
       }),
     )
     if (!roles.find(role => role === userRole)) {
-      if (!(state.routing.location.pathname === '/dashboard/alpha')) {
-        dispatch(push('/dashboard/alpha'))
+      if (!(state.routing.location.pathname === '/dashboard')) {
+        dispatch(push('/dashboard'))
       }
       return Promise.resolve(false)
     }
@@ -89,7 +89,7 @@ export function login(username, password, dispatch) {
     window.localStorage.setItem('app.Authorization', '')
     window.localStorage.setItem('app.Role', 'administrator')
     dispatch(_setHideLogin(true))
-    dispatch(push('/dashboard/alpha'))
+    dispatch(push('/dashboard'))
     notification.open({
       type: 'success',
       message: 'You have successfully logged in!',
@@ -103,7 +103,7 @@ export function login(username, password, dispatch) {
     window.localStorage.setItem('app.Authorization', '')
     window.localStorage.setItem('app.Role', 'agent')
     dispatch(_setHideLogin(true))
-    dispatch(push('/dashboard/alpha'))
+    dispatch(push('/dashboard'))
     notification.open({
       type: 'success',
       message: 'You have successfully logged in!',

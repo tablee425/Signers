@@ -5,7 +5,7 @@ import Loadable from 'react-loadable'
 import Page from 'components/LayoutComponents/Page'
 import NotFoundPage from 'pages/DefaultPages/NotFoundPage'
 import HomePage from 'pages/DefaultPages/HomePage'
-import DashboardAlphaPage from 'pages/Dashboard/DashboardAlphaPage'
+import DashboardPage from 'pages/Dashboard/DashboardPage'
 import ClientPage from 'pages/DefaultPages/ClientPage'
 import ClientNewPage from 'pages/DefaultPages/ClientNewPage'
 import ClientDetailPage from 'pages/DefaultPages/ClientDetailPage'
@@ -54,8 +54,8 @@ const loadableRoutes = {
   },
 
   // Dashboards
-  '/dashboard/alpha': {
-    component: loadable(() => import('pages/Dashboard/DashboardAlphaPage')),
+  '/dashboard': {
+    component: loadable(() => import('pages/Dashboard/DashboardPage')),
   },
 }
 
@@ -88,7 +88,7 @@ class Routes extends React.Component {
         <Route exact path="/projects/detail" component={ProjectDetailPage} />
         <Route exact path="/projects/edit" component={ProjectEditPage} />
         <Route exact path="/report" component={ReportPage} />
-        <Route exact path="/dashboard/alpha" component={DashboardAlphaPage} />
+        <Route exact path="/dashboard" component={DashboardPage} />
         <Route
           render={() => (
             <Page>

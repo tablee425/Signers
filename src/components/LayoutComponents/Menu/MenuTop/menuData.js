@@ -1,8 +1,8 @@
 export default [
   {
     title: 'Dashboard',
-    key: 'dashboardAlpha',
-    url: '/dashboard/alpha',
+    key: 'dashboard',
+    url: '/dashboard',
   },
   {
     title: 'Clients',
