@@ -44,7 +44,7 @@ const tableColumns = [
         </Link>
       </span>
     ),
-  }
+  },
 ]
 
 class Client extends React.Component {

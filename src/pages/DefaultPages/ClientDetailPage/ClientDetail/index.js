@@ -45,7 +45,7 @@ class ClientDetail extends React.Component {
     tabKey: '1',
     previewUrl: null,
     page: 1,
-    pageSize: 10
+    pageSize: 10,
   }
 
   componentDidMount() {
@@ -112,17 +112,17 @@ class ClientDetail extends React.Component {
 
   onShowSizeChange = (current, pageSize) => {
     this.setState({ page: current, pageSize })
-    console.info('page', current, pageSize);
+    console.info('page', current, pageSize)
   }
 
   onChangePage = page => {
     this.setState({ page })
-    console.info('page', page);
+    console.info('page', page)
   }
 
   filterData = () => {
-    const { page, pageSize } = this.state;
-    return data.slice((page-1) * pageSize, page * pageSize)
+    const { page, pageSize } = this.state
+    return data.slice((page - 1) * pageSize, page * pageSize)
   }
 
   handleCSVFiles = files => {
@@ -143,7 +143,9 @@ class ClientDetail extends React.Component {
       <div className="row">
         <Button style={{ marginRight: 20, marginTop: 5 }}>Notify All Signers</Button>
         <ReactFileReader handleFiles={this.handleCSVFiles} fileTypes={'.csv'}>
-          <Button type="primary" style={{ marginRight: 30 }}>Upload CSV Signers Team</Button>
+          <Button type="primary" style={{ marginRight: 30 }}>
+            Upload CSV Signers Team
+          </Button>
         </ReactFileReader>
       </div>
     )
@@ -265,10 +267,16 @@ class ClientDetail extends React.Component {
                       renderItem={item => (
                         <List.Item>
                           <div className="row">
-                            <Avatar style={{ width: 25, height: 25, marginLeft: 30, marginTop: 15 }} src={avatarSrc} />
+                            <Avatar
+                              style={{ width: 25, height: 25, marginLeft: 30, marginTop: 15 }}
+                              src={avatarSrc}
+                            />
                             <List.Item.Meta
                               avatar={
-                                <Avatar style={{ width: 50, height: 50 }} src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                                <Avatar
+                                  style={{ width: 50, height: 50 }}
+                                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                />
                               }
                               title={<a href="https://ant.design">{item.title}</a>}
                               description="Ant Design, a design language for background applications, is refined by Ant UED Team"
