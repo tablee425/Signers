@@ -36,7 +36,7 @@ function fileIsIncorrectFiletype(file) {
 }
 
 @Form.create()
-class ClientNew extends React.Component {
+class ClientDetail extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -315,4 +315,4 @@ class ClientNew extends React.Component {
   }
 }
 
-export default ClientNew
+export default ClientDetail

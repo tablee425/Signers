@@ -34,6 +34,17 @@ const tableColumns = [
     key: 'os',
     sorter: (a, b) => a.os - b.os,
   },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (text, record) => (
+      <span>
+        <Link to={`/clients/detail`} className="text-muted">
+          Edit - {record.key}
+        </Link>
+      </span>
+    ),
+  }
 ]
 
 class Client extends React.Component {
