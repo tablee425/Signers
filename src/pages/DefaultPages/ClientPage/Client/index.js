@@ -12,54 +12,60 @@ class Client extends React.Component {
   state = {
     tableData: tableData,
     tableColumns: [],
-    redirect: 0
+    redirect: 0,
   }
 
   componentDidMount() {
-    this.setState({ tableColumns: [
-      {
-        title: 'Picture',
-        dataIndex: 'Picture',
-        key: 'picture',
-      },
-      {
-        title: 'Client Name',
-        dataIndex: 'name',
-        key: 'name',
-      },
-      {
-        title: '# Total Projects',
-        dataIndex: 'tp',
-        key: 'tp',
-        sorter: (a, b) => a.tp - b.tp,
-      },
-      {
-        title: '# Active Projects',
-        dataIndex: 'ap',
-        key: 'ap',
-        sorter: (a, b) => a.ap - b.ap,
-      },
-      {
-        title: '# Own Signers',
-        dataIndex: 'os',
-        key: 'os',
-        sorter: (a, b) => a.os - b.os,
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
-          <span>
-            {/* <Link to={{pathname: '/clients/detail', state: {foo: 'bar'}}} className="text-muted">
+    this.setState({
+      tableColumns: [
+        {
+          title: 'Picture',
+          dataIndex: 'Picture',
+          key: 'picture',
+        },
+        {
+          title: 'Client Name',
+          dataIndex: 'name',
+          key: 'name',
+        },
+        {
+          title: '# Total Projects',
+          dataIndex: 'tp',
+          key: 'tp',
+          sorter: (a, b) => a.tp - b.tp,
+        },
+        {
+          title: '# Active Projects',
+          dataIndex: 'ap',
+          key: 'ap',
+          sorter: (a, b) => a.ap - b.ap,
+        },
+        {
+          title: '# Own Signers',
+          dataIndex: 'os',
+          key: 'os',
+          sorter: (a, b) => a.os - b.os,
+        },
+        {
+          title: 'Action',
+          key: 'action',
+          render: (text, record) => (
+            <span>
+              {/* <Link to={{pathname: '/clients/detail', state: {foo: 'bar'}}} className="text-muted">
               Edit - {record.key}
             </Link> */}
-            <Button onClick={() => {this.onClientDetail(record.key)}}>
-              Detail
-            </Button>
-          </span>
-        ),
-      },
-    ] })
+              <Button
+                onClick={() => {
+                  this.onClientDetail(record.key)
+                }}
+              >
+                Detail
+              </Button>
+            </span>
+          ),
+        },
+      ],
+    })
   }
 
   handleChange = (pagination, filters, sorter) => {
@@ -67,17 +73,17 @@ class Client extends React.Component {
   }
 
   onClientDetail = key => {
-    config.clientKey = key;
+    config.clientKey = key
     this.setState({ redirect: 1 })
   }
 
   onChangeFilter = e => {
     // console.info(e.target.value)
-    let filterStr = e.target.value;
+    let filterStr = e.target.value
     if (filterStr == '') {
       this.setState({ tableData })
     } else {
-      let newData = [];
+      let newData = []
       tableData.map(item => {
         if (item.name.includes(filterStr)) {
           newData.push(item)
@@ -89,7 +95,7 @@ class Client extends React.Component {
           newData.push(item)
         }
       })
-      this.setState({ tableData: newData })  
+      this.setState({ tableData: newData })
     }
   }
 
