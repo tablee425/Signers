@@ -6,8 +6,7 @@ import ChartCard from 'components/CleanComponents/ChartCard'
 import { Button, Input, Icon, Table, Card } from 'antd'
 
 class Dashboard extends React.Component {
-  state = {
-  }
+  state = {}
 
   render() {
     return (
