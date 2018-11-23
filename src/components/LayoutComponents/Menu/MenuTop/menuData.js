@@ -12,7 +12,7 @@ export default [
   {
     title: 'Projects',
     key: 'project',
-    url: '/project',
+    url: '/projects',
   },
   {
     title: 'Reports',

@@ -1,0 +1,9 @@
+@import '../../../../resources/mixins';
+
+.clientPage {
+    &__searchInputContainer {
+        position: absolute;
+        top: rem(16);
+        right: rem(30);
+    }
+}
