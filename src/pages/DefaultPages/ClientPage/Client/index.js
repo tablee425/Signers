@@ -1,5 +1,5 @@
 import React from 'react'
-import { Collapse, Slider, Calendar, Badge, Table, Input, Dropdown, Button, Icon, Menu } from 'antd'
+import { Collapse, Slider, Calendar, Badge, Table, Input, Dropdown, Button, Icon, Menu, Avatar } from 'antd'
 import './style.scss'
 import { tableData } from './data.json'
 import { Link, withRouter } from 'react-router-dom'
@@ -22,6 +22,14 @@ class Client extends React.Component {
           title: 'Picture',
           dataIndex: 'Picture',
           key: 'picture',
+          render: (text, record) => (
+            <span>
+              <Avatar
+                src={record.Picture}
+                style={{ width: 50, height: 50 }}
+              />
+            </span>
+          ),
         },
         {
           title: 'Client Name',
@@ -51,9 +59,6 @@ class Client extends React.Component {
           key: 'action',
           render: (text, record) => (
             <span>
-              {/* <Link to={{pathname: '/clients/detail', state: {foo: 'bar'}}} className="text-muted">
-              Edit - {record.key}
-            </Link> */}
               <Button
                 onClick={() => {
                   this.onClientDetail(record.key)
