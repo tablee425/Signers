@@ -22,6 +22,7 @@ import FileInput from 'react-simple-file-input'
 import { Redirect } from 'react-router'
 import { data } from './data.json'
 import ReactFileReader from 'react-file-reader'
+import config from '../../../../web-config'
 
 const Panel = Collapse.Panel
 const TabPane = Tabs.TabPane
@@ -50,6 +51,7 @@ class ClientDetail extends React.Component {
 
   componentDidMount() {
     this.setState({ page: 1, pageSize: 10 })
+    // alert(config.clientKey)
   }
 
   compareToFirstPassword = (rule, value, callback) => {
