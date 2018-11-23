@@ -14,6 +14,7 @@ import ProjectPage from 'pages/DefaultPages/ProjectPage'
 import ProjectNewPage from 'pages/DefaultPages/ProjectNewPage'
 import ProjectDetailPage from 'pages/DefaultPages/ProjectDetailPage'
 import ProjectEditPage from 'pages/DefaultPages/ProjectEditPage'
+import ReportPage from 'pages/DefaultPages/ReportPage'
 
 const loadable = loader =>
   Loadable({
@@ -47,6 +48,9 @@ const loadableRoutes = {
   },
   '/projects/edit': {
     component: loadable(() => import('pages/DefaultPages/ProjectEditPage')),
+  },
+  '/projects/report': {
+    component: loadable(() => import('pages/DefaultPages/ReportPage')),
   },
 
   // Dashboards
@@ -83,6 +87,7 @@ class Routes extends React.Component {
         <Route exact path="/projects/new" component={ProjectNewPage} />
         <Route exact path="/projects/detail" component={ProjectDetailPage} />
         <Route exact path="/projects/edit" component={ProjectEditPage} />
+        <Route exact path="/report" component={ReportPage} />
         <Route exact path="/dashboard/alpha" component={DashboardAlphaPage} />
         <Route
           render={() => (
