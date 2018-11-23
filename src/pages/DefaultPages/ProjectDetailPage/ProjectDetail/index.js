@@ -91,11 +91,17 @@ class ProjectDetail extends React.Component {
     }
   }
 
+  goToEditProject = () => {
+    this.setState({ redirect: 2 })
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     const { redirect } = this.state
     if (redirect == 1) {
       return <Redirect push to="/projects" />
+    } else if (redirect == 2) {
+      return <Redirect push to="/projects/edit" />
     }
     return (
       <div>
@@ -103,8 +109,11 @@ class ProjectDetail extends React.Component {
           <div className="card">
             <div className="card-body">
               <h4 className="form-label text-black mt-1">
-                <strong>Project Name</strong>
+                <h2>Project Name</h2>
               </h4>
+              <div className="productDetailPage__editprojectBtn">
+                <Button type="primary" onClick={this.goToEditProject}>Edit Project</Button>
+              </div>
             </div>
           </div>
 
@@ -158,13 +167,13 @@ class ProjectDetail extends React.Component {
               style={{ width: 150 }}
               type="primary"
               htmlType="submit"
-              className="clientNewPage__saveBtn mr-3"
+              className="productDetailPage__saveBtn mr-3"
             >
               Add project
             </Button>
             <Button
               style={{ width: 150 }}
-              className="clientNewPage__cancelBtn"
+              className="productDetailPage__cancelBtn"
               onClick={() => {
                 this.setState({ redirect: 1 })
               }}

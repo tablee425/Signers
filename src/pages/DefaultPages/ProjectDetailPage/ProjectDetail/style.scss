@@ -1,10 +1,15 @@
 @import '../../../../resources/mixins';
 
-.clientNewPage {
+.productDetailPage {
     &__leftSideContainer {
         position: absolute;
         top: rem(50);
         left: rem(150);
+    }
+    &__editprojectBtn {
+        position: absolute;
+        top: rem(30);
+        right: rem(50);
     }
     &__rightSideContainer {
         position: absolute;
