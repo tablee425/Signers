@@ -1,5 +1,17 @@
 import React from 'react'
-import { Collapse, Slider, Calendar, Badge, Table, Input, Dropdown, Button, Icon, Menu, Avatar } from 'antd'
+import {
+  Collapse,
+  Slider,
+  Calendar,
+  Badge,
+  Table,
+  Input,
+  Dropdown,
+  Button,
+  Icon,
+  Menu,
+  Avatar,
+} from 'antd'
 import './style.scss'
 import { tableData } from './data.json'
 import { Link, withRouter } from 'react-router-dom'
@@ -24,10 +36,7 @@ class Client extends React.Component {
           key: 'picture',
           render: (text, record) => (
             <span>
-              <Avatar
-                src={record.Picture}
-                style={{ width: 50, height: 50 }}
-              />
+              <Avatar src={record.Picture} style={{ width: 50, height: 50 }} />
             </span>
           ),
         },
