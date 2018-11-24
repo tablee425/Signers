@@ -52,7 +52,7 @@ class Dashboard extends React.Component {
           dataIndex: 'os',
           key: 'os',
           sorter: (a, b) => a.os - b.os,
-        }
+        },
       ],
       projectsColumns: [
         {
@@ -122,12 +122,12 @@ class Dashboard extends React.Component {
             </span>
           ),
         },
-      ]
+      ],
     })
   }
 
   render() {
-    const { clientsColumns, projectsColumns } = this.state;
+    const { clientsColumns, projectsColumns } = this.state
     return (
       <div>
         <div className="row">
@@ -150,7 +150,7 @@ class Dashboard extends React.Component {
             </Card>
           </div>
         </div>
-        
+
         <section className="card mt-5">
           <div className="card-body">
             <Tabs defaultActiveKey="1" onChange={this.onChangeTabs}>
