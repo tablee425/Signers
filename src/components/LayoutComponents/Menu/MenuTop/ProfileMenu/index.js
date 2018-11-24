@@ -14,7 +14,10 @@ const mapStateToProps = (state, props) => ({
   userState: state.app.userState,
 })
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)
 class ProfileMenu extends React.Component {
   state = {
     count: 7,
@@ -76,7 +79,7 @@ class ProfileMenu extends React.Component {
         >
           <a className="ant-dropdown-link" href="/">
             {/* <Badge count={count}> */}
-              <Avatar className="topbar__avatar" shape="square" size="large" icon="user" />
+            <Avatar className="topbar__avatar" shape="square" size="large" icon="user" />
             {/* </Badge> */}
           </a>
         </Dropdown>
