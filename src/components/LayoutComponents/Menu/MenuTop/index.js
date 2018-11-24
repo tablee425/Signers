@@ -5,6 +5,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { reduce } from 'lodash'
 import { setLayoutState } from 'ducks/app'
 import { default as menuData } from './menuData'
+import ProfileMenu from './ProfileMenu'
 import './style.scss'
 
 const SubMenu = Menu.SubMenu
@@ -175,12 +176,11 @@ class MenuTop extends React.Component {
           mode="horizontal"
           className="menuTop__navigation"
         >
-          <Menu.Item key={'settings'}>
-            <span className="menuTop__item-title">Settings</span>
-            <span className={'icmn icmn-cog menuTop__icon utils__spin-delayed--pseudo-selector'} />
-          </Menu.Item>
           {menuItems}
         </Menu>
+        <div style={{ position: 'absolute', top: 5, right: 10 }}>
+          <ProfileMenu />
+        </div>
       </div>
     )
   }
