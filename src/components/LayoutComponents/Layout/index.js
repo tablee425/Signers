@@ -97,9 +97,6 @@ class Layout extends React.Component {
               <Menu isMobile={isMobile} />
               <SettingsSider />
               <AntLayout>
-                <AntHeader>
-                  <TopBar />
-                </AntHeader>
                 <AntContent style={{ height: '100%' }}>
                   <Content />
                 </AntContent>

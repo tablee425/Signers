@@ -132,19 +132,19 @@ class Dashboard extends React.Component {
       <div>
         <div className="row">
           <div className="col-xl-3">
-            <Card style={{ width: 300 }}>
+            <Card style={{ width: 300, borderRadius: 8 }}>
               <h1>129</h1>
               <h5>Active Projects</h5>
             </Card>
           </div>
           <div className="col-xl-3">
-            <Card style={{ width: 300 }}>
+            <Card style={{ width: 300, borderRadius: 8 }}>
               <h1>129</h1>
               <h5>Active Clients</h5>
             </Card>
           </div>
           <div className="col-xl-3">
-            <Card style={{ width: 300 }}>
+            <Card style={{ width: 300, borderRadius: 8 }}>
               <h1>$12,932</h1>
               <h5>Assets in Active Projects</h5>
             </Card>
