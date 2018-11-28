@@ -58,8 +58,8 @@ export const initAuth = roles => (dispatch, getState) => {
 }
 
 export function login(username, password, dispatch) {
-  
-  axios.post(`http://172.20.11.53:4000/admin/login`, { email: username, password })
+  axios
+    .post(`http://172.20.11.53:4000/admin/login`, { email: username, password })
     .then(res => {
       window.localStorage.setItem('app.Authorization', '')
       window.localStorage.setItem('app.Role', 'admin')
@@ -79,7 +79,6 @@ export function login(username, password, dispatch) {
       dispatch(_setFrom(''))
       return false
     })
-
 
   // if (username === 'admin@mediatec.org' && password === '123123') {
   //   window.localStorage.setItem('app.Authorization', '')
