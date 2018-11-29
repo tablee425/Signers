@@ -172,8 +172,7 @@ class ClientNew extends React.Component {
                 <span className="clientNewPage__changeImageSpan">Add Image</span>
               </label>
             </div>
-            <div className="clientNewPage__rightSideContainer">
-            </div>
+            <div className="clientNewPage__rightSideContainer" />
           </div>
         </div>
 

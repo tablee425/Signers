@@ -71,9 +71,9 @@ export function login(username, password, dispatch) {
           description:
             'Welcome to the Clean UI Admin Template. The Clean UI Admin Template is a complimentary template that empowers developers to make perfect looking and useful apps!',
         })
-        return true  
+        return true
       } else {
-        alert(res.data.message);
+        alert(res.data.message)
         dispatch(push('/login'))
         dispatch(_setFrom(''))
         return false
@@ -92,7 +92,7 @@ export const logout = () => (dispatch, getState) => {
       userState: {
         email: '',
         role: '',
-        firstName: ''
+        firstName: '',
       },
     }),
   )
@@ -129,7 +129,7 @@ const initialState = {
   userState: {
     email: '',
     role: '',
-    firstName: ''
+    firstName: '',
   },
 }
 
