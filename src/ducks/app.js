@@ -35,9 +35,9 @@ export const resetHideLogin = () => (dispatch, getState) => {
 
 export const initAuth = roles => (dispatch, getState) => {
   // Use Axios there to get User Data by Auth Token with Bearer Method Authentication
-
   const role = window.localStorage.getItem('app.Role')
   const email = window.localStorage.getItem('app.Email')
+  const firstName = window.localStorage.getItem('app.Firstname')
   const state = getState()
 
   const setUser = userState => {
@@ -48,70 +48,42 @@ export const initAuth = roles => (dispatch, getState) => {
         },
       }),
     )
-    if (!(state.routing.location.pathname === '/dashboard')) {
-      dispatch(push('/dashboard'))
-    }
     return Promise.resolve(true)
   }
 
-  return setUser({ email, role }, role)
+  return setUser({ email, role, firstName }, role)
 }
 
 export function login(username, password, dispatch) {
   axios
     .post(`http://172.20.11.53:4000/admin/login`, { email: username, password })
     .then(res => {
-      window.localStorage.setItem('app.Authorization', '')
-      window.localStorage.setItem('app.Role', 'admin')
-      window.localStorage.setItem('app.Email', username)
-      dispatch(_setHideLogin(true))
-      dispatch(push('/dashboard'))
-      notification.open({
-        type: 'success',
-        message: 'You have successfully logged in!',
-        description:
-          'Welcome to the Clean UI Admin Template. The Clean UI Admin Template is a complimentary template that empowers developers to make perfect looking and useful apps!',
-      })
-      return true
+      if (res.data.success) {
+        window.localStorage.setItem('app.Authorization', '')
+        window.localStorage.setItem('app.Role', res.data.user.role)
+        window.localStorage.setItem('app.Email', username)
+        window.localStorage.setItem('app.Firstname', res.data.user.firstName)
+        dispatch(_setHideLogin(true))
+        dispatch(push('/dashboard'))
+        notification.open({
+          type: 'success',
+          message: 'You have successfully logged in!',
+          description:
+            'Welcome to the Clean UI Admin Template. The Clean UI Admin Template is a complimentary template that empowers developers to make perfect looking and useful apps!',
+        })
+        return true  
+      } else {
+        alert(res.data.message);
+        dispatch(push('/login'))
+        dispatch(_setFrom(''))
+        return false
+      }
     })
     .catch(error => {
       dispatch(push('/login'))
       dispatch(_setFrom(''))
       return false
     })
-
-  // if (username === 'admin@mediatec.org' && password === '123123') {
-  //   window.localStorage.setItem('app.Authorization', '')
-  //   window.localStorage.setItem('app.Role', 'administrator')
-  //   dispatch(_setHideLogin(true))
-  //   dispatch(push('/dashboard'))
-  //   notification.open({
-  //     type: 'success',
-  //     message: 'You have successfully logged in!',
-  //     description:
-  //       'Welcome to the Clean UI Admin Template. The Clean UI Admin Template is a complimentary template that empowers developers to make perfect looking and useful apps!',
-  //   })
-  //   return true
-  // }
-
-  // if (username === 'agent@mediatec.org' && password === '123123') {
-  //   window.localStorage.setItem('app.Authorization', '')
-  //   window.localStorage.setItem('app.Role', 'agent')
-  //   dispatch(_setHideLogin(true))
-  //   dispatch(push('/dashboard'))
-  //   notification.open({
-  //     type: 'success',
-  //     message: 'You have successfully logged in!',
-  //     description:
-  //       'Welcome to the Clean UI Admin Template. The Clean UI Admin Template is a complimentary template that empowers developers to make perfect looking and useful apps!',
-  //   })
-  //   return true
-  // }
-
-  // dispatch(push('/login'))
-  // dispatch(_setFrom(''))
-
-  // return false
 }
 
 export const logout = () => (dispatch, getState) => {
@@ -120,11 +92,13 @@ export const logout = () => (dispatch, getState) => {
       userState: {
         email: '',
         role: '',
+        firstName: ''
       },
     }),
   )
   window.localStorage.setItem('app.Authorization', '')
   window.localStorage.setItem('app.Role', '')
+  window.localStorage.setItem('app.Firstname', '')
   dispatch(push('/login'))
 }
 
@@ -155,6 +129,7 @@ const initialState = {
   userState: {
     email: '',
     role: '',
+    firstName: ''
   },
 }
 

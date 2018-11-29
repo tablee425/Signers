@@ -141,9 +141,8 @@ class ClientNew extends React.Component {
     }
     const operations = tabKey == '2' && (
       <div className="row">
-        <Button style={{ marginRight: 20, marginTop: 5 }}>Notify All Signers</Button>
         <ReactFileReader handleFiles={this.handleCSVFiles} fileTypes={'.csv'}>
-          <Button type="primary" style={{ marginRight: 30 }}>
+          <Button type="primary" style={{ marginRight: 20 }}>
             Upload CSV Signers Team
           </Button>
         </ReactFileReader>
@@ -157,28 +156,23 @@ class ClientNew extends React.Component {
           <div className="card-body">
             <img src={src} border="true" className="clientNewPage__avatar" />
             <div className="clientNewPage__leftSideContainer">
-              <h2>Client Name</h2>
-              <div>
-                <label>
-                  <FileInput
-                    readAs="binary"
-                    style={{ display: 'none' }}
-                    onLoadStart={this.showProgressBar}
-                    onLoad={this.handleFileSelected}
-                    onProgress={this.updateProgressBar}
-                    cancelIf={fileIsIncorrectFiletype}
-                    abortIf={this.cancelButtonClicked}
-                    onCancel={this.showInvalidFileTypeMessage}
-                    onAbort={this.resetCancelButtonClicked}
-                  />
+              <label style={{ marginTop: 15 }}>
+                <FileInput
+                  readAs="binary"
+                  style={{ display: 'none' }}
+                  onLoadStart={this.showProgressBar}
+                  onLoad={this.handleFileSelected}
+                  onProgress={this.updateProgressBar}
+                  cancelIf={fileIsIncorrectFiletype}
+                  abortIf={this.cancelButtonClicked}
+                  onCancel={this.showInvalidFileTypeMessage}
+                  onAbort={this.resetCancelButtonClicked}
+                />
 
-                  <span className="clientNewPage__changeImageSpan">Change Image</span>
-                </label>
-              </div>
+                <span className="clientNewPage__changeImageSpan">Add Image</span>
+              </label>
             </div>
             <div className="clientNewPage__rightSideContainer">
-              <h2>240</h2>
-              <h5>Signers</h5>
             </div>
           </div>
         </div>

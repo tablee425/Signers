@@ -36,12 +36,7 @@ class ProfileMenu extends React.Component {
       <Menu selectable={false}>
         <Menu.Item>
           <div className="rfq__widget__system-status__item">
-            <strong>Hello, {userState.role}</strong>
-            <div>
-              <strong>Billing Plan:</strong> Professional
-              <br />
-            </div>
-
+            <strong>Hello, {userState.firstName}</strong>
             <div>
               <strong>Role:</strong> {userState.role}
             </div>
@@ -51,8 +46,6 @@ class ProfileMenu extends React.Component {
         <Menu.Item>
           <div className="rfq__widget__system-status__item">
             <strong>Email:</strong> {userState.email}
-            <br />
-            <strong>Phone:</strong> +1-800-MEDIATEC
           </div>
         </Menu.Item>
         <Menu.Divider />

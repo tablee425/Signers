@@ -78,7 +78,7 @@ class Routes extends React.Component {
   render() {
     return (
       <ConnectedSwitch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/" component={LoginPage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/clients" component={ClientPage} />
         <Route exact path="/clients/new" component={ClientNewPage} />

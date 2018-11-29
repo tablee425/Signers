@@ -1,6 +1,5 @@
 import { createReducer } from 'redux-act'
 import * as app from './app'
-import { message } from 'antd'
 
 export const REDUCER = 'login'
 
@@ -16,7 +15,6 @@ export const submit = ({ username, password }: { username: string, password: str
     dispatch(app.deleteSubmitForm(REDUCER))
   } else {
     dispatch(app.deleteSubmitForm(REDUCER))
-    message.error('Invalid username or password')
   }
 }
 
