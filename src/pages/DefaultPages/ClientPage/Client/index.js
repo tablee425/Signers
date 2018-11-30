@@ -91,19 +91,18 @@ class Client extends React.Component {
       .post(`${baseUrl}/admin/list`, {})
       .then(res => {
         if (res.data.success) {
-          let tableData = [];
+          let tableData = []
           res.data.data.map((item, index) => {
-            tableData.push(
-              {
-                "key": `${index}`,
-                "Picture": "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-                "name": item.firstName,
-                "tp": 18,
-                "ap": 7,
-                "os": 7,
-                "position": "5516 Adolfo Green"
-              }
-            )
+            tableData.push({
+              key: `${index}`,
+              Picture:
+                'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+              name: item.firstName,
+              tp: 18,
+              ap: 7,
+              os: 7,
+              position: '5516 Adolfo Green',
+            })
           })
           this.setState({ tableData })
         } else {
