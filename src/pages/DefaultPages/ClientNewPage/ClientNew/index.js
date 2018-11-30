@@ -100,14 +100,18 @@ class ClientNew extends React.Component {
         console.log('Received values of form: ', values)
         // this.setState({ redirect: 1 })
         axios
-          .post(`${baseUrl}/admin/signup`, { email: values.email, password: values.password, firstName: values.firstName, lastName: values.lastName })
+          .post(`${baseUrl}/admin/signup`, {
+            email: values.email,
+            password: values.password,
+            firstName: values.firstName,
+            lastName: values.lastName,
+          })
           .then(res => {
             if (res.data.success) {
             } else {
             }
           })
-          .catch(error => {
-          })
+          .catch(error => {})
       }
     })
   }

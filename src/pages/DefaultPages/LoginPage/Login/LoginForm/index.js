@@ -15,7 +15,7 @@ class LoginForm extends React.Component {
   static defaultProps = {}
 
   // $FlowFixMe
-  onSubmit = (isSubmitForm) => event => {
+  onSubmit = isSubmitForm => event => {
     event.preventDefault()
     const { form, dispatch } = this.props
     if (!isSubmitForm) {
