@@ -111,9 +111,7 @@ class ClientNew extends React.Component {
               alert(res.data.message)
             }
           })
-          .catch(error => {
-
-          })
+          .catch(error => {})
       }
     })
   }

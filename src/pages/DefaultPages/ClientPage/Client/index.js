@@ -83,24 +83,19 @@ class Client extends React.Component {
       ],
     })
 
-    this.fetchClients();
+    this.fetchClients()
   }
 
   fetchClients = () => {
     axios
-      .post(`${baseUrl}/admin/list`, {
-        
-      })
+      .post(`${baseUrl}/admin/list`, {})
       .then(res => {
         if (res.data.success) {
           alert(res.data.total)
         } else {
-          
         }
       })
-      .catch(error => {
-
-      })
+      .catch(error => {})
   }
 
   handleChange = (pagination, filters, sorter) => {
