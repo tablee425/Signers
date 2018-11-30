@@ -15,7 +15,7 @@ class LoginForm extends React.Component {
   static defaultProps = {}
 
   // $FlowFixMe
-  onSubmit = (isSubmitForm: ?boolean) => event => {
+  onSubmit = (isSubmitForm) => event => {
     event.preventDefault()
     const { form, dispatch } = this.props
     if (!isSubmitForm) {
@@ -60,14 +60,11 @@ class LoginForm extends React.Component {
           <div className="form-actions">
             <Button
               type="primary"
-              className="width-150 mr-4"
+              className="width-150 mr-4 mt-5"
               htmlType="submit"
               loading={isSubmitForm}
             >
-              Login
-            </Button>
-            <Button className="width-100" htmlType="button">
-              Sign Up
+              Sign in
             </Button>
           </div>
         </Form>

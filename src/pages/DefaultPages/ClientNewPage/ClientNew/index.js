@@ -22,6 +22,8 @@ import FileInput from 'react-simple-file-input'
 import { Redirect } from 'react-router'
 import { data } from './data.json'
 import ReactFileReader from 'react-file-reader'
+import axios from 'axios'
+import { baseUrl } from '../../../../config'
 
 const Panel = Collapse.Panel
 const TabPane = Tabs.TabPane
@@ -96,7 +98,16 @@ class ClientNew extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
-        this.setState({ redirect: 1 })
+        // this.setState({ redirect: 1 })
+        axios
+          .post(`${baseUrl}/admin/signup`, { email: values.email, password: values.password, firstName: values.firstName, lastName: values.lastName })
+          .then(res => {
+            if (res.data.success) {
+            } else {
+            }
+          })
+          .catch(error => {
+          })
       }
     })
   }
