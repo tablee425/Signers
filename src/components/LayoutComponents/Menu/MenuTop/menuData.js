@@ -1,9 +1,9 @@
 export default [
-  {
-    title: 'Dashboard',
-    key: 'dashboard',
-    url: '/dashboard',
-  },
+  // {
+  //   title: 'Dashboard',
+  //   key: 'dashboard',
+  //   url: '/dashboard',
+  // },
   {
     title: 'Clients',
     key: 'client',

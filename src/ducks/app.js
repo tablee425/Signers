@@ -64,7 +64,7 @@ export function login(username, password, dispatch) {
         window.localStorage.setItem('app.Email', username)
         window.localStorage.setItem('app.Firstname', res.data.user.firstName)
         dispatch(_setHideLogin(true))
-        dispatch(push('/dashboard'))
+        dispatch(push('/clients'))
         notification.open({
           type: 'success',
           message: 'You have successfully logged in!',

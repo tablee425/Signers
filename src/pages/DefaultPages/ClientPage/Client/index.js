@@ -17,6 +17,8 @@ import { tableData } from './data.json'
 import { Link, withRouter } from 'react-router-dom'
 import config from '../../../../web-config'
 import { Redirect } from 'react-router'
+import axios from 'axios'
+import { baseUrl } from '../../../../config'
 
 const Panel = Collapse.Panel
 
@@ -80,6 +82,25 @@ class Client extends React.Component {
         },
       ],
     })
+
+    this.fetchClients();
+  }
+
+  fetchClients = () => {
+    axios
+      .post(`${baseUrl}/admin/list`, {
+        
+      })
+      .then(res => {
+        if (res.data.success) {
+          alert(res.data.total)
+        } else {
+          
+        }
+      })
+      .catch(error => {
+
+      })
   }
 
   handleChange = (pagination, filters, sorter) => {

@@ -97,8 +97,6 @@ class ClientNew extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
-        // this.setState({ redirect: 1 })
         axios
           .post(`${baseUrl}/admin/signup`, {
             email: values.email,
@@ -108,10 +106,14 @@ class ClientNew extends React.Component {
           })
           .then(res => {
             if (res.data.success) {
+              this.setState({ redirect: 1 })
             } else {
+              alert(res.data.message)
             }
           })
-          .catch(error => {})
+          .catch(error => {
+
+          })
       }
     })
   }
