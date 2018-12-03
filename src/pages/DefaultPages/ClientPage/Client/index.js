@@ -87,7 +87,6 @@ class Client extends React.Component {
   }
 
   fetchClients = () => {
-    
     axios
       .post(`${baseUrl}/admin/list`, {})
       .then(res => {

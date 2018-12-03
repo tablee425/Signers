@@ -99,35 +99,35 @@ class ClientNew extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         if (this.state.clientProfileImage) {
-          let formData = new FormData();
-          formData.append('file', this.state.clientProfileImage);
+          let formData = new FormData()
+          formData.append('file', this.state.clientProfileImage)
           axios
             .post(`${baseUrl}/upload`, formData)
             .then(res => {
               if (res.data.success) {
                 axios
-                .post(`${baseUrl}/admin/signup`, {
-                  email: values.email,
-                  password: values.password,
-                  firstName: values.firstName,
-                  lastName: values.lastName,
-                  photoID: res.data.newUuid
-                })
-                .then(res1 => {
-                  if (res1.data.success) {
-                    this.setState({ redirect: 1 })
-                  } else {
-                    alert(res1.data.message)
-                  }
-                })
-                .catch(error => {})      
+                  .post(`${baseUrl}/admin/signup`, {
+                    email: values.email,
+                    password: values.password,
+                    firstName: values.firstName,
+                    lastName: values.lastName,
+                    photoID: res.data.newUuid,
+                  })
+                  .then(res1 => {
+                    if (res1.data.success) {
+                      this.setState({ redirect: 1 })
+                    } else {
+                      alert(res1.data.message)
+                    }
+                  })
+                  .catch(error => {})
               } else {
               }
             })
-            .catch(error => {})  
+            .catch(error => {})
         } else {
           alert('Please upload the client profile image')
-        }        
+        }
       }
     })
   }
@@ -175,7 +175,13 @@ class ClientNew extends React.Component {
         <Button type="primary" htmlType="submit" style={{ marginRight: 20, width: 150 }}>
           Add Client
         </Button>
-        <Button type="normal" onClick={() => { this.setState({ redirect: 1 }) }} style={{ marginRight: 20, width: 150 }}>
+        <Button
+          type="normal"
+          onClick={() => {
+            this.setState({ redirect: 1 })
+          }}
+          style={{ marginRight: 20, width: 150 }}
+        >
           Cancel
         </Button>
       </div>
@@ -185,88 +191,92 @@ class ClientNew extends React.Component {
     return (
       <div>
         <Form onSubmit={this.handleSubmit} className="login-form">
-        <div className="card">
-          <div className="card-body">
-            <img src={src} border="true" className="clientNewPage__avatar" />
-            <div className="clientNewPage__leftSideContainer">
-              <label style={{ marginTop: 15 }}>
-                <FileInput
-                  readAs="binary"
-                  style={{ display: 'none' }}
-                  onLoadStart={this.showProgressBar}
-                  onLoad={this.handleFileSelected}
-                  onProgress={this.updateProgressBar}
-                  cancelIf={fileIsIncorrectFiletype}
-                  abortIf={this.cancelButtonClicked}
-                  onCancel={this.showInvalidFileTypeMessage}
-                  onAbort={this.resetCancelButtonClicked}
-                />
+          <div className="card">
+            <div className="card-body">
+              <img src={src} border="true" className="clientNewPage__avatar" />
+              <div className="clientNewPage__leftSideContainer">
+                <label style={{ marginTop: 15 }}>
+                  <FileInput
+                    readAs="binary"
+                    style={{ display: 'none' }}
+                    onLoadStart={this.showProgressBar}
+                    onLoad={this.handleFileSelected}
+                    onProgress={this.updateProgressBar}
+                    cancelIf={fileIsIncorrectFiletype}
+                    abortIf={this.cancelButtonClicked}
+                    onCancel={this.showInvalidFileTypeMessage}
+                    onAbort={this.resetCancelButtonClicked}
+                  />
 
-                <span className="clientNewPage__changeImageSpan">Add Image</span>
-              </label>
+                  <span className="clientNewPage__changeImageSpan">Add Image</span>
+                </label>
+              </div>
+              <div className="clientNewPage__rightSideContainer" />
             </div>
-            <div className="clientNewPage__rightSideContainer" />
           </div>
-        </div>
 
-        <div className="card">
-          <div className="card-body">
-            <Tabs defaultActiveKey="1" tabBarExtraContent={operations} onChange={this.onChangeTabs}>
-              <TabPane tab={<span>Information</span>} key="1">
-                <h5 className="text-black mt-4">
-                  <strong>Personal Information</strong>
-                </h5>
-                <div className="row">
-                  <div className="col-lg-6">
-                    <FormItem>
-                      <label className="form-label mb-0">First Name</label>
-                      {getFieldDecorator('firstName', {
-                        rules: [{ required: true, message: 'Please input your first name' }],
-                      })(<Input placeholder="Enter first name" />)}
-                    </FormItem>
+          <div className="card">
+            <div className="card-body">
+              <Tabs
+                defaultActiveKey="1"
+                tabBarExtraContent={operations}
+                onChange={this.onChangeTabs}
+              >
+                <TabPane tab={<span>Information</span>} key="1">
+                  <h5 className="text-black mt-4">
+                    <strong>Personal Information</strong>
+                  </h5>
+                  <div className="row">
+                    <div className="col-lg-6">
+                      <FormItem>
+                        <label className="form-label mb-0">First Name</label>
+                        {getFieldDecorator('firstName', {
+                          rules: [{ required: true, message: 'Please input your first name' }],
+                        })(<Input placeholder="Enter first name" />)}
+                      </FormItem>
+                    </div>
+                    <div className="col-lg-6">
+                      <FormItem>
+                        <label className="form-label mb-0">Last Name</label>
+                        {getFieldDecorator('lastName', {
+                          rules: [{ required: true, message: 'Please input your last name' }],
+                        })(<Input placeholder="Enter last name" />)}
+                      </FormItem>
+                    </div>
                   </div>
-                  <div className="col-lg-6">
-                    <FormItem>
-                      <label className="form-label mb-0">Last Name</label>
-                      {getFieldDecorator('lastName', {
-                        rules: [{ required: true, message: 'Please input your last name' }],
-                      })(<Input placeholder="Enter last name" />)}
-                    </FormItem>
+                  <div className="row">
+                    <div className="col-lg-6">
+                      <FormItem>
+                        <label className="form-label mb-0">Email</label>
+                        {getFieldDecorator('email', {
+                          rules: [{ required: true, message: 'Please input your email' }],
+                        })(<Input placeholder="Enter email" />)}
+                      </FormItem>
+                    </div>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-6">
-                    <FormItem>
-                      <label className="form-label mb-0">Email</label>
-                      {getFieldDecorator('email', {
-                        rules: [{ required: true, message: 'Please input your email' }],
-                      })(<Input placeholder="Enter email" />)}
-                    </FormItem>
+                  <div className="row">
+                    <div className="col-lg-6">
+                      <FormItem>
+                        <label className="form-label mb-0">Enter Password</label>
+                        {getFieldDecorator('password', {
+                          rules: [{ required: true, message: 'Please input your Password!' }],
+                        })(<Input type="password" placeholder="Enter password" />)}
+                      </FormItem>
+                    </div>
+                    <div className="col-lg-6">
+                      <FormItem>
+                        <label className="form-label mb-0">Confirm Password</label>
+                        {getFieldDecorator('confirmpassword', {
+                          rules: [{ required: true }, { validator: this.compareToFirstPassword }],
+                        })(<Input type="password" placeholder="Confirm password" />)}
+                      </FormItem>
+                    </div>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-6">
-                    <FormItem>
-                      <label className="form-label mb-0">Enter Password</label>
-                      {getFieldDecorator('password', {
-                        rules: [{ required: true, message: 'Please input your Password!' }],
-                      })(<Input type="password" placeholder="Enter password" />)}
-                    </FormItem>
-                  </div>
-                  <div className="col-lg-6">
-                    <FormItem>
-                      <label className="form-label mb-0">Confirm Password</label>
-                      {getFieldDecorator('confirmpassword', {
-                        rules: [{ required: true }, { validator: this.compareToFirstPassword }],
-                      })(<Input type="password" placeholder="Confirm password" />)}
-                    </FormItem>
-                  </div>
-                </div>
-              </TabPane>
-            </Tabs>
+                </TabPane>
+              </Tabs>
+            </div>
           </div>
-        </div>
-      </Form>
+        </Form>
       </div>
     )
   }
