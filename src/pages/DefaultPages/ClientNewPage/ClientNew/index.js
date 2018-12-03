@@ -46,6 +46,7 @@ class ClientNew extends React.Component {
     redirect: 0,
     tabKey: '1',
     previewUrl: null,
+    clientProfileImage: null,
     page: 1,
     pageSize: 10,
   }
@@ -88,7 +89,7 @@ class ClientNew extends React.Component {
   handleFileSelected = (event, file) => {
     let reader = new FileReader()
     reader.onloadend = () => {
-      this.setState({ previewUrl: reader.result })
+      this.setState({ clientProfileImage: file, previewUrl: reader.result })
     }
     reader.readAsDataURL(file)
   }
@@ -97,21 +98,36 @@ class ClientNew extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        axios
-          .post(`${baseUrl}/admin/signup`, {
-            email: values.email,
-            password: values.password,
-            firstName: values.firstName,
-            lastName: values.lastName,
-          })
-          .then(res => {
-            if (res.data.success) {
-              this.setState({ redirect: 1 })
-            } else {
-              alert(res.data.message)
-            }
-          })
-          .catch(error => {})
+        if (this.state.clientProfileImage) {
+          let formData = new FormData();
+          formData.append('file', this.state.clientProfileImage);
+          axios
+            .post(`${baseUrl}/upload`, formData)
+            .then(res => {
+              if (res.data.success) {
+                axios
+                .post(`${baseUrl}/admin/signup`, {
+                  email: values.email,
+                  password: values.password,
+                  firstName: values.firstName,
+                  lastName: values.lastName,
+                  photoID: res.data.newUuid
+                })
+                .then(res1 => {
+                  if (res1.data.success) {
+                    this.setState({ redirect: 1 })
+                  } else {
+                    alert(res1.data.message)
+                  }
+                })
+                .catch(error => {})      
+              } else {
+              }
+            })
+            .catch(error => {})  
+        } else {
+          alert('Please upload the client profile image')
+        }        
       }
     })
   }
@@ -154,19 +170,21 @@ class ClientNew extends React.Component {
     if (redirect == 1) {
       return <Redirect push to="/clients" />
     }
-    const operations = tabKey == '2' && (
+    const operations = (
       <div className="row">
-        <ReactFileReader handleFiles={this.handleCSVFiles} fileTypes={'.csv'}>
-          <Button type="primary" style={{ marginRight: 20 }}>
-            Upload CSV Signers Team
-          </Button>
-        </ReactFileReader>
+        <Button type="primary" htmlType="submit" style={{ marginRight: 20, width: 150 }}>
+          Add Client
+        </Button>
+        <Button type="normal" onClick={() => { this.setState({ redirect: 1 }) }} style={{ marginRight: 20, width: 150 }}>
+          Cancel
+        </Button>
       </div>
     )
     let src = previewUrl || 'resources/images/avatars/1.jpg'
     let avatarSrc = 'resources/images/avatar.jpg'
     return (
       <div>
+        <Form onSubmit={this.handleSubmit} className="login-form">
         <div className="card">
           <div className="card-body">
             <img src={src} border="true" className="clientNewPage__avatar" />
@@ -195,137 +213,60 @@ class ClientNew extends React.Component {
           <div className="card-body">
             <Tabs defaultActiveKey="1" tabBarExtraContent={operations} onChange={this.onChangeTabs}>
               <TabPane tab={<span>Information</span>} key="1">
-                <Form onSubmit={this.handleSubmit} className="login-form">
-                  <h5 className="text-black mt-4">
-                    <strong>Personal Information</strong>
-                  </h5>
-                  <div className="row">
-                    <div className="col-lg-6">
-                      <FormItem>
-                        <label className="form-label mb-0">First Name</label>
-                        {getFieldDecorator('firstName', {
-                          rules: [{ required: true, message: 'Please input your first name' }],
-                        })(<Input placeholder="Enter first name" />)}
-                      </FormItem>
-                    </div>
-                    <div className="col-lg-6">
-                      <FormItem>
-                        <label className="form-label mb-0">Last Name</label>
-                        {getFieldDecorator('lastName', {
-                          rules: [{ required: true, message: 'Please input your last name' }],
-                        })(<Input placeholder="Enter last name" />)}
-                      </FormItem>
-                    </div>
+                <h5 className="text-black mt-4">
+                  <strong>Personal Information</strong>
+                </h5>
+                <div className="row">
+                  <div className="col-lg-6">
+                    <FormItem>
+                      <label className="form-label mb-0">First Name</label>
+                      {getFieldDecorator('firstName', {
+                        rules: [{ required: true, message: 'Please input your first name' }],
+                      })(<Input placeholder="Enter first name" />)}
+                    </FormItem>
                   </div>
-                  <div className="row">
-                    <div className="col-lg-6">
-                      <FormItem>
-                        <label className="form-label mb-0">Email</label>
-                        {getFieldDecorator('email', {
-                          rules: [{ required: true, message: 'Please input your email' }],
-                        })(<Input placeholder="Enter email" />)}
-                      </FormItem>
-                    </div>
+                  <div className="col-lg-6">
+                    <FormItem>
+                      <label className="form-label mb-0">Last Name</label>
+                      {getFieldDecorator('lastName', {
+                        rules: [{ required: true, message: 'Please input your last name' }],
+                      })(<Input placeholder="Enter last name" />)}
+                    </FormItem>
                   </div>
-                  <div className="row">
-                    <div className="col-lg-6">
-                      <FormItem>
-                        <label className="form-label mb-0">Enter Password</label>
-                        {getFieldDecorator('password', {
-                          rules: [{ required: true, message: 'Please input your Password!' }],
-                        })(<Input type="password" placeholder="Enter password" />)}
-                      </FormItem>
-                    </div>
-                    <div className="col-lg-6">
-                      <FormItem>
-                        <label className="form-label mb-0">Confirm Password</label>
-                        {getFieldDecorator('confirmpassword', {
-                          rules: [{ required: true }, { validator: this.compareToFirstPassword }],
-                        })(<Input type="password" placeholder="Confirm password" />)}
-                      </FormItem>
-                    </div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-6">
+                    <FormItem>
+                      <label className="form-label mb-0">Email</label>
+                      {getFieldDecorator('email', {
+                        rules: [{ required: true, message: 'Please input your email' }],
+                      })(<Input placeholder="Enter email" />)}
+                    </FormItem>
                   </div>
-                  <div className="form-actions">
-                    <Button
-                      style={{ width: 150 }}
-                      type="primary"
-                      htmlType="submit"
-                      className="clientNewPage__saveBtn mr-3"
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      style={{ width: 150 }}
-                      className="clientNewPage__cancelBtn"
-                      onClick={() => {
-                        this.setState({ redirect: 1 })
-                      }}
-                    >
-                      Cancel
-                    </Button>
+                </div>
+                <div className="row">
+                  <div className="col-lg-6">
+                    <FormItem>
+                      <label className="form-label mb-0">Enter Password</label>
+                      {getFieldDecorator('password', {
+                        rules: [{ required: true, message: 'Please input your Password!' }],
+                      })(<Input type="password" placeholder="Enter password" />)}
+                    </FormItem>
                   </div>
-                </Form>
-              </TabPane>
-              <TabPane tab={<span>Own Signers Team</span>} key="2">
-                <Form onSubmit={this.saveTeam} className="login-form">
-                  <div>
-                    <List
-                      itemLayout="horizontal"
-                      dataSource={this.filterData()}
-                      renderItem={item => (
-                        <List.Item>
-                          <div className="row">
-                            <Avatar
-                              style={{ width: 25, height: 25, marginLeft: 30, marginTop: 15 }}
-                              src={avatarSrc}
-                            />
-                            <List.Item.Meta
-                              avatar={
-                                <Avatar
-                                  style={{ width: 50, height: 50 }}
-                                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                />
-                              }
-                              title={<a href="https://ant.design">{item.title}</a>}
-                              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                            />
-                          </div>
-                        </List.Item>
-                      )}
-                    />
+                  <div className="col-lg-6">
+                    <FormItem>
+                      <label className="form-label mb-0">Confirm Password</label>
+                      {getFieldDecorator('confirmpassword', {
+                        rules: [{ required: true }, { validator: this.compareToFirstPassword }],
+                      })(<Input type="password" placeholder="Confirm password" />)}
+                    </FormItem>
                   </div>
-                  <div>
-                    <Pagination
-                      showSizeChanger
-                      onShowSizeChange={this.onShowSizeChange}
-                      onChange={this.onChangePage}
-                      total={data.length}
-                    />
-                  </div>
-                  <div className="form-actions">
-                    <Button
-                      style={{ width: 150 }}
-                      type="primary"
-                      htmlType="submit"
-                      className="clientNewPage__saveBtn mr-3"
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      style={{ width: 150 }}
-                      className="clientNewPage__cancelBtn"
-                      onClick={() => {
-                        this.setState({ redirect: 1 })
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </Form>
+                </div>
               </TabPane>
             </Tabs>
           </div>
         </div>
+      </Form>
       </div>
     )
   }

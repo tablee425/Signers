@@ -87,6 +87,7 @@ class Client extends React.Component {
   }
 
   fetchClients = () => {
+    
     axios
       .post(`${baseUrl}/admin/list`, {})
       .then(res => {
@@ -161,7 +162,7 @@ class Client extends React.Component {
                 onChange={this.onChangeFilter}
               />
               <Link to={`/clients/new`} className="text-muted">
-                <Button type="primary">New Client</Button>
+                <Button type="primary">Add Client</Button>
               </Link>
             </div>
           </div>
