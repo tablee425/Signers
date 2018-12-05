@@ -15,6 +15,9 @@ import {
   Pagination,
   List,
   Avatar,
+  Card,
+  Col,
+  Row
 } from 'antd'
 import './style.scss'
 import { Link, withRouter } from 'react-router-dom'
@@ -47,6 +50,7 @@ class ClientDetail extends React.Component {
     previewUrl: null,
     page: 1,
     pageSize: 10,
+    projects: ['1', '2', '3', '4', '5', '6', '7', '8']
   }
 
   componentDidMount() {
@@ -137,59 +141,110 @@ class ClientDetail extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { redirect, tabKey, previewUrl, page, pageSize } = this.state
+    const { redirect, tabKey, previewUrl, page, pageSize, projects } = this.state
     if (redirect == 1) {
       return <Redirect push to="/clients" />
     }
-    const operations = tabKey == '2' && (
+    let renderProjects = [];
+    projects.map((item, index) => {
+      renderProjects.push(
+        <div className="clientNewPage__projectsItem" style={{  }}>
+          <h4>
+            Mayor NY
+          </h4>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 15 }}>
+            <h6>Cost per project</h6>
+            <h6>$6,135,343</h6>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <h6>Total Paid to Signers</h6>
+            <h6>$643,454</h6>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <h6>Current Donations</h6>
+            <h6>$2,283,343</h6>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+            <Button type="primary">
+              Update Donations
+            </Button>
+          </div>
+        </div>
+      )
+    })
+    const operations = tabKey == '1' ? (
       <div className="row">
-        <Button style={{ marginRight: 20, marginTop: 5 }}>Notify All Signers</Button>
-        <ReactFileReader handleFiles={this.handleCSVFiles} fileTypes={'.csv'}>
-          <Button type="primary" style={{ marginRight: 30 }}>
+        <Button
+          style={{ width: 150, marginRight: 20 }}
+          type="primary"
+          htmlType="submit"
+          className="clientNewPage__saveBtn mr-3"
+        >
+          Save
+        </Button>
+        <Button
+          style={{ width: 150, marginRight: 20 }}
+          className="clientNewPage__cancelBtn"
+          onClick={() => {
+            this.setState({ redirect: 1 })
+          }}
+        >
+          Cancel
+        </Button>
+      </div>
+    ) : tabKey == '2' ? (
+      <div className="row">
+        <Button style={{ width: 150, marginRight: 20 }}>Notify All Signers</Button>
+        <ReactFileReader handleFiles={this.handleCSVFiles} fileTypes={'.csv'} className="clientNewPage__fileReader">
+          <Button type="primary" style={{ width: 200, marginRight: 20 }}>
             Upload CSV Signers Team
           </Button>
         </ReactFileReader>
+      </div>
+    ) : (
+      <div className="row">
+        <Button type="primary" style={{ width: 120, marginRight: 20 }}>Add Project</Button>
       </div>
     )
     let src = previewUrl || 'resources/images/avatars/1.jpg'
     let avatarSrc = 'resources/images/avatar.jpg'
     return (
       <div>
-        <div className="card">
-          <div className="card-body">
-            <img src={src} border="true" className="clientNewPage__avatar" />
-            <div className="clientNewPage__leftSideContainer">
-              <h2>Client Name</h2>
-              <div>
-                <label>
-                  <FileInput
-                    readAs="binary"
-                    style={{ display: 'none' }}
-                    onLoadStart={this.showProgressBar}
-                    onLoad={this.handleFileSelected}
-                    onProgress={this.updateProgressBar}
-                    cancelIf={fileIsIncorrectFiletype}
-                    abortIf={this.cancelButtonClicked}
-                    onCancel={this.showInvalidFileTypeMessage}
-                    onAbort={this.resetCancelButtonClicked}
-                  />
+        <Form onSubmit={this.handleSubmit} className="login-form">
+          <div className="card">
+            <div className="card-body">
+              <img src={src} border="true" className="clientNewPage__avatar" />
+              <div className="clientNewPage__leftSideContainer">
+                <h2>Client Name</h2>
+                <div>
+                  <label>
+                    <FileInput
+                      readAs="binary"
+                      style={{ display: 'none' }}
+                      onLoadStart={this.showProgressBar}
+                      onLoad={this.handleFileSelected}
+                      onProgress={this.updateProgressBar}
+                      cancelIf={fileIsIncorrectFiletype}
+                      abortIf={this.cancelButtonClicked}
+                      onCancel={this.showInvalidFileTypeMessage}
+                      onAbort={this.resetCancelButtonClicked}
+                    />
 
-                  <span className="clientNewPage__changeImageSpan">Change Image</span>
-                </label>
+                    <span className="clientNewPage__changeImageSpan">Change Image</span>
+                  </label>
+                </div>
+              </div>
+              <div className="clientNewPage__rightSideContainer">
+                <h2>240</h2>
+                <h5>Signers</h5>
               </div>
             </div>
-            <div className="clientNewPage__rightSideContainer">
-              <h2>240</h2>
-              <h5>Signers</h5>
-            </div>
           </div>
-        </div>
 
-        <div className="card">
-          <div className="card-body">
-            <Tabs defaultActiveKey="1" tabBarExtraContent={operations} onChange={this.onChangeTabs}>
-              <TabPane tab={<span>Information</span>} key="1">
-                <Form onSubmit={this.handleSubmit} className="login-form">
+          <div className="card">
+            <div className="card-body">
+              <Tabs defaultActiveKey="1" tabBarExtraContent={operations} onChange={this.onChangeTabs}>
+                <TabPane tab={<span>Information</span>} key="1">
                   <h5 className="text-black mt-4">
                     <strong>Personal Information</strong>
                   </h5>
@@ -239,29 +294,8 @@ class ClientDetail extends React.Component {
                       </FormItem>
                     </div>
                   </div>
-                  <div className="form-actions">
-                    <Button
-                      style={{ width: 150 }}
-                      type="primary"
-                      htmlType="submit"
-                      className="clientNewPage__saveBtn mr-3"
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      style={{ width: 150 }}
-                      className="clientNewPage__cancelBtn"
-                      onClick={() => {
-                        this.setState({ redirect: 1 })
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </Form>
-              </TabPane>
-              <TabPane tab={<span>Own Signers Team</span>} key="2">
-                <Form onSubmit={this.saveTeam} className="login-form">
+                </TabPane>
+                <TabPane tab={<span>Own Signers Team</span>} key="2">
                   <div>
                     <List
                       itemLayout="horizontal"
@@ -300,7 +334,7 @@ class ClientDetail extends React.Component {
                     <Button
                       style={{ width: 150 }}
                       type="primary"
-                      htmlType="submit"
+                      onClick={this.saveTeam}
                       className="clientNewPage__saveBtn mr-3"
                     >
                       Save
@@ -315,11 +349,16 @@ class ClientDetail extends React.Component {
                       Cancel
                     </Button>
                   </div>
-                </Form>
-              </TabPane>
-            </Tabs>
+                </TabPane>
+                <TabPane tab={<span>Projects</span>} key="3">
+                  <div className="clientNewPage__projectsContainer" style={{  }}>
+                    { renderProjects }
+                  </div>
+                </TabPane>
+              </Tabs>
+            </div>
           </div>
-        </div>
+        </Form>
       </div>
     )
   }

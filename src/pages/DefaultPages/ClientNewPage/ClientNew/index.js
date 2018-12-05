@@ -112,6 +112,7 @@ class ClientNew extends React.Component {
                     firstName: values.firstName,
                     lastName: values.lastName,
                     photoID: res.data.newUuid,
+                    role: 'client'
                   })
                   .then(res1 => {
                     if (res1.data.success) {
@@ -186,8 +187,8 @@ class ClientNew extends React.Component {
         </Button>
       </div>
     )
-    let src = previewUrl || 'resources/images/avatars/1.jpg'
-    let avatarSrc = 'resources/images/avatar.jpg'
+    let src = previewUrl || 'resources/images/plus.png'
+    let avatarSrc = 'resources/images/plus.png'
     return (
       <div>
         <Form onSubmit={this.handleSubmit} className="login-form">

@@ -28,4 +28,19 @@
     &__cancelBtn {
         text-align: center;
     }
+    &__projectsContainer {
+        background: lightgray;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    &__projectsItem {
+        width: 260px;
+        background: white;
+        padding: 30px;
+        margin: 10px;
+    }
+}
+
+.react-file-reader {
+    line-height: 30px;
 }
