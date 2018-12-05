@@ -210,7 +210,11 @@ class ClientDetail extends React.Component {
         </div>
       ) : (
         <div className="row">
-          <Button type="primary" style={{ width: 120, marginRight: 20 }} onClick={this.onAddProject}>
+          <Button
+            type="primary"
+            style={{ width: 120, marginRight: 20 }}
+            onClick={this.onAddProject}
+          >
             Add Project
           </Button>
         </div>

@@ -111,10 +111,7 @@ class ProjectNew extends React.Component {
         <Form onSubmit={this.handleSubmit} className="login-form">
           <div className="row">
             <div style={{ width: 230, height: 425, backgroundColor: 'white', padding: 15 }}>
-              <img
-                style={{ width: 200, height: 350 }}
-                src="resources/images/vimeo.png"
-              />
+              <img style={{ width: 200, height: 350 }} src="resources/images/vimeo.png" />
               <label style={{ marginTop: 15 }}>
                 <FileInput
                   readAs="binary"
@@ -132,15 +129,31 @@ class ProjectNew extends React.Component {
             </div>
             <div style={{ flex: 1, paddingLeft: 30 }}>
               <div className="row">
-                <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', marginTop: 15 }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    width: '100%',
+                    justifyContent: 'space-between',
+                    marginTop: 15,
+                  }}
+                >
                   <FormItem>
                     {getFieldDecorator('projectName', {
                       rules: [{ required: true, message: 'Please input the project name' }],
-                    })(<Input style={{ width: 400, height: 40, fontWeight: 'bold', fontSize: 20 }} placeholder="Project Name" />)}
+                    })(
+                      <Input
+                        style={{ width: 400, height: 40, fontWeight: 'bold', fontSize: 20 }}
+                        placeholder="Project Name"
+                      />,
+                    )}
                   </FormItem>
                   <div className="row" style={{ marginRight: 30, marginTop: 2 }}>
-                    <Button type="primary" style={{ width: 140, height: 35, marginRight: 15 }}>Save</Button>
-                    <Button type="normal" style={{ width: 140, height: 35 }}>Cancel</Button>
+                    <Button type="primary" style={{ width: 140, height: 35, marginRight: 15 }}>
+                      Save
+                    </Button>
+                    <Button type="normal" style={{ width: 140, height: 35 }}>
+                      Cancel
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -237,7 +250,9 @@ class ProjectNew extends React.Component {
                   </FormItem>
                 </div>
                 <div style={{ marginTop: 15, marginLeft: 25 }}>
-                  <label className="form-label mb-0" style={{ color: 'transparent' }}>Price Per Voters</label>
+                  <label className="form-label mb-0" style={{ color: 'transparent' }}>
+                    Price Per Voters
+                  </label>
                   <FormItem>
                     {getFieldDecorator('projectType', {
                       rules: [{ required: true, message: 'Please input the project name' }],
@@ -249,7 +264,7 @@ class ProjectNew extends React.Component {
                   <FormItem>
                     {getFieldDecorator('projectType', {
                       rules: [{ required: true, message: 'Please input the project name' }],
-                    })(<RangePicker style={{ width: 385 }}/>)}
+                    })(<RangePicker style={{ width: 385 }} />)}
                   </FormItem>
                 </div>
               </div>
@@ -260,11 +275,16 @@ class ProjectNew extends React.Component {
                   <FormItem>
                     {getFieldDecorator('description', {
                       rules: [{ required: true, message: 'Please input the project name' }],
-                    })(<TextArea rows={6} style={{ width: 1000 }} placeholder="Enter Project Description" />)}
+                    })(
+                      <TextArea
+                        rows={6}
+                        style={{ width: 1000 }}
+                        placeholder="Enter Project Description"
+                      />,
+                    )}
                   </FormItem>
                 </div>
               </div>
-
             </div>
           </div>
           {/* <div className="card">
