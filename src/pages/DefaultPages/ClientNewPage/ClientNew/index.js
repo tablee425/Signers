@@ -112,7 +112,7 @@ class ClientNew extends React.Component {
                     firstName: values.firstName,
                     lastName: values.lastName,
                     photoID: res.data.newUuid,
-                    role: 'client'
+                    role: 'client',
                   })
                   .then(res1 => {
                     if (res1.data.success) {
