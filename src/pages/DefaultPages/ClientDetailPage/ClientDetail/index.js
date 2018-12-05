@@ -139,11 +139,17 @@ class ClientDetail extends React.Component {
     reader.readAsText(files[0])
   }
 
+  onAddProject = () => {
+    this.setState({ redirect: 2 })
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     const { redirect, tabKey, previewUrl, page, pageSize, projects } = this.state
     if (redirect == 1) {
       return <Redirect push to="/clients" />
+    } else if (redirect == 2) {
+      return <Redirect push to="/projects/new" />
     }
     let renderProjects = []
     projects.map((item, index) => {
@@ -204,7 +210,7 @@ class ClientDetail extends React.Component {
         </div>
       ) : (
         <div className="row">
-          <Button type="primary" style={{ width: 120, marginRight: 20 }}>
+          <Button type="primary" style={{ width: 120, marginRight: 20 }} onClick={this.onAddProject}>
             Add Project
           </Button>
         </div>
