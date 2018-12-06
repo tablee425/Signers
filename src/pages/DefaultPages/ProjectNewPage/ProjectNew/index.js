@@ -23,6 +23,13 @@ import { Link, withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
 import FileInput from 'react-simple-file-input'
 import { data } from './data.json'
+import { connect } from 'react-redux'
+import axios from 'axios'
+import { baseUrl } from '../../../../config'
+
+const mapStateToProps = (state, props) => ({
+  userState: state.app.userState,
+})
 
 const Option = Select.Option
 const { RangePicker } = DatePicker
@@ -37,6 +44,9 @@ function fileIsIncorrectFiletype(file) {
   }
 }
 
+@connect(
+  mapStateToProps,
+)
 @Form.create()
 class ProjectNew extends React.Component {
   constructor(props) {
@@ -44,16 +54,18 @@ class ProjectNew extends React.Component {
   }
   state = {
     redirect: 0,
+    projectImage: null,
+    previewUrl: null,
   }
 
   componentDidMount() {
     this.setState({ page: 1, pageSize: 10 })
   }
 
-  compareToFirstPassword = (rule, value, callback) => {
+  checkDigital = (rule, value, callback) => {
     const form = this.props.form
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!')
+    if (value && !/^\d+$/.test(value)) {
+      callback('This field must be a number!')
     } else {
       callback()
     }
@@ -82,11 +94,50 @@ class ProjectNew extends React.Component {
   }
 
   handleSubmit = e => {
+    const { userState } = this.props
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
-        this.setState({ redirect: 2 })
+        if (this.state.projectImage) {
+          let formData = new FormData()
+          formData.append('file', this.state.projectImage)
+          axios
+            .post(`${baseUrl}/upload`, formData)
+            .then(res => {
+              if (res.data.success) {
+                axios
+                  .post(`${baseUrl}/projects/new`, {
+                    owner: userState.clientId,
+                    name: values.projectName,
+                    allowed_age: 15,
+                    date_registered: new Date(values.projectPeriod[0].format()),
+                    date_expiration: new Date(values.projectPeriod[1].format()),
+                    expected_voters: values.votersNeeded,
+                    expects_volunteers: values.selectedDonationsFlag == 'Yes',
+                    expects_donations: values.selectedDonationsFlag == 'Yes',
+                    price_for_signers_for_100_voters: values.pricePerVoters, // values.perVoterCount == '10' ? '100' ? '1000'
+                    type: values.projectType,
+                    country: values.selectedCountry,
+                    location: values.selectedArea,
+                    donations_url: values.donationsUrl,
+                    description: values.description,
+                    photos: [res.data.newUuid]
+                  })
+                  .then(res1 => {
+                    if (res1.data.success) {
+                      this.setState({ redirect: 2 })
+                    } else {
+                      alert(res1.data.message)
+                    }
+                  })
+                  .catch(error => {})
+              } else {
+              }
+            })
+            .catch(error => {})
+        } else {
+          alert('Please upload the project image')
+        }
       }
     })
   }
@@ -104,20 +155,30 @@ class ProjectNew extends React.Component {
     this.setState({ redirect: 2 }) // if role is admin
   }
 
+  handleFileSelected = (event, file) => {
+    let reader = new FileReader()
+    reader.onloadend = () => {
+      this.setState({ projectImage: file, previewUrl: reader.result })
+    }
+    reader.readAsDataURL(file)
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
-    const { redirect } = this.state
+    const { redirect, projectImage, previewUrl } = this.state
+
     if (redirect == 1) {
       return <Redirect push to="/projects" />
     } else if (redirect == 2) {
       return <Redirect push to="/clients/detail" />
     }
+    let src = previewUrl || 'resources/images/plus.png'
     return (
       <div>
         <Form onSubmit={this.handleSubmit} className="login-form">
           <div className="row">
             <div style={{ width: 230, height: 425, backgroundColor: 'white', padding: 15 }}>
-              <img style={{ width: 200, height: 350 }} src="resources/images/vimeo.png" />
+              <img style={{ width: 200, height: 350 }} src={src} />
               <label style={{ marginTop: 15 }}>
                 <FileInput
                   readAs="binary"
@@ -176,17 +237,21 @@ class ProjectNew extends React.Component {
                 <div style={{ marginTop: 15 }}>
                   <label className="form-label mb-0">Project Type</label>
                   <FormItem>
-                    <Select style={{ width: 180, height: 40 }} defaultValue="Political">
-                      <Option value="Political">Political</Option>
-                      <Option value="NGO">NGO</Option>
-                    </Select>
+                    {getFieldDecorator('projectType', {
+                        rules: [{ required: true, message: 'Please select the project type' }],
+                      })(
+                      <Select style={{ width: 180, height: 40 }} defaultValue="Political">
+                        <Option value="Political">Political</Option>
+                        <Option value="NGO">NGO</Option>
+                      </Select>
+                    )}
                   </FormItem>
                 </div>
                 <div style={{ marginTop: 15, marginLeft: 25 }}>
                   <label className="form-label mb-0">Project Cost</label>
                   <FormItem>
                     {getFieldDecorator('projectCost', {
-                      rules: [{ required: true, message: 'Please input the project cost' }],
+                      rules: [{ required: true, message: 'Please input the project cost' }, { validator: this.checkDigital }],
                     })(<Input style={{ width: 180, height: 40 }} placeholder="" />)}
                   </FormItem>
                 </div>
@@ -194,26 +259,34 @@ class ProjectNew extends React.Component {
                   <label className="form-label mb-0">Voters Needed</label>
                   <FormItem>
                     {getFieldDecorator('votersNeeded', {
-                      rules: [{ required: true, message: 'Please input the voters needed' }],
+                      rules: [{ required: true, message: 'Please input the voters needed' }, { validator: this.checkDigital }],
                     })(<Input style={{ width: 180, height: 40 }} placeholder="" />)}
                   </FormItem>
                 </div>
                 <div style={{ marginTop: 15, marginLeft: 25 }}>
                   <label className="form-label mb-0">Accepts Volunteers</label>
                   <FormItem>
-                    <Select style={{ width: 180, height: 40 }} defaultValue="Yes">
-                      <Option value="Yes">Yes</Option>
-                      <Option value="No">No</Option>
-                    </Select>
+                    {getFieldDecorator('selectedVolunteerFlag', {
+                          rules: [{ required: true, message: 'Please select the accepts volunteers' }],
+                        })(
+                      <Select style={{ width: 180, height: 40 }} defaultValue="Yes">
+                        <Option value="Yes">Yes</Option>
+                        <Option value="No">No</Option>
+                      </Select>
+                    )}
                   </FormItem>
                 </div>
                 <div style={{ marginTop: 15, marginLeft: 25 }}>
                   <label className="form-label mb-0">Accepts Donations</label>
                   <FormItem>
-                    <Select style={{ width: 180, height: 40 }} defaultValue="Yes">
-                      <Option value="Yes">Yes</Option>
-                      <Option value="No">No</Option>
-                    </Select>
+                    {getFieldDecorator('selectedDonationsFlag', {
+                          rules: [{ required: true, message: 'Please select the accepts donations' }],
+                        })(
+                      <Select style={{ width: 180, height: 40 }} defaultValue="Yes">
+                        <Option value="Yes">Yes</Option>
+                        <Option value="No">No</Option>
+                      </Select>
+                    )}
                   </FormItem>
                 </div>
               </div>
@@ -223,7 +296,7 @@ class ProjectNew extends React.Component {
                   <label className="form-label mb-0">Donations Value</label>
                   <FormItem>
                     {getFieldDecorator('donationsValue', {
-                      rules: [{ required: true, message: 'Please input the donations value' }],
+                      rules: [{ required: true, message: 'Please input the donations value' }, { validator: this.checkDigital }],
                     })(<Input style={{ width: 180, height: 40 }} placeholder="" />)}
                   </FormItem>
                 </div>
@@ -241,18 +314,22 @@ class ProjectNew extends React.Component {
                 <div style={{ marginTop: 15 }}>
                   <label className="form-label mb-0">Price Per Voters</label>
                   <FormItem>
-                    <Select style={{ width: 180, height: 40 }} defaultValue="100">
-                      <Option value="10">For 10</Option>
-                      <Option value="100">For 100</Option>
-                      <Option value="1000">For 1000</Option>
-                    </Select>
+                    {getFieldDecorator('perVoterCount', {
+                        rules: [{ required: true, message: 'Please select the voters' }],
+                      })(
+                      <Select style={{ width: 180, height: 40 }} defaultValue="100">
+                        <Option value="10">For 10</Option>
+                        <Option value="100">For 100</Option>
+                        <Option value="1000">For 1000</Option>
+                      </Select>
+                    )}
                   </FormItem>
                 </div>
                 <div style={{ marginTop: 15, marginLeft: 25 }}>
                   <label className="form-label mb-0">Price Per Voters</label>
                   <FormItem>
                     {getFieldDecorator('pricePerVoters', {
-                      rules: [{ required: true, message: 'Please input the price' }],
+                      rules: [{ required: true, message: 'Please input the price' }, { validator: this.checkDigital }],
                     })(<Input style={{ width: 180, height: 40 }} placeholder="" />)}
                   </FormItem>
                 </div>
@@ -289,9 +366,9 @@ class ProjectNew extends React.Component {
                   </FormItem>
                 </div>
                 <div style={{ marginTop: 15, marginLeft: 230 }}>
-                  <label className="form-label mb-0">Price Per Voters</label>
+                  <label className="form-label mb-0">Start / end date</label>
                   <FormItem>
-                    {getFieldDecorator('projectType', {
+                    {getFieldDecorator('projectPeriod', {
                       rules: [{ required: true, message: 'Please input the project name' }],
                     })(<RangePicker style={{ width: 385 }} />)}
                   </FormItem>
