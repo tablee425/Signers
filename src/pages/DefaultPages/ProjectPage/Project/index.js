@@ -159,12 +159,12 @@ class Project extends React.Component {
                 className="livesearch__topInput"
                 placeholder="Type to search..."
                 prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                style={{ width: 300, marginRight: 15 }}
+                style={{ width: 300 }}
                 onChange={this.onChangeFilter}
               />
-              <Link to={`/projects/new`} className="text-muted">
+              {/* <Link to={`/projects/new`} className="text-muted">
                 <Button type="primary">New Project</Button>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
