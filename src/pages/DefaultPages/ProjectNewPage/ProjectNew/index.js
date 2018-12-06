@@ -44,9 +44,7 @@ function fileIsIncorrectFiletype(file) {
   }
 }
 
-@connect(
-  mapStateToProps,
-)
+@connect(mapStateToProps)
 @Form.create()
 class ProjectNew extends React.Component {
   constructor(props) {
@@ -121,7 +119,7 @@ class ProjectNew extends React.Component {
                     location: values.selectedArea,
                     donations_url: values.donationsUrl,
                     description: values.description,
-                    photos: [res.data.newUuid]
+                    photos: [res.data.newUuid],
                   })
                   .then(res1 => {
                     if (res1.data.success) {
@@ -238,12 +236,12 @@ class ProjectNew extends React.Component {
                   <label className="form-label mb-0">Project Type</label>
                   <FormItem>
                     {getFieldDecorator('projectType', {
-                        rules: [{ required: true, message: 'Please select the project type' }],
-                      })(
+                      rules: [{ required: true, message: 'Please select the project type' }],
+                    })(
                       <Select style={{ width: 180, height: 40 }} defaultValue="Political">
                         <Option value="Political">Political</Option>
                         <Option value="NGO">NGO</Option>
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </div>
@@ -251,7 +249,10 @@ class ProjectNew extends React.Component {
                   <label className="form-label mb-0">Project Cost</label>
                   <FormItem>
                     {getFieldDecorator('projectCost', {
-                      rules: [{ required: true, message: 'Please input the project cost' }, { validator: this.checkDigital }],
+                      rules: [
+                        { required: true, message: 'Please input the project cost' },
+                        { validator: this.checkDigital },
+                      ],
                     })(<Input style={{ width: 180, height: 40 }} placeholder="" />)}
                   </FormItem>
                 </div>
@@ -259,7 +260,10 @@ class ProjectNew extends React.Component {
                   <label className="form-label mb-0">Voters Needed</label>
                   <FormItem>
                     {getFieldDecorator('votersNeeded', {
-                      rules: [{ required: true, message: 'Please input the voters needed' }, { validator: this.checkDigital }],
+                      rules: [
+                        { required: true, message: 'Please input the voters needed' },
+                        { validator: this.checkDigital },
+                      ],
                     })(<Input style={{ width: 180, height: 40 }} placeholder="" />)}
                   </FormItem>
                 </div>
@@ -267,12 +271,12 @@ class ProjectNew extends React.Component {
                   <label className="form-label mb-0">Accepts Volunteers</label>
                   <FormItem>
                     {getFieldDecorator('selectedVolunteerFlag', {
-                          rules: [{ required: true, message: 'Please select the accepts volunteers' }],
-                        })(
+                      rules: [{ required: true, message: 'Please select the accepts volunteers' }],
+                    })(
                       <Select style={{ width: 180, height: 40 }} defaultValue="Yes">
                         <Option value="Yes">Yes</Option>
                         <Option value="No">No</Option>
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </div>
@@ -280,12 +284,12 @@ class ProjectNew extends React.Component {
                   <label className="form-label mb-0">Accepts Donations</label>
                   <FormItem>
                     {getFieldDecorator('selectedDonationsFlag', {
-                          rules: [{ required: true, message: 'Please select the accepts donations' }],
-                        })(
+                      rules: [{ required: true, message: 'Please select the accepts donations' }],
+                    })(
                       <Select style={{ width: 180, height: 40 }} defaultValue="Yes">
                         <Option value="Yes">Yes</Option>
                         <Option value="No">No</Option>
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </div>
@@ -296,7 +300,10 @@ class ProjectNew extends React.Component {
                   <label className="form-label mb-0">Donations Value</label>
                   <FormItem>
                     {getFieldDecorator('donationsValue', {
-                      rules: [{ required: true, message: 'Please input the donations value' }, { validator: this.checkDigital }],
+                      rules: [
+                        { required: true, message: 'Please input the donations value' },
+                        { validator: this.checkDigital },
+                      ],
                     })(<Input style={{ width: 180, height: 40 }} placeholder="" />)}
                   </FormItem>
                 </div>
@@ -315,13 +322,13 @@ class ProjectNew extends React.Component {
                   <label className="form-label mb-0">Price Per Voters</label>
                   <FormItem>
                     {getFieldDecorator('perVoterCount', {
-                        rules: [{ required: true, message: 'Please select the voters' }],
-                      })(
+                      rules: [{ required: true, message: 'Please select the voters' }],
+                    })(
                       <Select style={{ width: 180, height: 40 }} defaultValue="100">
                         <Option value="10">For 10</Option>
                         <Option value="100">For 100</Option>
                         <Option value="1000">For 1000</Option>
-                      </Select>
+                      </Select>,
                     )}
                   </FormItem>
                 </div>
@@ -329,7 +336,10 @@ class ProjectNew extends React.Component {
                   <label className="form-label mb-0">Price Per Voters</label>
                   <FormItem>
                     {getFieldDecorator('pricePerVoters', {
-                      rules: [{ required: true, message: 'Please input the price' }, { validator: this.checkDigital }],
+                      rules: [
+                        { required: true, message: 'Please input the price' },
+                        { validator: this.checkDigital },
+                      ],
                     })(<Input style={{ width: 180, height: 40 }} placeholder="" />)}
                   </FormItem>
                 </div>

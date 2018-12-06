@@ -98,7 +98,7 @@ export const logout = () => (dispatch, getState) => {
         role: '',
         firstName: '',
         lastName: '',
-        clientId: ''
+        clientId: '',
       },
     }),
   )
@@ -139,7 +139,7 @@ const initialState = {
     role: '',
     firstName: '',
     lastName: '',
-    clientId: ''
+    clientId: '',
   },
 }
 
