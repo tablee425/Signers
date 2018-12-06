@@ -154,10 +154,18 @@ class ProjectNew extends React.Component {
                     )}
                   </FormItem>
                   <div className="row" style={{ marginRight: 30, marginTop: 2 }}>
-                    <Button type="primary" htmlType="submit" style={{ width: 140, height: 35, marginRight: 15 }}>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      style={{ width: 140, height: 35, marginRight: 15 }}
+                    >
                       Save
                     </Button>
-                    <Button type="normal" style={{ width: 140, height: 35 }} onClick={this.onCancelCreate}>
+                    <Button
+                      type="normal"
+                      style={{ width: 140, height: 35 }}
+                      onClick={this.onCancelCreate}
+                    >
                       Cancel
                     </Button>
                   </div>
@@ -256,10 +264,12 @@ class ProjectNew extends React.Component {
                   <FormItem>
                     {getFieldDecorator('selectedCountry', {
                       rules: [{ required: true, message: 'Please select the country' }],
-                    })(<Select style={{ width: 180, height: 40 }} placeholder="Country">
-                      <Option value="USA">USA</Option>
-                      <Option value="Mexico">Mexico</Option>
-                    </Select>)}
+                    })(
+                      <Select style={{ width: 180, height: 40 }} placeholder="Country">
+                        <Option value="USA">USA</Option>
+                        <Option value="Mexico">Mexico</Option>
+                      </Select>,
+                    )}
                   </FormItem>
                 </div>
                 <div style={{ marginTop: 15, marginLeft: 25 }}>
@@ -269,11 +279,13 @@ class ProjectNew extends React.Component {
                   <FormItem>
                     {getFieldDecorator('selectedArea', {
                       rules: [{ required: true, message: 'Please select the area' }],
-                    })(<Select style={{ width: 180, height: 40 }} placeholder="Area">
-                      <Option value="Area1">Area1</Option>
-                      <Option value="Area2">Area2</Option>
-                      <Option value="Area3">Area3</Option>
-                    </Select>)}
+                    })(
+                      <Select style={{ width: 180, height: 40 }} placeholder="Area">
+                        <Option value="Area1">Area1</Option>
+                        <Option value="Area2">Area2</Option>
+                        <Option value="Area3">Area3</Option>
+                      </Select>,
+                    )}
                   </FormItem>
                 </div>
                 <div style={{ marginTop: 15, marginLeft: 230 }}>
