@@ -96,7 +96,7 @@ class Client extends React.Component {
             tableData.push({
               key: `${item._id}`,
               Picture:
-                'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+                `${baseUrl}/image?id=${item.photoID}`,
               name: item.firstName,
               tp: 18,
               ap: 7,

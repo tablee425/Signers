@@ -58,14 +58,15 @@ class ClientDetail extends React.Component {
     previewUrl: null,
     page: 1,
     pageSize: 10,
-    projects: ['1', '2', '3', '4', '5', '6', '7', '8'],
     clientProjects: [],
+    clientName: '',
   }
 
   componentDidMount() {
     this.setState({ page: 1, pageSize: 10 })
     // alert(config.clientKey)
     this.getClientProjects()
+    this.getClientInfo()
   }
 
   getClientProjects = () => {
@@ -83,6 +84,21 @@ class ClientDetail extends React.Component {
       })
       .catch(error => {
         this.setState({ clientProjects: [] })
+      })
+  }
+
+  getClientInfo = () => {
+    axios
+      .post(`${baseUrl}/client/fetch`, {
+        user_id: config.clientKey,
+      })
+      .then(res => {
+        if (res.data.success) {
+          this.setState({ clientName: res.data.data[0].firstName, previewUrl: `${baseUrl}/image?id=${res.data.data[0].photoID}` })
+        } else {
+        }
+      })
+      .catch(error => {
       })
   }
 
@@ -173,17 +189,17 @@ class ClientDetail extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { redirect, tabKey, previewUrl, page, pageSize, projects, clientProjects } = this.state
+    const { redirect, tabKey, previewUrl, page, pageSize, clientProjects, clientName } = this.state
     if (redirect == 1) {
       return <Redirect push to="/clients" />
     } else if (redirect == 2) {
       return <Redirect push to="/projects/new" />
     }
     let renderProjects = []
-    projects.map((item, index) => {
+    clientProjects.map((item, index) => {
       renderProjects.push(
         <div className="clientNewPage__projectsItem" style={{}}>
-          <h4>Mayor NY</h4>
+          <h4>{item.name}</h4>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 15 }}>
             <h6>Cost per project</h6>
             <h6>$6,135,343</h6>
@@ -247,8 +263,8 @@ class ClientDetail extends React.Component {
           </Button>
         </div>
       )
-    let src = previewUrl || 'resources/images/avatars/1.jpg'
-    let avatarSrc = 'resources/images/avatar.jpg'
+    let src = previewUrl || 'resources/images/plus.png'
+    let avatarSrc = 'resources/images/plus.png'
     return (
       <div>
         <Form onSubmit={this.handleSubmit} className="login-form">
@@ -256,8 +272,8 @@ class ClientDetail extends React.Component {
             <div className="card-body">
               <img src={src} border="true" className="clientNewPage__avatar" />
               <div className="clientNewPage__leftSideContainer">
-                <h2>Client Name</h2>
-                <div>
+                <h1>{clientName}</h1>
+                <div style={{ marginTop: 5 }}>
                   <label>
                     <FileInput
                       readAs="binary"
