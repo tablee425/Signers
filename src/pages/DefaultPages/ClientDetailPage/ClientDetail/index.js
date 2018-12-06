@@ -59,7 +59,7 @@ class ClientDetail extends React.Component {
     page: 1,
     pageSize: 10,
     projects: ['1', '2', '3', '4', '5', '6', '7', '8'],
-    clientProjects: []
+    clientProjects: [],
   }
 
   componentDidMount() {
