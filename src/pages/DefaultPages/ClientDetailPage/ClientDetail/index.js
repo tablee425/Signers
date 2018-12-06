@@ -26,11 +26,18 @@ import { Redirect } from 'react-router'
 import { data } from './data.json'
 import ReactFileReader from 'react-file-reader'
 import config from '../../../../web-config'
+import { connect } from 'react-redux'
+import axios from 'axios'
+import { baseUrl } from '../../../../config'
 
 const Panel = Collapse.Panel
 const TabPane = Tabs.TabPane
 const FormItem = Form.Item
 const allowedFileTypes = ['image/png', 'image/jpeg', 'image/gif']
+const mapStateToProps = (state, props) => ({
+  userState: state.app.userState,
+})
+
 function fileIsIncorrectFiletype(file) {
   if (allowedFileTypes.indexOf(file.type) === -1) {
     return true
@@ -39,6 +46,7 @@ function fileIsIncorrectFiletype(file) {
   }
 }
 
+@connect(mapStateToProps)
 @Form.create()
 class ClientDetail extends React.Component {
   constructor(props) {
@@ -51,11 +59,31 @@ class ClientDetail extends React.Component {
     page: 1,
     pageSize: 10,
     projects: ['1', '2', '3', '4', '5', '6', '7', '8'],
+    clientProjects: []
   }
 
   componentDidMount() {
     this.setState({ page: 1, pageSize: 10 })
     // alert(config.clientKey)
+    this.getClientProjects()
+  }
+
+  getClientProjects = () => {
+    const { userState } = this.props
+    axios
+      .post(`${baseUrl}/projects/list/admin`, {
+        user_id: config.clientKey,
+      })
+      .then(res => {
+        if (res.data.success) {
+          this.setState({ clientProjects: res.data.data })
+        } else {
+          this.setState({ clientProjects: [] })
+        }
+      })
+      .catch(error => {
+        this.setState({ clientProjects: [] })
+      })
   }
 
   compareToFirstPassword = (rule, value, callback) => {
@@ -145,7 +173,7 @@ class ClientDetail extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { redirect, tabKey, previewUrl, page, pageSize, projects } = this.state
+    const { redirect, tabKey, previewUrl, page, pageSize, projects, clientProjects } = this.state
     if (redirect == 1) {
       return <Redirect push to="/clients" />
     } else if (redirect == 2) {
@@ -367,7 +395,7 @@ class ClientDetail extends React.Component {
                     </Button>
                   </div>
                 </TabPane>
-                <TabPane tab={<span>Projects</span>} key="3">
+                <TabPane tab={<span>{`Projects (${clientProjects.length})`}</span>} key="3">
                   <div className="clientNewPage__projectsContainer" style={{}}>
                     {renderProjects}
                   </div>

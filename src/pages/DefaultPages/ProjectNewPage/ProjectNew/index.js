@@ -26,6 +26,7 @@ import { data } from './data.json'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { baseUrl } from '../../../../config'
+import config from '../../../../web-config'
 
 const mapStateToProps = (state, props) => ({
   userState: state.app.userState,
@@ -105,7 +106,7 @@ class ProjectNew extends React.Component {
               if (res.data.success) {
                 axios
                   .post(`${baseUrl}/projects/new`, {
-                    owner: userState.clientId,
+                    owner: config.clientKey,
                     name: values.projectName,
                     allowed_age: 15,
                     date_registered: new Date(values.projectPeriod[0].format()),
