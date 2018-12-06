@@ -94,12 +94,14 @@ class ClientDetail extends React.Component {
       })
       .then(res => {
         if (res.data.success) {
-          this.setState({ clientName: res.data.data[0].firstName, previewUrl: `${baseUrl}/image?id=${res.data.data[0].photoID}` })
+          this.setState({
+            clientName: res.data.data[0].firstName,
+            previewUrl: `${baseUrl}/image?id=${res.data.data[0].photoID}`,
+          })
         } else {
         }
       })
-      .catch(error => {
-      })
+      .catch(error => {})
   }
 
   compareToFirstPassword = (rule, value, callback) => {

@@ -95,8 +95,7 @@ class Client extends React.Component {
           res.data.data.map((item, index) => {
             tableData.push({
               key: `${item._id}`,
-              Picture:
-                `${baseUrl}/image?id=${item.photoID}`,
+              Picture: `${baseUrl}/image?id=${item.photoID}`,
               name: item.firstName,
               tp: 18,
               ap: 7,
