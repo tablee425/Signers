@@ -58,6 +58,8 @@ class ProjectDetail extends React.Component {
       return <Redirect push to="/projects" />
     } else if (redirect == 2) {
       return <Redirect push to="/clients/detail" />
+    } else if (redirect == 3) {
+      return <Redirect push to="/projects/edit" />
     }
     let src = project ? `${baseUrl}/image?id=${project.photos[0]}` : 'resources/images/plus.png'
     let projectName = project ? project.name : ''
@@ -100,7 +102,9 @@ class ProjectDetail extends React.Component {
                   </Button>
                   <Button
                     style={{ width: 140, height: 35, backgroundColor: '#D1D8E0' }}
-                    onClick={this.onCancelCreate}
+                    onClick={() => {
+                      this.setState({ redirect: 3 })
+                    }}
                   >
                     Edit Project
                   </Button>
