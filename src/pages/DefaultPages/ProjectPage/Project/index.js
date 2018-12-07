@@ -17,12 +17,14 @@ import { tableData } from './data.json'
 import { Link, withRouter } from 'react-router-dom'
 import config from '../../../../web-config'
 import { Redirect } from 'react-router'
+import axios from 'axios'
+import { baseUrl } from '../../../../config'
 
 const Panel = Collapse.Panel
 
 class Project extends React.Component {
   state = {
-    tableData: tableData,
+    tableData: [],
     tableColumns: [],
     redirect: 0,
   }
@@ -37,40 +39,60 @@ class Project extends React.Component {
         },
         {
           title: 'Volunteers',
-          dataIndex: 'volunteers',
-          key: 'volunteers',
+          key: 'expects_volunteers',
+          render: (text, record) => (
+            <div>
+              {`${record.expects_volunteers ? 'Yes' : 'No'}`}
+            </div>
+          ),
         },
         {
           title: 'Donations',
-          dataIndex: 'donations',
           key: 'donations',
+          render: (text, record) => (
+            <div>
+              {`${record.donations ? 'Yes' : 'No'}`}
+            </div>
+          ),
         },
         {
           title: 'Description',
-          dataIndex: 'description',
           key: 'description',
+          render: (text, record) => (
+            <div className="projectPage__table_description">
+              {`${record.description}`}
+            </div>
+          ),
         },
         {
           title: 'Starts',
-          dataIndex: 'Starts',
-          key: 'Starts',
+          key: 'date_registered',
+          render: (text, record) => (
+            <div>
+              {`${record.date_registered}`}
+            </div>
+          ),
         },
         {
           title: 'Ends',
-          dataIndex: 'Ends',
-          key: 'Ends',
+          key: 'date_expiration',
+          render: (text, record) => (
+            <div>
+              {`${record.date_expiration}`}
+            </div>
+          ),
         },
         {
           title: 'Voters Needed',
-          dataIndex: 'vn',
-          key: 'vn',
-          sorter: (a, b) => a.vn - b.vn,
+          dataIndex: 'expected_voters',
+          key: 'expected_voters',
+          sorter: (a, b) => a.expected_voters - b.expected_voters,
         },
         {
           title: 'Voters Signed',
-          dataIndex: 'vs',
-          key: 'vs',
-          sorter: (a, b) => a.vs - b.vs,
+          dataIndex: 'signed_voters',
+          key: 'signed_voters',
+          sorter: (a, b) => a.signed_voters - b.signed_voters,
         },
         {
           title: 'Type',
@@ -79,17 +101,17 @@ class Project extends React.Component {
         },
         {
           title: 'Location',
-          dataIndex: 'location',
-          key: 'location',
+          dataIndex: 'country',
+          key: 'country',
         },
         {
           title: 'Action',
-          key: 'action',
+          key: '_id',
           render: (text, record) => (
             <span>
               <Button
                 onClick={() => {
-                  this.onProjectDetail(record.key)
+                  this.onProjectDetail(record._id)
                 }}
               >
                 Detail
@@ -99,6 +121,7 @@ class Project extends React.Component {
         },
       ],
     })
+    this.getAllProjects();
   }
 
   handleChange = (pagination, filters, sorter) => {
@@ -108,6 +131,22 @@ class Project extends React.Component {
   onProjectDetail = key => {
     config.projectKey = key
     this.setState({ redirect: 1 })
+  }
+
+  getAllProjects = () => {
+    axios
+      .post(`${baseUrl}/projects/list/admin`, {
+      })
+      .then(res => {
+        if (res.data.success) {
+          this.setState({ tableData: res.data.data })
+        } else {
+          this.setState({ tableData: [] })
+        }
+      })
+      .catch(error => {
+        this.setState({ tableData: [] })
+      })
   }
 
   onChangeFilter = e => {
@@ -120,7 +159,7 @@ class Project extends React.Component {
       tableData.map(item => {
         if (item.name.includes(filterStr)) {
           newData.push(item)
-        } else if (item.volunteers.toString().includes(filterStr)) {
+        } else if (item.expects_volunteers.toString().includes(filterStr)) {
           newData.push(item)
         } else if (item.donations.toString().includes(filterStr)) {
           newData.push(item)
@@ -154,7 +193,7 @@ class Project extends React.Component {
         <div className="card-header">
           <div className="utils__title">
             <strong>Project List</strong>
-            <div className="clientPage__searchInputContainer">
+            <div className="projectPage__searchInputContainer">
               <Input
                 className="livesearch__topInput"
                 placeholder="Type to search..."
@@ -162,9 +201,6 @@ class Project extends React.Component {
                 style={{ width: 300 }}
                 onChange={this.onChangeFilter}
               />
-              {/* <Link to={`/projects/new`} className="text-muted">
-                <Button type="primary">New Project</Button>
-              </Link> */}
             </div>
           </div>
         </div>

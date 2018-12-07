@@ -117,7 +117,8 @@ class ProjectNew extends React.Component {
                     expected_voters: values.votersNeeded,
                     expects_volunteers: values.selectedDonationsFlag == 'Yes',
                     expects_donations: values.selectedDonationsFlag == 'Yes',
-                    price_for_signers_for_100_voters: values.pricePerVoters, // values.perVoterCount == '10' ? '100' ? '1000'
+                    unit_voters: values.perVoterCount,
+                    price_for_signers_for_100_voters: values.pricePerVoters,
                     type: values.projectType,
                     country: this.state.selectedCountry,
                     location: this.state.selectedArea,
@@ -346,10 +347,10 @@ class ProjectNew extends React.Component {
                     {getFieldDecorator('perVoterCount', {
                       rules: [{ required: true, message: 'Please select the voters' }],
                     })(
-                      <Select style={{ width: 180, height: 40 }} defaultValue="100">
-                        <Option value="10">For 10</Option>
-                        <Option value="100">For 100</Option>
-                        <Option value="1000">For 1000</Option>
+                      <Select style={{ width: 180, height: 40 }} defaultValue={100}>
+                        <Option value={10}>For 10</Option>
+                        <Option value={100}>For 100</Option>
+                        <Option value={1000}>For 1000</Option>
                       </Select>,
                     )}
                   </FormItem>

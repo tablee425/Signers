@@ -1,9 +1,20 @@
 @import '../../../../resources/mixins';
 
-.clientPage {
+.projectPage {
     &__searchInputContainer {
         position: absolute;
         top: rem(16);
         right: rem(30);
     }
+    &__table_description {
+        display: block;
+        white-space: nowrap;
+        width: 15em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+th {
+    text-align: center;
 }

@@ -22,6 +22,7 @@ import './style.scss'
 import { Link, withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
 import { data } from './data.json'
+import config from '../../../../web-config'
 
 const Option = Select.Option
 const { RangePicker } = DatePicker
@@ -98,7 +99,9 @@ class ProjectDetail extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form
     const { redirect } = this.state
-    if (redirect == 1) {
+    if (config.projectKey == '') {
+      return <Redirect push to="/projects" />
+    } else if (redirect == 1) {
       return <Redirect push to="/projects" />
     } else if (redirect == 2) {
       return <Redirect push to="/projects/edit" />
