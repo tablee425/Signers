@@ -40,47 +40,29 @@ class Project extends React.Component {
         {
           title: 'Volunteers',
           key: 'expects_volunteers',
-          render: (text, record) => (
-            <div>
-              {`${record.expects_volunteers ? 'Yes' : 'No'}`}
-            </div>
-          ),
+          render: (text, record) => <div>{`${record.expects_volunteers ? 'Yes' : 'No'}`}</div>,
         },
         {
           title: 'Donations',
           key: 'donations',
-          render: (text, record) => (
-            <div>
-              {`${record.donations ? 'Yes' : 'No'}`}
-            </div>
-          ),
+          render: (text, record) => <div>{`${record.donations ? 'Yes' : 'No'}`}</div>,
         },
         {
           title: 'Description',
           key: 'description',
           render: (text, record) => (
-            <div className="projectPage__table_description">
-              {`${record.description}`}
-            </div>
+            <div className="projectPage__table_description">{`${record.description}`}</div>
           ),
         },
         {
           title: 'Starts',
           key: 'date_registered',
-          render: (text, record) => (
-            <div>
-              {`${record.date_registered}`}
-            </div>
-          ),
+          render: (text, record) => <div>{`${record.date_registered}`}</div>,
         },
         {
           title: 'Ends',
           key: 'date_expiration',
-          render: (text, record) => (
-            <div>
-              {`${record.date_expiration}`}
-            </div>
-          ),
+          render: (text, record) => <div>{`${record.date_expiration}`}</div>,
         },
         {
           title: 'Voters Needed',
@@ -121,7 +103,7 @@ class Project extends React.Component {
         },
       ],
     })
-    this.getAllProjects();
+    this.getAllProjects()
   }
 
   handleChange = (pagination, filters, sorter) => {
@@ -135,8 +117,7 @@ class Project extends React.Component {
 
   getAllProjects = () => {
     axios
-      .post(`${baseUrl}/projects/list/admin`, {
-      })
+      .post(`${baseUrl}/projects/list/admin`, {})
       .then(res => {
         if (res.data.success) {
           this.setState({ tableData: res.data.data })
