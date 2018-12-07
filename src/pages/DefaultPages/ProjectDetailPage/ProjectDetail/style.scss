@@ -33,4 +33,15 @@
     &__cancelBtn {
         text-align: center;
     }
+    &__blockLabel {
+        width: 180px;
+        display: block;
+    }
+    &__marginTopLabel {
+        margin-top: 15px;
+    }
+    &__descLabel {
+        margin-top: 15px;
+        width: 1000px;
+    }
 }

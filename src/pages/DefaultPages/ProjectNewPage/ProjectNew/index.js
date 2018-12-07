@@ -120,6 +120,8 @@ class ProjectNew extends React.Component {
                     unit_voters: values.perVoterCount,
                     price_for_signers_for_100_voters: values.pricePerVoters,
                     type: values.projectType,
+                    cost: values.projectCost,
+                    donationsValue: values.donationsValue,
                     country: this.state.selectedCountry,
                     location: this.state.selectedArea,
                     donations_url: values.donationsUrl,
@@ -405,7 +407,7 @@ class ProjectNew extends React.Component {
                   </FormItem>
                 </div>
                 <div style={{ marginTop: 15, marginLeft: 230 }}>
-                  <label className="form-label mb-0">Start / end date</label>
+                  <label className="form-label mb-0">Start / End Date</label>
                   <FormItem>
                     {getFieldDecorator('projectPeriod', {
                       rules: [{ required: true, message: 'Please input the project name' }],

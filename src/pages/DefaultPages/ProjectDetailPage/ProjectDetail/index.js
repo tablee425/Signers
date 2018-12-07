@@ -1,33 +1,13 @@
 import React from 'react'
 import {
-  Collapse,
-  Slider,
   Form,
-  Calendar,
-  Badge,
-  Table,
-  Tabs,
-  Input,
-  Dropdown,
   Button,
-  Icon,
-  Menu,
-  Pagination,
-  List,
-  Avatar,
-  Select,
-  DatePicker,
 } from 'antd'
 import './style.scss'
-import { Link, withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
-import { data } from './data.json'
+import axios from 'axios'
+import { baseUrl } from '../../../../config'
 import config from '../../../../web-config'
-
-const Option = Select.Option
-const { RangePicker } = DatePicker
-const FormItem = Form.Item
-const { TextArea } = Input
 
 @Form.create()
 class ProjectDetail extends React.Component {
@@ -36,41 +16,26 @@ class ProjectDetail extends React.Component {
   }
   state = {
     redirect: 0,
+    project: null,
   }
 
   componentDidMount() {
-    this.setState({ page: 1, pageSize: 10 })
+    this.getProjectInfo();
   }
 
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!')
-    } else {
-      callback()
-    }
-  }
-
-  cancelButtonClicked = () => {
-    return this.state.cancelButtonClicked
-  }
-
-  resetCancelButtonClicked = () => {
-    this.setState({ cancelButtonClicked: false })
-  }
-
-  showInvalidFileTypeMessage = file => {
-    window.alert('Tried to upload invalid filetype ' + file.type)
-  }
-
-  showProgressBar = () => {
-    this.setState({ progressBarVisible: true })
-  }
-
-  updateProgressBar = event => {
-    this.setState({
-      progressPercent: (event.loaded / event.total) * 100,
-    })
+  getProjectInfo = () => {
+    axios
+      .post(`${baseUrl}/project/admin`, {
+        project_id: config.projectKey
+      })
+      .then(res1 => {
+        if (res1.data.success) {
+          this.setState({ project: res1.data.data[0] })
+        } else {
+          alert('error')
+        }
+      })
+      .catch(error => {})
   }
 
   handleSubmit = e => {
@@ -83,110 +48,126 @@ class ProjectDetail extends React.Component {
     })
   }
 
-  validateNumber = (rule, value, callback) => {
-    const form = this.props.form
-    if (value && isNaN(value)) {
-      callback('This must be number!')
-    } else {
-      callback()
-    }
-  }
-
   goToEditProject = () => {
     this.setState({ redirect: 2 })
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
-    const { redirect } = this.state
+    const { redirect, project } = this.state
+
     if (config.projectKey == '') {
       return <Redirect push to="/projects" />
     } else if (redirect == 1) {
       return <Redirect push to="/projects" />
     } else if (redirect == 2) {
-      return <Redirect push to="/projects/edit" />
+      return <Redirect push to="/clients/detail" />
     }
+    let src = project ? `${baseUrl}/image?id=${project.photos[0]}` : 'resources/images/plus.png'
+    let projectName = project ? project.name : ''
+    let projectType = project ? project.type : ''
+    let projectCost = project ? `$${project.cost}` : ''
+    let votersNeeded = project ? project.expected_voters : ''
+    let volunteersFlag = project ? project.expects_volunteers ? 'Yes' : 'No' : ''
+    let donationsFlag = project ? project.expects_donations ? 'Yes' : 'No' : ''
+    let donationsValue = project ? `$${project.donations_value}` : ''
+    let donationsUrl = project ? project.donations_url : ''
+    let pricePerVoters = project ? `${project.unit_voters} voters = $${project.price_for_signers_for_100_voters}` : ''
+    let location = project ? `${project.country} - ${project.location}` : ''
+    let startEndDate = project ? `${project.date_registered} - ${project.date_expiration}` : ''
+    let description = project ? project.description : ''
+    
     return (
       <div>
-        <Form onSubmit={this.handleSubmit} className="login-form">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="form-label text-black mt-1">
-                <h2>Project Name</h2>
-              </h4>
-              <div className="productDetailPage__editprojectBtn">
-                <Button type="primary" onClick={this.goToEditProject}>
-                  Edit Project
-                </Button>
-              </div>
-            </div>
+        <div className="row">
+          <div style={{ width: 230, height: 425, backgroundColor: 'white', padding: 15 }}>
+            <img style={{ width: 200, height: 395 }} src={src} />
           </div>
-
-          <div className="card">
-            <div className="card-body">
-              <h4 className="text-black mt-2">
-                <strong>Project Requirements</strong>
-              </h4>
-
-              <div className="row">
-                <div style={{ marginLeft: 15 }}>
-                  <h6 className="form-label mt-4">Requires Volunteers</h6>
-                  <h6 className="mt-3">Yes</h6>
-                </div>
-                <div style={{ marginLeft: 60 }}>
-                  <h6 className="form-label mt-4">Requires Donations</h6>
-                  <h6 className="mt-3">Yes</h6>
-                </div>
-                <div style={{ marginLeft: 60 }}>
-                  <h6 className="form-label mt-4">Volunteers Needed</h6>
-                  <h6 className="mt-3">250</h6>
-                </div>
-                <div style={{ marginLeft: 60 }}>
-                  <h6 className="form-label mt-4">Project Type</h6>
-                  <h6 className="mt-3">Political</h6>
-                </div>
-              </div>
-
-              <div className="row">
-                <div style={{ marginLeft: 15, marginTop: 60 }}>
-                  <h6 className="form-label mt-2">Description</h6>
-                  <h6 className="mt-3">Sample...</h6>
-                </div>
-              </div>
-
-              <div className="row">
-                <div style={{ marginLeft: 15, marginTop: 60 }}>
-                  <h6 className="form-label mt-2">Location</h6>
-                  <h6 className="mt-3">United States / New Jersey</h6>
-                </div>
-                <div style={{ marginLeft: 100, marginTop: 60 }}>
-                  <h6 className="form-label mt-2">Start and end date</h6>
-                  <h6 className="mt-3">{`2018.11.08      -      2018.11.08`}</h6>
+          <div style={{ flex: 1, paddingLeft: 30 }}>
+            <div className="row">
+              <div
+                style={{
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
+                  marginTop: 15,
+                }}
+              >
+                <h1 style={{ fontWeight: 'bold' }}>
+                  { projectName }
+                </h1>
+                <div className="row" style={{ marginRight: 30, marginTop: 2 }}>
+                  <Button
+                    style={{ width: 140, height: 35, marginRight: 15, backgroundColor: '#D1D8E0' }}
+                  >
+                    Close Project
+                  </Button>
+                  <Button
+                    style={{ width: 140, height: 35, backgroundColor: '#D1D8E0' }}
+                    onClick={this.onCancelCreate}
+                  >
+                    Edit Project
+                  </Button>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="form-actions">
-            <Button
-              style={{ width: 150 }}
-              type="primary"
-              htmlType="submit"
-              className="productDetailPage__saveBtn mr-3"
-            >
-              Add project
-            </Button>
-            <Button
-              style={{ width: 150 }}
-              className="productDetailPage__cancelBtn"
-              onClick={() => {
-                this.setState({ redirect: 1 })
-              }}
-            >
-              Cancel
-            </Button>
+            <div className="row">
+              <div style={{ marginTop: 15 }}>
+                <label className="productDetailPage__blockLabel">Project Type</label>
+                <label className="productDetailPage__marginTopLabel">{ projectType }</label>
+              </div>
+              <div style={{ marginTop: 15, marginLeft: 25 }}>
+                <label className="productDetailPage__blockLabel">Project Cost</label>
+                <label className="productDetailPage__marginTopLabel">{ projectCost }</label>
+              </div>
+              <div style={{ marginTop: 15, marginLeft: 25 }}>
+                <label className="productDetailPage__blockLabel">Voters Needed</label>
+                <label className="productDetailPage__marginTopLabel">{ votersNeeded }</label>
+              </div>
+              <div style={{ marginTop: 15, marginLeft: 25 }}>
+                <label className="productDetailPage__blockLabel">Accepts Volunteers</label>
+                <label className="productDetailPage__marginTopLabel">{ volunteersFlag }</label>
+              </div>
+              <div style={{ marginTop: 15, marginLeft: 25 }}>
+                <label className="productDetailPage__blockLabel">Accepts Donations</label>
+                <label className="productDetailPage__marginTopLabel">{ donationsFlag }</label>
+              </div>
+            </div>
+
+            <div className="row" style={{ marginTop: 20 }}>
+              <div style={{ marginTop: 15 }}>
+                <label className="productDetailPage__blockLabel">Donations Value</label>
+                <label className="productDetailPage__marginTopLabel">{ donationsValue }</label>
+              </div>
+              <div style={{ marginTop: 15, marginLeft: 25 }}>
+                <label className="productDetailPage__blockLabel">Donations Url</label>
+                <label className="productDetailPage__marginTopLabel" style={{ color: '#378EFF' }}>{ donationsUrl }</label>
+              </div>
+              <div style={{ marginTop: 15, marginLeft: 50 }}>
+                <label className="productDetailPage__blockLabel">Price Per Voters</label>
+                <label className="productDetailPage__marginTopLabel">{ pricePerVoters }</label>
+              </div>
+            </div>
+
+            <div className="row" style={{ marginTop: 20 }}>
+              <div style={{ marginTop: 15 }}>
+                <label className="productDetailPage__blockLabel">Location</label>
+                <label className="productDetailPage__marginTopLabel">{ location }</label>
+              </div>
+              <div style={{ marginTop: 15, marginLeft: 25 }}>
+                <label className="productDetailPage__blockLabel">Start / End Date</label>
+                <label className="productDetailPage__marginTopLabel">{ startEndDate }</label>
+              </div>
+            </div>
+
+            <div className="row" style={{ marginTop: 30 }}>
+              <div style={{ marginTop: 15 }}>
+                <label className="productDetailPage__blockLabel">Description</label>
+                <label className="productDetailPage__descLabel">{ description }</label>                  
+              </div>
+            </div>
           </div>
-        </Form>
+        </div>
       </div>
     )
   }
