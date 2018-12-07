@@ -192,7 +192,9 @@ class ClientDetail extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form
     const { redirect, tabKey, previewUrl, page, pageSize, clientProjects, clientName } = this.state
-    if (redirect == 1) {
+    if (config.clientKey == '') {
+      return <Redirect push to="/clients" />
+    } else if (redirect == 1) {
       return <Redirect push to="/clients" />
     } else if (redirect == 2) {
       return <Redirect push to="/projects/new" />

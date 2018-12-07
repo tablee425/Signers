@@ -22,7 +22,7 @@ import './style.scss'
 import { Link, withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
 import FileInput from 'react-simple-file-input'
-import { data } from './data.json'
+import { US_Region, Mexico_Region } from './data.json'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { baseUrl } from '../../../../config'
@@ -55,6 +55,9 @@ class ProjectNew extends React.Component {
     redirect: 0,
     projectImage: null,
     previewUrl: null,
+    selectedCountry: '',
+    selectedArea: '',
+    areaArray: []
   }
 
   componentDidMount() {
@@ -116,8 +119,8 @@ class ProjectNew extends React.Component {
                     expects_donations: values.selectedDonationsFlag == 'Yes',
                     price_for_signers_for_100_voters: values.pricePerVoters, // values.perVoterCount == '10' ? '100' ? '1000'
                     type: values.projectType,
-                    country: values.selectedCountry,
-                    location: values.selectedArea,
+                    country: this.state.selectedCountry,
+                    location: this.state.selectedArea,
                     donations_url: values.donationsUrl,
                     description: values.description,
                     photos: [res.data.newUuid],
@@ -162,16 +165,32 @@ class ProjectNew extends React.Component {
     reader.readAsDataURL(file)
   }
 
+  handleSelectCountry = value => {
+    this.setState({ selectedCountry: value, areaArray: value == 'USA' ? US_Region : Mexico_Region })
+  }
+
+  handleSelectArea = value => {
+    this.setState({ selectedArea: value })
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
-    const { redirect, projectImage, previewUrl } = this.state
+    const { redirect, projectImage, previewUrl, areaArray } = this.state
 
-    if (redirect == 1) {
+    if (config.clientKey == '') {
+      return <Redirect push to="/clients" />
+    } else if (redirect == 1) {
       return <Redirect push to="/projects" />
     } else if (redirect == 2) {
       return <Redirect push to="/clients/detail" />
     }
     let src = previewUrl || 'resources/images/plus.png'
+    let regions = [];
+    areaArray.map((item, index) => {
+      regions.push(
+        <Option key={`Region_${index}`} value={item.name}>{item.name}</Option>
+      )
+    })
     return (
       <div>
         <Form onSubmit={this.handleSubmit} className="login-form">
@@ -353,7 +372,7 @@ class ProjectNew extends React.Component {
                     {getFieldDecorator('selectedCountry', {
                       rules: [{ required: true, message: 'Please select the country' }],
                     })(
-                      <Select style={{ width: 180, height: 40 }} placeholder="Country">
+                      <Select style={{ width: 180, height: 40 }} placeholder="Country" onChange={this.handleSelectCountry}>
                         <Option value="USA">USA</Option>
                         <Option value="Mexico">Mexico</Option>
                       </Select>,
@@ -368,10 +387,8 @@ class ProjectNew extends React.Component {
                     {getFieldDecorator('selectedArea', {
                       rules: [{ required: true, message: 'Please select the area' }],
                     })(
-                      <Select style={{ width: 180, height: 40 }} placeholder="Area">
-                        <Option value="Area1">Area1</Option>
-                        <Option value="Area2">Area2</Option>
-                        <Option value="Area3">Area3</Option>
+                      <Select style={{ width: 180, height: 40 }} placeholder="Area" onChange={this.handleSelectArea}>
+                        { regions }
                       </Select>,
                     )}
                   </FormItem>
