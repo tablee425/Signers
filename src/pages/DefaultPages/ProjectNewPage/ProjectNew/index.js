@@ -57,7 +57,7 @@ class ProjectNew extends React.Component {
     previewUrl: null,
     selectedCountry: '',
     selectedArea: '',
-    areaArray: []
+    areaArray: [],
   }
 
   componentDidMount() {
@@ -185,10 +185,12 @@ class ProjectNew extends React.Component {
       return <Redirect push to="/clients/detail" />
     }
     let src = previewUrl || 'resources/images/plus.png'
-    let regions = [];
+    let regions = []
     areaArray.map((item, index) => {
       regions.push(
-        <Option key={`Region_${index}`} value={item.name}>{item.name}</Option>
+        <Option key={`Region_${index}`} value={item.name}>
+          {item.name}
+        </Option>,
       )
     })
     return (
@@ -372,7 +374,11 @@ class ProjectNew extends React.Component {
                     {getFieldDecorator('selectedCountry', {
                       rules: [{ required: true, message: 'Please select the country' }],
                     })(
-                      <Select style={{ width: 180, height: 40 }} placeholder="Country" onChange={this.handleSelectCountry}>
+                      <Select
+                        style={{ width: 180, height: 40 }}
+                        placeholder="Country"
+                        onChange={this.handleSelectCountry}
+                      >
                         <Option value="USA">USA</Option>
                         <Option value="Mexico">Mexico</Option>
                       </Select>,
@@ -387,8 +393,12 @@ class ProjectNew extends React.Component {
                     {getFieldDecorator('selectedArea', {
                       rules: [{ required: true, message: 'Please select the area' }],
                     })(
-                      <Select style={{ width: 180, height: 40 }} placeholder="Area" onChange={this.handleSelectArea}>
-                        { regions }
+                      <Select
+                        style={{ width: 180, height: 40 }}
+                        placeholder="Area"
+                        onChange={this.handleSelectArea}
+                      >
+                        {regions}
                       </Select>,
                     )}
                   </FormItem>
