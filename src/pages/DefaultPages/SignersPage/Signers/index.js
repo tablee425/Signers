@@ -53,8 +53,7 @@ class Signers extends React.Component {
     }
     return (
       <section className="card">
-        <div className="card-header">
-        </div>
+        <div className="card-header" />
       </section>
     )
   }
