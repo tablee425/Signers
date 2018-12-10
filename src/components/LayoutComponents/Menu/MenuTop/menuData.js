@@ -15,6 +15,11 @@ export default [
     url: '/projects',
   },
   {
+    title: 'Signers',
+    key: 'signers',
+    url: '/signers',
+  },
+  {
     title: 'Reports',
     key: 'report',
     url: '/report',

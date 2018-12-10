@@ -15,6 +15,7 @@ import ProjectNewPage from 'pages/DefaultPages/ProjectNewPage'
 import ProjectDetailPage from 'pages/DefaultPages/ProjectDetailPage'
 import ProjectEditPage from 'pages/DefaultPages/ProjectEditPage'
 import ReportPage from 'pages/DefaultPages/ReportPage'
+import SignersPage from 'pages/DefaultPages/SignersPage'
 
 const loadable = loader =>
   Loadable({
@@ -87,6 +88,7 @@ class Routes extends React.Component {
         <Route exact path="/projects/new" component={ProjectNewPage} />
         <Route exact path="/projects/detail" component={ProjectDetailPage} />
         <Route exact path="/projects/edit" component={ProjectEditPage} />
+        <Route exact path="/signers" component={SignersPage} />
         <Route exact path="/report" component={ReportPage} />
         <Route exact path="/dashboard" component={DashboardPage} />
         <Route
