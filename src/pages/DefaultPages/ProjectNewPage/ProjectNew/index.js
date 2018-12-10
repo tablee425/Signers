@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  Form,
-  Input,
-  Button,
-  Select,
-  DatePicker,
-} from 'antd'
+import { Form, Input, Button, Select, DatePicker } from 'antd'
 import './style.scss'
 import { Redirect } from 'react-router'
 import FileInput from 'react-simple-file-input'
@@ -41,8 +35,7 @@ class ProjectNew extends React.Component {
     areaArray: [],
   }
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   checkDigital = (rule, value, callback) => {
     const form = this.props.form

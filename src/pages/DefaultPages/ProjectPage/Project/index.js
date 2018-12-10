@@ -186,11 +186,7 @@ class Project extends React.Component {
           </div>
         </div>
         <div className="card-body">
-          <Table
-            columns={tableColumns}
-            dataSource={tableData}
-            onChange={this.handleChange}
-          />
+          <Table columns={tableColumns} dataSource={tableData} onChange={this.handleChange} />
         </div>
       </section>
     )

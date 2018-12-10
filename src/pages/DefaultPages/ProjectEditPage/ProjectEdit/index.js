@@ -55,7 +55,7 @@ class ProjectEdit extends React.Component {
   }
 
   componentDidMount() {
-    this.getProjectDetails();
+    this.getProjectDetails()
   }
 
   getProjectDetails = () => {
@@ -65,11 +65,11 @@ class ProjectEdit extends React.Component {
       })
       .then(res1 => {
         if (res1.data.success) {
-          let project = res1.data.data[0];
+          let project = res1.data.data[0]
           this.setState({
             project,
             previewUrl: `${baseUrl}/image?id=${project.photos[0]}`,
-            areaArray: project.country == 'USA' ? US_Region : Mexico_Region
+            areaArray: project.country == 'USA' ? US_Region : Mexico_Region,
           })
         } else {
           alert('error')
