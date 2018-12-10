@@ -49,6 +49,21 @@ class ProjectDetail extends React.Component {
     this.setState({ redirect: 2 })
   }
 
+  closeProject = () => {
+    axios
+      .post(`${baseUrl}/projects/close`, {
+        project_id: config.projectKey,
+      })
+      .then(res1 => {
+        if (res1.data.success) {
+          this.setState({ redirect: 1 })
+        } else {
+          alert('error')
+        }
+      })
+      .catch(error => {})
+  }
+
   render() {
     const { redirect, project } = this.state
 
@@ -97,6 +112,9 @@ class ProjectDetail extends React.Component {
                 <div className="row" style={{ marginRight: 30, marginTop: 2 }}>
                   <Button
                     style={{ width: 140, height: 35, marginRight: 15, backgroundColor: '#D1D8E0' }}
+                    onClick={() => {
+                      this.closeProject()
+                    }}
                   >
                     Close Project
                   </Button>

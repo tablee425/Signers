@@ -1,36 +1,18 @@
 import React from 'react'
 import {
-  Collapse,
-  Slider,
   Form,
-  Calendar,
-  Badge,
-  Table,
-  Tabs,
   Input,
-  Dropdown,
   Button,
-  Icon,
-  Menu,
-  Pagination,
-  List,
-  Avatar,
   Select,
   DatePicker,
 } from 'antd'
 import './style.scss'
-import { Link, withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
 import FileInput from 'react-simple-file-input'
 import { US_Region, Mexico_Region } from './data.json'
-import { connect } from 'react-redux'
 import axios from 'axios'
 import { baseUrl } from '../../../../config'
 import config from '../../../../web-config'
-
-const mapStateToProps = (state, props) => ({
-  userState: state.app.userState,
-})
 
 const Option = Select.Option
 const { RangePicker } = DatePicker
@@ -45,7 +27,6 @@ function fileIsIncorrectFiletype(file) {
   }
 }
 
-@connect(mapStateToProps)
 @Form.create()
 class ProjectNew extends React.Component {
   constructor(props) {
@@ -61,7 +42,6 @@ class ProjectNew extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ page: 1, pageSize: 10 })
   }
 
   checkDigital = (rule, value, callback) => {
@@ -96,7 +76,6 @@ class ProjectNew extends React.Component {
   }
 
   handleSubmit = e => {
-    const { userState } = this.props
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -121,7 +100,7 @@ class ProjectNew extends React.Component {
                     price_for_signers_for_100_voters: values.pricePerVoters,
                     type: values.projectType,
                     cost: values.projectCost,
-                    donationsValue: values.donationsValue,
+                    donations_value: values.donationsValue,
                     country: this.state.selectedCountry,
                     location: this.state.selectedArea,
                     donations_url: values.donationsUrl,
@@ -178,7 +157,7 @@ class ProjectNew extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { redirect, projectImage, previewUrl, areaArray } = this.state
+    const { redirect, previewUrl, areaArray } = this.state
 
     if (config.clientKey == '') {
       return <Redirect push to="/clients" />

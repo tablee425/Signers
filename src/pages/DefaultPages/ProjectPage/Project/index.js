@@ -165,7 +165,7 @@ class Project extends React.Component {
   }
 
   render() {
-    const { redirect, tableColumns } = this.state
+    const { redirect, tableColumns, tableData } = this.state
     if (redirect == 1) {
       return <Redirect push to="/projects/detail" />
     }
@@ -173,7 +173,7 @@ class Project extends React.Component {
       <section className="card">
         <div className="card-header">
           <div className="utils__title">
-            <strong>Project List</strong>
+            <strong>{`Projects (${tableData.length})`}</strong>
             <div className="projectPage__searchInputContainer">
               <Input
                 className="livesearch__topInput"
@@ -188,7 +188,7 @@ class Project extends React.Component {
         <div className="card-body">
           <Table
             columns={tableColumns}
-            dataSource={this.state.tableData}
+            dataSource={tableData}
             onChange={this.handleChange}
           />
         </div>
