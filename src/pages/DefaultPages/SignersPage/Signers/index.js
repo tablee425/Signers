@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  Collapse,
-  Button,
-  Select,
-  Form,
-  Pagination,
-  Modal
-} from 'antd'
+import { Collapse, Button, Select, Form, Pagination, Modal } from 'antd'
 import './style.scss'
 import { tableData } from './data.json'
 import { Link, withRouter } from 'react-router-dom'
@@ -24,10 +17,10 @@ const FormItem = Form.Item
 class Signers extends React.Component {
   state = {
     redirect: 0,
-    partitions: [{"videos": []}],
+    partitions: [{ videos: [] }],
     modalVisible: false,
     clients: [],
-    signerIndex: 0
+    signerIndex: 0,
   }
 
   componentDidMount() {
@@ -35,29 +28,29 @@ class Signers extends React.Component {
     this.getAllClients()
   }
 
-  showModal = (index) => {
-    let user = this.state.partitions[0].videos[index];
+  showModal = index => {
+    let user = this.state.partitions[0].videos[index]
     this.props.form.setFieldsValue({ assignTo: user.author })
     this.setState({ modalVisible: true, signerIndex: index })
   }
 
-  handleOk = (e) => {
-    const { partitions, signerIndex, clients } = this.state;
+  handleOk = e => {
+    const { partitions, signerIndex, clients } = this.state
     this.props.form.validateFields((err, values) => {
       if (!err) {
         if (values.assignTo == 'Unassigned') {
         } else {
-          let clientName = '';
+          let clientName = ''
           clients.map(item => {
             if (item._id == values.assignTo) {
-              clientName = item.firstName;
+              clientName = item.firstName
             }
           })
           axios
             .post(`${baseUrl}/signer/assign`, {
               signer_id: partitions[0].videos[signerIndex].id,
               client_id: values.assignTo,
-              client_name: clientName
+              client_name: clientName,
             })
             .then(res => {
               if (res.data.success) {
@@ -73,7 +66,7 @@ class Signers extends React.Component {
     })
   }
 
-  handleCancel = (e) => {
+  handleCancel = e => {
     this.setState({ modalVisible: false })
   }
 
@@ -82,7 +75,7 @@ class Signers extends React.Component {
       .get(`${baseUrl}/signers`)
       .then(res => {
         if (res.data.success) {
-          let users = [];
+          let users = []
           res.data.data.map(item => {
             users.push({
               cover: 'resources/images/photos/1.jpeg',
@@ -90,15 +83,14 @@ class Signers extends React.Component {
               author: item.status,
               assignTo: item.status == 'Unassigned' ? item.status : item.assignTo,
               views: 'TBD',
-              id: item._id
+              id: item._id,
             })
           })
-          this.setState({ partitions: [{videos: users}] })
+          this.setState({ partitions: [{ videos: users }] })
         } else {
         }
       })
-      .catch(error => {
-      })
+      .catch(error => {})
   }
 
   getAllClients = () => {
@@ -119,10 +111,12 @@ class Signers extends React.Component {
     if (redirect == 1) {
       return <Redirect push to="/projects/detail" />
     }
-    let renderClients = [];
+    let renderClients = []
     clients.map((item, index) => {
       renderClients.push(
-        <Option value={item._id} key={index}>{item.firstName}</Option>
+        <Option value={item._id} key={index}>
+          {item.firstName}
+        </Option>,
       )
     })
     return (
@@ -138,8 +132,12 @@ class Signers extends React.Component {
               title="Basic Modal"
               visible={modalVisible}
               footer={[
-                <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
-                <Button key="submit" type="primary" onClick={this.handleOk}>Save</Button>
+                <Button key="back" onClick={this.handleCancel}>
+                  Cancel
+                </Button>,
+                <Button key="submit" type="primary" onClick={this.handleOk}>
+                  Save
+                </Button>,
               ]}
             >
               <Form onSubmit={this.handleSubmitModal}>
@@ -149,10 +147,11 @@ class Signers extends React.Component {
                     {getFieldDecorator('assignTo', {
                       rules: [{ required: true, message: 'Please select one client' }],
                     })(
-                      <Select style={{ width: 180, height: 40, marginTop: 20, marginLeft: 140 }} placeholder="Assign to">
-                      {
-                        renderClients
-                      }
+                      <Select
+                        style={{ width: 180, height: 40, marginTop: 20, marginLeft: 140 }}
+                        placeholder="Assign to"
+                      >
+                        {renderClients}
                       </Select>,
                     )}
                   </FormItem>
@@ -166,7 +165,12 @@ class Signers extends React.Component {
                 <ul className="video-page__partition-content">
                   {partition.videos.map((video, index) => (
                     <li className="video-page__next-item video-page__next-item--feed" key={index}>
-                      <div className="video-page__next-item-link" onClick={() => { this.showModal(index); }}>
+                      <div
+                        className="video-page__next-item-link"
+                        onClick={() => {
+                          this.showModal(index)
+                        }}
+                      >
                         <div className="video-page__item-thumb">
                           <img
                             className="video-page__item-thumb-img"
