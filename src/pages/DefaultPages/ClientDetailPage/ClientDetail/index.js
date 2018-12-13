@@ -60,6 +60,8 @@ class ClientDetail extends React.Component {
     pageSize: 10,
     clientProjects: [],
     clientName: '',
+    clientName2: '',
+    clientEmail: '',
     partitions: [{ videos: [] }],
     ownSignersTeamCount: 0,
   }
@@ -127,6 +129,8 @@ class ClientDetail extends React.Component {
         if (res.data.success) {
           this.setState({
             clientName: res.data.data[0].firstName,
+            clientName2: res.data.data[0].lastName,
+            clientEmail: res.data.data[0].email,
             previewUrl: `${baseUrl}/image?id=${res.data.data[0].photoID}`,
           })
         } else {
@@ -287,6 +291,8 @@ class ClientDetail extends React.Component {
       partitions,
       clientProjects,
       clientName,
+      clientName2,
+      clientEmail,
       ownSignersTeamCount,
     } = this.state
     if (config.clientKey == '') {
@@ -415,6 +421,7 @@ class ClientDetail extends React.Component {
                       <FormItem>
                         <label className="form-label mb-0">First Name</label>
                         {getFieldDecorator('firstName', {
+                          initialValue: clientName,
                           rules: [{ required: true, message: 'Please input your first name' }],
                         })(<Input placeholder="Enter first name" />)}
                       </FormItem>
@@ -423,6 +430,7 @@ class ClientDetail extends React.Component {
                       <FormItem>
                         <label className="form-label mb-0">Last Name</label>
                         {getFieldDecorator('lastName', {
+                          initialValue: clientName2,
                           rules: [{ required: true, message: 'Please input your last name' }],
                         })(<Input placeholder="Enter last name" />)}
                       </FormItem>
@@ -433,6 +441,7 @@ class ClientDetail extends React.Component {
                       <FormItem>
                         <label className="form-label mb-0">Email</label>
                         {getFieldDecorator('email', {
+                          initialValue: clientEmail,
                           rules: [{ required: true, message: 'Please input your email' }],
                         })(<Input placeholder="Enter email" />)}
                       </FormItem>
