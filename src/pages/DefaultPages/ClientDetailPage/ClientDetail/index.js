@@ -61,7 +61,7 @@ class ClientDetail extends React.Component {
     clientProjects: [],
     clientName: '',
     partitions: [{ videos: [] }],
-    ownSignersTeamCount: 0
+    ownSignersTeamCount: 0,
   }
 
   componentDidMount() {
@@ -108,7 +108,10 @@ class ClientDetail extends React.Component {
               id: item._id,
             })
           })
-          this.setState({ partitions: [{ videos: users }], ownSignersTeamCount: res.data.data.length })
+          this.setState({
+            partitions: [{ videos: users }],
+            ownSignersTeamCount: res.data.data.length,
+          })
         } else {
         }
       })
@@ -262,7 +265,15 @@ class ClientDetail extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { redirect, tabKey, previewUrl, partitions, clientProjects, clientName, ownSignersTeamCount } = this.state
+    const {
+      redirect,
+      tabKey,
+      previewUrl,
+      partitions,
+      clientProjects,
+      clientName,
+      ownSignersTeamCount,
+    } = this.state
     if (config.clientKey == '') {
       return <Redirect push to="/clients" />
     } else if (redirect == 1) {
@@ -438,12 +449,11 @@ class ClientDetail extends React.Component {
                         <div className="video-page__feed-partition" key={index}>
                           <ul className="video-page__partition-content">
                             {partition.videos.map((video, index) => (
-                              <li className="video-page__next-item video-page__next-item--feed" key={index}>
-                                <div
-                                  className="video-page__next-item-link"
-                                  onClick={() => {
-                                  }}
-                                >
+                              <li
+                                className="video-page__next-item video-page__next-item--feed"
+                                key={index}
+                              >
+                                <div className="video-page__next-item-link" onClick={() => {}}>
                                   <div className="video-page__item-thumb">
                                     <img
                                       className="video-page__item-thumb-img"
@@ -453,7 +463,9 @@ class ClientDetail extends React.Component {
                                   </div>
                                   <div className="video-page__item-descr">
                                     <span className="video-page__item-name">{video.name}</span>
-                                    <span className="video-page__item-author">{video.assignTo}</span>
+                                    <span className="video-page__item-author">
+                                      {video.assignTo}
+                                    </span>
                                     <span className="video-page__item-views text-muted">
                                       <span className="video-page__item-count">{video.views}</span>
                                     </span>
