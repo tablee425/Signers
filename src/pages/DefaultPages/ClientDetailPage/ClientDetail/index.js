@@ -99,8 +99,7 @@ class ClientDetail extends React.Component {
         } else {
         }
       })
-      .catch(error => {
-      })
+      .catch(error => {})
   }
 
   getClientInfo = () => {
