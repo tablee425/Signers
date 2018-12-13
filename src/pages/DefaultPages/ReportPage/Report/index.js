@@ -89,11 +89,13 @@ class Report extends React.Component {
     }
   }
 
-  convertDateFormat = (date) => {
-    let month = new Date(date).getMonth() + 1;
-    let day = new Date(date).getDate();
-    let year = new Date(date).getFullYear() - 2000;
-    return `${month < 10 ? '0' : ''}${month}.${day < 10 ? '0' : ''}${day}.${year < 10 ? '0' : ''}${year}`;
+  convertDateFormat = date => {
+    let month = new Date(date).getMonth() + 1
+    let day = new Date(date).getDate()
+    let year = new Date(date).getFullYear() - 2000
+    return `${month < 10 ? '0' : ''}${month}.${day < 10 ? '0' : ''}${day}.${
+      year < 10 ? '0' : ''
+    }${year}`
   }
 
   render() {
@@ -122,7 +124,7 @@ class Report extends React.Component {
             <h6>Donations</h6>
             <h6>${item.donations_value}</h6>
           </div>
-        </div>
+        </div>,
       )
     })
     return (
