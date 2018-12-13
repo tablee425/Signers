@@ -67,6 +67,7 @@ class ClientDetail extends React.Component {
     // alert(config.clientKey)
     this.getClientProjects()
     this.getClientInfo()
+    this.getClientSignersTeam()
   }
 
   getClientProjects = () => {
@@ -84,6 +85,21 @@ class ClientDetail extends React.Component {
       })
       .catch(error => {
         this.setState({ clientProjects: [] })
+      })
+  }
+
+  getClientSignersTeam = () => {
+    axios
+      .post(`${baseUrl}/projects/ownSignersTeam`, {
+        client_id: config.clientKey,
+      })
+      .then(res => {
+        if (res.data.success) {
+          alert(res.data.data.length)
+        } else {
+        }
+      })
+      .catch(error => {
       })
   }
 
@@ -184,11 +200,11 @@ class ClientDetail extends React.Component {
       axios
         .post(`${baseUrl}/projects/uploadCSV`, {
           client_id: config.clientKey,
+          client_name: this.state.clientName,
           csvData: parsedCSV,
         })
         .then(res => {
           if (res.data.success) {
-            alert('success')
           } else {
           }
         })
