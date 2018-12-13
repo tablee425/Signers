@@ -89,6 +89,13 @@ class Report extends React.Component {
     }
   }
 
+  convertDateFormat = (date) => {
+    let month = new Date(date).getMonth() + 1;
+    let day = new Date(date).getDate();
+    let year = new Date(date).getFullYear() - 2000;
+    return `${month < 10 ? '0' : ''}${month}.${day < 10 ? '0' : ''}${day}.${year < 10 ? '0' : ''}${year}`;
+  }
+
   render() {
     const { redirect, clientProjects } = this.state
     if (redirect == 1) {
@@ -97,24 +104,25 @@ class Report extends React.Component {
     let renderProjects = []
     clientProjects.map((item, index) => {
       renderProjects.push(
-        <div className="clientNewPage__projectsItem" style={{}}>
+        <div className="reportPage__projectsItem">
           <h4>{item.name}</h4>
+          <img
+            className="reportPage__item-thumb-img"
+            src={`${baseUrl}/image?id=${item.photos[0]}`}
+          />
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 15 }}>
-            <h6>Cost per project</h6>
-            <h6>${item.cost}</h6>
+            <h6>Ends</h6>
+            <h6>{this.convertDateFormat(item.date_expiration)}</h6>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <h6>Total Paid to Signers</h6>
-            <h6>${item.total_paid}</h6>
+            <h6>Voters</h6>
+            <h6>{item.signed_voters}</h6>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <h6>Current Donations</h6>
+            <h6>Donations</h6>
             <h6>${item.donations_value}</h6>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
-            <Button type="primary">Update Donations</Button>
-          </div>
-        </div>,
+        </div>
       )
     })
     return (
