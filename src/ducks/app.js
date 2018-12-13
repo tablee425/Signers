@@ -63,7 +63,7 @@ export function login(username, password, dispatch) {
     .post(`${baseUrl}/admin/login`, { email: username, password })
     .then(res => {
       if (res.data.success) {
-        config.token = res.data.user.token;
+        config.token = res.data.user.token
         window.localStorage.setItem('app.Authorization', '')
         window.localStorage.setItem('app.Role', res.data.user.role)
         window.localStorage.setItem('app.Email', username)

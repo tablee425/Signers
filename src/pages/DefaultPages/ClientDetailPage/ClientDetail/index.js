@@ -185,7 +185,7 @@ class ClientDetail extends React.Component {
             email: values.email,
             password: values.password,
             firstName: values.firstName,
-            lastName: values.lastName
+            lastName: values.lastName,
           })
           .then(res => {
             if (res.data.success) {
