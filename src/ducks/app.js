@@ -71,7 +71,7 @@ export function login(username, password, dispatch) {
         window.localStorage.setItem('app.Lastname', res.data.user.lastName)
         window.localStorage.setItem('app.ClientID', res.data.user._id)
         dispatch(_setHideLogin(true))
-        dispatch(push('/clients'))
+        dispatch(push(res.data.user.role == 'admin' ? '/clients' : '/dashboard'))
         notification.open({
           type: 'success',
           message: 'You have successfully logged in!',

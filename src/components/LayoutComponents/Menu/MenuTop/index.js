@@ -5,6 +5,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { reduce } from 'lodash'
 import { setLayoutState } from 'ducks/app'
 import { default as menuData } from './menuData'
+import { default as menuDataClient } from './menuDataClient'
 import ProfileMenu from './ProfileMenu'
 import './style.scss'
 
@@ -12,12 +13,13 @@ const SubMenu = Menu.SubMenu
 const Divider = Menu.Divider
 
 const mapStateToProps = ({ app, routing }, props) => {
-  const { layoutState } = app
+  const { layoutState, userState } = app
   return {
     pathname: routing.location.pathname,
     collapsed: layoutState.menuCollapsed,
     theme: layoutState.themeLight ? 'light' : 'dark',
     settingsOpened: layoutState.settingsOpened,
+    userState,
   }
 }
 
@@ -159,7 +161,8 @@ class MenuTop extends React.Component {
 
   render() {
     const { selectedKeys, openKeys, theme } = this.state
-    const menuItems = this.generateMenuPartitions(menuData)
+    const { userState, logout } = this.props
+    const menuItems = this.generateMenuPartitions(userState.role == 'admin' ? menuData : menuDataClient)
     return (
       <div className="menuTop">
         <div className="menuTop__logo">

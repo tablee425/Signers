@@ -17,70 +17,35 @@ import { tableData } from './data.json'
 import { Link, withRouter } from 'react-router-dom'
 import config from '../../../../web-config'
 import { Redirect } from 'react-router'
+import axios from 'axios'
+import { baseUrl } from '../../../../config'
 
 const Panel = Collapse.Panel
 
 class Report extends React.Component {
   state = {
-    tableData: tableData,
-    tableColumns: [],
     redirect: 0,
+    clientProjects: [],
   }
 
   componentDidMount() {
-    this.setState({
-      tableColumns: [
-        {
-          title: 'Project Name',
-          dataIndex: 'name',
-          key: 'name',
-        },
-        {
-          title: 'Starts',
-          dataIndex: 'Starts',
-          key: 'Starts',
-        },
-        {
-          title: 'Ends',
-          dataIndex: 'Ends',
-          key: 'Ends',
-        },
-        {
-          title: 'Client Team',
-          dataIndex: 'ct',
-          key: 'ct',
-        },
-        {
-          title: 'Voters Needed',
-          dataIndex: 'vn',
-          key: 'vn',
-          sorter: (a, b) => a.vn - b.vn,
-        },
-        {
-          title: 'Voters Signed',
-          dataIndex: 'vs',
-          key: 'vs',
-          sorter: (a, b) => a.vs - b.vs,
-        },
-        {
-          title: 'Expected',
-          dataIndex: 'expected',
-          key: 'expected',
-          sorter: (a, b) => a.expected - b.expected,
-        },
-        {
-          title: 'Paid',
-          dataIndex: 'paid',
-          key: 'paid',
-          sorter: (a, b) => a.paid - b.paid,
-        },
-        {
-          title: 'Paid Date',
-          dataIndex: 'paiddate',
-          key: 'paiddate',
-        },
-      ],
-    })
+    this.getClientProjects();
+  }
+
+  getClientProjects = () => {
+    const { userState } = this.props
+    axios
+      .get(`${baseUrl}/projects/list/admin/all`, {})
+      .then(res => {
+        if (res.data.success) {
+          this.setState({ clientProjects: res.data.data })
+        } else {
+          this.setState({ clientProjects: [] })
+        }
+      })
+      .catch(error => {
+        this.setState({ clientProjects: [] })
+      })
   }
 
   handleChange = (pagination, filters, sorter) => {
@@ -125,10 +90,33 @@ class Report extends React.Component {
   }
 
   render() {
-    const { redirect, tableColumns } = this.state
+    const { redirect, clientProjects } = this.state
     if (redirect == 1) {
       return <Redirect push to="/projects/detail" />
     }
+    let renderProjects = []
+    clientProjects.map((item, index) => {
+      renderProjects.push(
+        <div className="clientNewPage__projectsItem" style={{}}>
+          <h4>{item.name}</h4>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 15 }}>
+            <h6>Cost per project</h6>
+            <h6>${item.cost}</h6>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <h6>Total Paid to Signers</h6>
+            <h6>${item.total_paid}</h6>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <h6>Current Donations</h6>
+            <h6>${item.donations_value}</h6>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+            <Button type="primary">Update Donations</Button>
+          </div>
+        </div>,
+      )
+    })
     return (
       <section className="card">
         <div className="card-header">
@@ -146,11 +134,9 @@ class Report extends React.Component {
           </div>
         </div>
         <div className="card-body">
-          <Table
-            columns={tableColumns}
-            dataSource={this.state.tableData}
-            onChange={this.handleChange}
-          />
+          <div className="reportPage__projectsContainer">
+            {renderProjects}
+          </div>
         </div>
       </section>
     )
