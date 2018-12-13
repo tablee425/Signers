@@ -180,56 +180,51 @@ class ClientDetail extends React.Component {
   handleCSVFiles = files => {
     var reader = new FileReader()
     reader.onload = e => {
-      let parsedCSV = this.CSVToArray(reader.result);
+      let parsedCSV = this.CSVToArray(reader.result)
       axios
         .post(`${baseUrl}/projects/uploadCSV`, {
           client_id: config.clientKey,
-          csvData: parsedCSV
+          csvData: parsedCSV,
         })
         .then(res => {
           if (res.data.success) {
-            alert('success');
+            alert('success')
           } else {
           }
         })
-        .catch(error => {
-        })
+        .catch(error => {})
     }
     reader.readAsText(files[0])
   }
 
-  CSVToArray = ( strData, strDelimiter ) => {
-    strDelimiter = (strDelimiter || ",");
+  CSVToArray = (strData, strDelimiter) => {
+    strDelimiter = strDelimiter || ','
     var objPattern = new RegExp(
-      (
-        "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
-        "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
-        "([^\"\\" + strDelimiter + "\\r\\n]*))"
-      ),
-      "gi"
-    );
-    var arrData = [[]];
-    var arrMatches = null;
-    while (arrMatches = objPattern.exec( strData )){
-      var strMatchedDelimiter = arrMatches[ 1 ];
-      if (
-          strMatchedDelimiter.length &&
-          strMatchedDelimiter !== strDelimiter
-          ){
-          arrData.push( [] );
+      '(\\' +
+        strDelimiter +
+        '|\\r?\\n|\\r|^)' +
+        '(?:"([^"]*(?:""[^"]*)*)"|' +
+        '([^"\\' +
+        strDelimiter +
+        '\\r\\n]*))',
+      'gi',
+    )
+    var arrData = [[]]
+    var arrMatches = null
+    while ((arrMatches = objPattern.exec(strData))) {
+      var strMatchedDelimiter = arrMatches[1]
+      if (strMatchedDelimiter.length && strMatchedDelimiter !== strDelimiter) {
+        arrData.push([])
       }
-      var strMatchedValue;
-      if (arrMatches[ 2 ]){
-        strMatchedValue = arrMatches[ 2 ].replace(
-          new RegExp( "\"\"", "g" ),
-          "\""
-          );
+      var strMatchedValue
+      if (arrMatches[2]) {
+        strMatchedValue = arrMatches[2].replace(new RegExp('""', 'g'), '"')
       } else {
-        strMatchedValue = arrMatches[ 3 ];
+        strMatchedValue = arrMatches[3]
       }
-      arrData[ arrData.length - 1 ].push( strMatchedValue );
+      arrData[arrData.length - 1].push(strMatchedValue)
     }
-    return( arrData );
+    return arrData
   }
 
   onAddProject = () => {

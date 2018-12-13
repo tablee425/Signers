@@ -70,7 +70,7 @@ class Signers extends React.Component {
     const { partitions, signerIndex } = this.state
     axios
       .post(`${baseUrl}/signer/block`, {
-        signer_id: partitions[0].videos[signerIndex].id
+        signer_id: partitions[0].videos[signerIndex].id,
       })
       .then(res => {
         if (res.data.success) {
@@ -159,7 +159,12 @@ class Signers extends React.Component {
             >
               <Form onSubmit={this.handleSubmitModal}>
                 <div className="signersPage__modalContainer">
-                  <Button style={{ width: 180, height: 40, marginLeft: 140 }} onClick={this.blockSigner}>Block</Button>
+                  <Button
+                    style={{ width: 180, height: 40, marginLeft: 140 }}
+                    onClick={this.blockSigner}
+                  >
+                    Block
+                  </Button>
                   <FormItem>
                     {getFieldDecorator('assignTo', {
                       rules: [{ required: true, message: 'Please select one client' }],
