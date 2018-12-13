@@ -180,9 +180,56 @@ class ClientDetail extends React.Component {
   handleCSVFiles = files => {
     var reader = new FileReader()
     reader.onload = e => {
-      console.info('csv', reader.result)
+      let parsedCSV = this.CSVToArray(reader.result);
+      axios
+        .post(`${baseUrl}/projects/uploadCSV`, {
+          client_id: config.clientKey,
+          csvData: parsedCSV
+        })
+        .then(res => {
+          if (res.data.success) {
+            alert('success');
+          } else {
+          }
+        })
+        .catch(error => {
+        })
     }
     reader.readAsText(files[0])
+  }
+
+  CSVToArray = ( strData, strDelimiter ) => {
+    strDelimiter = (strDelimiter || ",");
+    var objPattern = new RegExp(
+      (
+        "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+        "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+        "([^\"\\" + strDelimiter + "\\r\\n]*))"
+      ),
+      "gi"
+    );
+    var arrData = [[]];
+    var arrMatches = null;
+    while (arrMatches = objPattern.exec( strData )){
+      var strMatchedDelimiter = arrMatches[ 1 ];
+      if (
+          strMatchedDelimiter.length &&
+          strMatchedDelimiter !== strDelimiter
+          ){
+          arrData.push( [] );
+      }
+      var strMatchedValue;
+      if (arrMatches[ 2 ]){
+        strMatchedValue = arrMatches[ 2 ].replace(
+          new RegExp( "\"\"", "g" ),
+          "\""
+          );
+      } else {
+        strMatchedValue = arrMatches[ 3 ];
+      }
+      arrData[ arrData.length - 1 ].push( strMatchedValue );
+    }
+    return( arrData );
   }
 
   onAddProject = () => {
@@ -206,7 +253,7 @@ class ClientDetail extends React.Component {
           <h4>{item.name}</h4>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 15 }}>
             <h6>Cost per project</h6>
-            <h6>$6,135,343</h6>
+            <h6>${item.cost}</h6>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <h6>Total Paid to Signers</h6>
@@ -214,7 +261,7 @@ class ClientDetail extends React.Component {
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <h6>Current Donations</h6>
-            <h6>$2,283,343</h6>
+            <h6>${item.donations_value}</h6>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
             <Button type="primary">Update Donations</Button>
