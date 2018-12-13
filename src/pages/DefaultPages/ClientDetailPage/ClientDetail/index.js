@@ -60,6 +60,8 @@ class ClientDetail extends React.Component {
     pageSize: 10,
     clientProjects: [],
     clientName: '',
+    partitions: [{ videos: [] }],
+    ownSignersTeamCount: 0
   }
 
   componentDidMount() {
@@ -95,7 +97,18 @@ class ClientDetail extends React.Component {
       })
       .then(res => {
         if (res.data.success) {
-          alert(res.data.data.length)
+          let users = []
+          res.data.data.map(item => {
+            users.push({
+              cover: 'resources/images/photos/1.jpeg',
+              name: item.firstName,
+              author: item.status,
+              assignTo: item.status == 'Unassigned' ? item.status : item.assignTo,
+              views: 'TBD',
+              id: item._id,
+            })
+          })
+          this.setState({ partitions: [{ videos: users }], ownSignersTeamCount: res.data.data.length })
         } else {
         }
       })
@@ -204,6 +217,7 @@ class ClientDetail extends React.Component {
         })
         .then(res => {
           if (res.data.success) {
+            this.getClientSignersTeam()
           } else {
           }
         })
@@ -248,7 +262,7 @@ class ClientDetail extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { redirect, tabKey, previewUrl, page, pageSize, clientProjects, clientName } = this.state
+    const { redirect, tabKey, previewUrl, partitions, clientProjects, clientName, ownSignersTeamCount } = this.state
     if (config.clientKey == '') {
       return <Redirect push to="/clients" />
     } else if (redirect == 1) {
@@ -353,7 +367,7 @@ class ClientDetail extends React.Component {
                 </div>
               </div>
               <div className="clientNewPage__rightSideContainer">
-                <h2>240</h2>
+                <h2>{`${ownSignersTeamCount}`}</h2>
                 <h5>Signers</h5>
               </div>
             </div>
@@ -417,32 +431,40 @@ class ClientDetail extends React.Component {
                     </div>
                   </div>
                 </TabPane>
-                <TabPane tab={<span>Own Signers Team</span>} key="2">
+                <TabPane tab={<span>{`Own Signers Team (${ownSignersTeamCount})`}</span>} key="2">
                   <div>
-                    <List
-                      itemLayout="horizontal"
-                      dataSource={this.filterData()}
-                      renderItem={item => (
-                        <List.Item>
-                          <div className="row">
-                            <Avatar
-                              style={{ width: 25, height: 25, marginLeft: 30, marginTop: 15 }}
-                              src={avatarSrc}
-                            />
-                            <List.Item.Meta
-                              avatar={
-                                <Avatar
-                                  style={{ width: 50, height: 50 }}
-                                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                />
-                              }
-                              title={<a href="https://ant.design">{item.title}</a>}
-                              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                            />
-                          </div>
-                        </List.Item>
-                      )}
-                    />
+                    <div className="video-page__feeds">
+                      {partitions.map((partition, index) => (
+                        <div className="video-page__feed-partition" key={index}>
+                          <ul className="video-page__partition-content">
+                            {partition.videos.map((video, index) => (
+                              <li className="video-page__next-item video-page__next-item--feed" key={index}>
+                                <div
+                                  className="video-page__next-item-link"
+                                  onClick={() => {
+                                  }}
+                                >
+                                  <div className="video-page__item-thumb">
+                                    <img
+                                      className="video-page__item-thumb-img"
+                                      src={video.cover}
+                                      alt={video.name}
+                                    />
+                                  </div>
+                                  <div className="video-page__item-descr">
+                                    <span className="video-page__item-name">{video.name}</span>
+                                    <span className="video-page__item-author">{video.assignTo}</span>
+                                    <span className="video-page__item-views text-muted">
+                                      <span className="video-page__item-count">{video.views}</span>
+                                    </span>
+                                  </div>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                   <div>
                     <Pagination

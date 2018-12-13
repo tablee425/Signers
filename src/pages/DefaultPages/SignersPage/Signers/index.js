@@ -213,9 +213,6 @@ class Signers extends React.Component {
                 </ul>
               </div>
             ))}
-            {/* <div className="mb-5">
-              <Pagination defaultCurrent={1} total={50} />
-            </div> */}
           </div>
         </div>
       </section>
