@@ -313,7 +313,7 @@ class ClientDetail extends React.Component {
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <h6>Total Paid to Signers</h6>
-            <h6>$643,454</h6>
+            <h6>${item.total_paid}</h6>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <h6>Current Donations</h6>
