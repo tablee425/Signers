@@ -162,7 +162,9 @@ class MenuTop extends React.Component {
   render() {
     const { selectedKeys, openKeys, theme } = this.state
     const { userState, logout } = this.props
-    const menuItems = this.generateMenuPartitions(userState.role == 'admin' ? menuData : menuDataClient)
+    const menuItems = this.generateMenuPartitions(
+      userState.role == 'admin' ? menuData : menuDataClient,
+    )
     return (
       <div className="menuTop">
         <div className="menuTop__logo">

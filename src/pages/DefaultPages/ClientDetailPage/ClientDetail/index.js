@@ -531,9 +531,7 @@ class ClientDetail extends React.Component {
                   </div>
                 </TabPane>
                 <TabPane tab={<span>{`Projects (${clientProjects.length})`}</span>} key="3">
-                  <div className="clientNewPage__projectsContainer">
-                    {renderProjects}
-                  </div>
+                  <div className="clientNewPage__projectsContainer">{renderProjects}</div>
                 </TabPane>
               </Tabs>
             </div>

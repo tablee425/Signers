@@ -29,7 +29,7 @@ class Report extends React.Component {
   }
 
   componentDidMount() {
-    this.getClientProjects();
+    this.getClientProjects()
   }
 
   getClientProjects = () => {
@@ -134,9 +134,7 @@ class Report extends React.Component {
           </div>
         </div>
         <div className="card-body">
-          <div className="reportPage__projectsContainer">
-            {renderProjects}
-          </div>
+          <div className="reportPage__projectsContainer">{renderProjects}</div>
         </div>
       </section>
     )
