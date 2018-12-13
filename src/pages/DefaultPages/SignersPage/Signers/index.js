@@ -95,7 +95,7 @@ class Signers extends React.Component {
           let users = []
           res.data.data.map(item => {
             users.push({
-              cover: 'resources/images/photos/1.jpeg',
+              cover: 'resources/images/user-empty-512.png',
               name: item.firstName,
               author: item.status,
               assignTo: item.status == 'Unassigned' ? item.status : item.assignTo,

@@ -97,9 +97,9 @@ class Client extends React.Component {
               key: `${item._id}`,
               Picture: `${baseUrl}/image?id=${item.photoID}`,
               name: item.firstName,
-              tp: 18,
-              ap: 7,
-              os: 7,
+              tp: item.total_projects,
+              ap: item.active_projects,
+              os: item.own_signers,
               position: '5516 Adolfo Green',
             })
           })

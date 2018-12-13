@@ -100,7 +100,7 @@ class ClientDetail extends React.Component {
           let users = []
           res.data.data.map(item => {
             users.push({
-              cover: 'resources/images/photos/1.jpeg',
+              cover: 'resources/images/user-empty-512.png',
               name: item.firstName,
               author: item.status,
               assignTo: item.status == 'Unassigned' ? item.status : item.assignTo,
@@ -179,7 +179,22 @@ class ClientDetail extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
-        this.setState({ redirect: 1 })
+        axios
+          .post(`${baseUrl}/admin/update`, {
+            client_id: config.clientKey,
+            email: values.email,
+            password: values.password,
+            firstName: values.firstName,
+            lastName: values.lastName
+          })
+          .then(res => {
+            if (res.data.success) {
+              this.setState({ redirect: 1 })
+            } else {
+              alert(res.data.message)
+            }
+          })
+          .catch(error => {})
       }
     })
   }

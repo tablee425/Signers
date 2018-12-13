@@ -3,6 +3,8 @@ import { push } from 'react-router-redux'
 import { pendingTask, begin, end } from 'react-redux-spinner'
 import { notification } from 'antd'
 import axios from 'axios'
+import { baseUrl } from '../config'
+import config from '../web-config'
 
 const REDUCER = 'app'
 const NS = `@@${REDUCER}/`
@@ -58,9 +60,10 @@ export const initAuth = roles => (dispatch, getState) => {
 
 export function login(username, password, dispatch) {
   axios
-    .post(`http://172.20.11.53:4000/admin/login`, { email: username, password })
+    .post(`${baseUrl}/admin/login`, { email: username, password })
     .then(res => {
       if (res.data.success) {
+        config.token = res.data.user.token;
         window.localStorage.setItem('app.Authorization', '')
         window.localStorage.setItem('app.Role', res.data.user.role)
         window.localStorage.setItem('app.Email', username)
