@@ -12,4 +12,15 @@
         padding: 30px;
         margin: 10px;
     }
+    &__modalContainer {
+        padding-left: rem(30);
+        padding-right: rem(30);
+        padding-top: rem(20);
+    }
+}
+
+.ant-modal-content {
+    width: 300px;
+    margin-left: 110px;
+    text-align: center;
 }

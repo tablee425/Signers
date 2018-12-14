@@ -21,6 +21,7 @@ class Signers extends React.Component {
     modalVisible: false,
     clients: [],
     signerIndex: 0,
+    signerCount: 0,
   }
 
   componentDidMount() {
@@ -103,7 +104,7 @@ class Signers extends React.Component {
               id: item._id,
             })
           })
-          this.setState({ partitions: [{ videos: users }] })
+          this.setState({ partitions: [{ videos: users }], signerCount: users.length })
         } else {
         }
       })
@@ -123,7 +124,7 @@ class Signers extends React.Component {
   }
 
   render() {
-    const { redirect, partitions, modalVisible, clients } = this.state
+    const { redirect, partitions, modalVisible, clients, signerCount } = this.state
     const { getFieldDecorator } = this.props.form
     if (redirect == 1) {
       return <Redirect push to="/projects/detail" />
@@ -140,13 +141,13 @@ class Signers extends React.Component {
       <section className="card">
         <div className="card-header">
           <div className="utils__title">
-            <strong>Signers (123)</strong>
+            <strong>{`Signers (${signerCount})`}</strong>
           </div>
         </div>
         <div className="card-body video-page video-page--feed">
           <div>
             <Modal
-              title="Basic Modal"
+              title="Block or Assign"
               visible={modalVisible}
               footer={[
                 <Button key="back" onClick={this.handleCancel}>
@@ -160,7 +161,7 @@ class Signers extends React.Component {
               <Form onSubmit={this.handleSubmitModal}>
                 <div className="signersPage__modalContainer">
                   <Button
-                    style={{ width: 180, height: 40, marginLeft: 140 }}
+                    style={{ width: 180, height: 40 }}
                     onClick={this.blockSigner}
                   >
                     Block
@@ -170,7 +171,7 @@ class Signers extends React.Component {
                       rules: [{ required: true, message: 'Please select one client' }],
                     })(
                       <Select
-                        style={{ width: 180, height: 40, marginTop: 20, marginLeft: 140 }}
+                        style={{ width: 180, height: 40, marginTop: 20 }}
                         placeholder="Assign to"
                       >
                         {renderClients}
