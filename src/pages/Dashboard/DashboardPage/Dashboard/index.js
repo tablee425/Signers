@@ -49,7 +49,9 @@ class Dashboard extends React.Component {
   }
 
   showModal = index => {
-    this.props.form.setFieldsValue({ modalDonation: this.state.clientProjects[index].donations_value })
+    this.props.form.setFieldsValue({
+      modalDonation: this.state.clientProjects[index].donations_value,
+    })
     this.setState({ modalVisible: true, projectIndex: index })
   }
 
@@ -59,7 +61,7 @@ class Dashboard extends React.Component {
         axios
           .post(`${baseUrl}/update/donation`, {
             project_id: this.state.clientProjects[this.state.projectIndex]._id,
-            donations_value: values.modalDonation
+            donations_value: values.modalDonation,
           })
           .then(res => {
             if (res.data.success) {
@@ -146,7 +148,7 @@ class Dashboard extends React.Component {
                   {getFieldDecorator('modalDonation', {
                     rules: [
                       { validator: this.checkDigital },
-                      { required: true, message: 'Please input the donation value' }
+                      { required: true, message: 'Please input the donation value' },
                     ],
                   })(<Input style={{ width: 180, height: 40, marginTop: 20 }} />)}
                 </FormItem>
