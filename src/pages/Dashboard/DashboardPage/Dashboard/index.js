@@ -114,12 +114,7 @@ class Dashboard extends React.Component {
                 <FormItem>
                   {getFieldDecorator('modalDonation', {
                     rules: [{ required: true, message: 'Please input the donation value' }],
-                  })(
-                    <Input
-                      style={{ width: 180, height: 40, marginTop: 20 }}
-                    >
-                    </Input>,
-                  )}
+                  })(<Input style={{ width: 180, height: 40, marginTop: 20 }} />)}
                 </FormItem>
               </div>
             </Form>

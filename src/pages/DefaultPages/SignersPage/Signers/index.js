@@ -160,10 +160,7 @@ class Signers extends React.Component {
             >
               <Form onSubmit={this.handleSubmitModal}>
                 <div className="signersPage__modalContainer">
-                  <Button
-                    style={{ width: 180, height: 40 }}
-                    onClick={this.blockSigner}
-                  >
+                  <Button style={{ width: 180, height: 40 }} onClick={this.blockSigner}>
                     Block
                   </Button>
                   <FormItem>
