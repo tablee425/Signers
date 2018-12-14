@@ -15,10 +15,7 @@ const mapStateToProps = (state, props) => ({
   userState: state.app.userState,
 })
 
-@connect(
-  mapStateToProps,
-)
-
+@connect(mapStateToProps)
 class Dashboard extends React.Component {
   state = {
     clientProjects: [],

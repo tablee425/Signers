@@ -1,0 +1,15 @@
+@import '../../../../resources/mixins';
+
+.dashboardPage {
+    &__projectsContainer {
+        background: lightgray;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    &__projectsItem {
+        width: 260px;
+        background: white;
+        padding: 30px;
+        margin: 10px;
+    }
+}
