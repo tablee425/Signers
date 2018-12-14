@@ -23,6 +23,7 @@ class Dashboard extends React.Component {
   state = {
     clientProjects: [],
     modalVisible: false,
+    projectIndex: 0,
   }
 
   componentDidMount() {
@@ -48,15 +49,44 @@ class Dashboard extends React.Component {
   }
 
   showModal = index => {
-    this.setState({ modalVisible: true })
+    this.props.form.setFieldsValue({ modalDonation: this.state.clientProjects[index].donations_value })
+    this.setState({ modalVisible: true, projectIndex: index })
   }
 
   handleOk = e => {
-    this.setState({ modalVisible: false })
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        axios
+          .post(`${baseUrl}/update/donation`, {
+            project_id: this.state.clientProjects[this.state.projectIndex]._id,
+            donations_value: values.modalDonation
+          })
+          .then(res => {
+            if (res.data.success) {
+              this.setState({ modalVisible: false })
+              this.getClientProjects()
+            } else {
+              this.setState({ modalVisible: false })
+            }
+          })
+          .catch(error => {
+            this.setState({ modalVisible: false })
+          })
+      }
+    })
   }
 
   handleCancel = e => {
     this.setState({ modalVisible: false })
+  }
+
+  checkDigital = (rule, value, callback) => {
+    const form = this.props.form
+    if (value && !/^\d+$/.test(value)) {
+      callback('This field must be a number!')
+    } else {
+      callback()
+    }
   }
 
   render() {
@@ -85,7 +115,7 @@ class Dashboard extends React.Component {
             <Button
               type="primary"
               onClick={() => {
-                this.showModal()
+                this.showModal(index)
               }}
             >
               Update Donations
@@ -111,9 +141,13 @@ class Dashboard extends React.Component {
           >
             <Form onSubmit={this.handleSubmitModal}>
               <div className="dashboardPage__modalContainer">
+                <label>Total amount donated as of today</label>
                 <FormItem>
                   {getFieldDecorator('modalDonation', {
-                    rules: [{ required: true, message: 'Please input the donation value' }],
+                    rules: [
+                      { validator: this.checkDigital },
+                      { required: true, message: 'Please input the donation value' }
+                    ],
                   })(<Input style={{ width: 180, height: 40, marginTop: 20 }} />)}
                 </FormItem>
               </div>
