@@ -1,23 +1,12 @@
 import React from 'react'
 import {
   Collapse,
-  Slider,
   Form,
-  Calendar,
-  Badge,
-  Table,
   Tabs,
   Input,
-  Dropdown,
   Button,
-  Icon,
-  Menu,
   Pagination,
-  List,
-  Avatar,
-  Card,
-  Col,
-  Row,
+  Modal
 } from 'antd'
 import './style.scss'
 import { Link, withRouter } from 'react-router-dom'
@@ -64,6 +53,8 @@ class ClientDetail extends React.Component {
     clientEmail: '',
     partitions: [{ videos: [] }],
     ownSignersTeamCount: 0,
+    projectIndex: 0,
+    donations_value: '',
   }
 
   componentDidMount() {
@@ -282,6 +273,44 @@ class ClientDetail extends React.Component {
     this.setState({ redirect: 2 })
   }
 
+  showModal = index => {
+    // this.props.form.setFieldsValue({
+    //   modalDonation: this.state.clientProjects[index].donations_value,
+    // })
+    this.setState({ modalVisible: true, projectIndex: index, donations_value: this.state.clientProjects[index].donations_value })
+  }
+
+  handleOk = e => {
+    if(this.checkDigital(this.state.donations_value)) {
+      axios
+      .post(`${baseUrl}/update/donation`, {
+        project_id: this.state.clientProjects[this.state.projectIndex]._id,
+        donations_value: parseInt(this.state.donations_value),
+      })
+      .then(res => {
+        if (res.data.success) {
+          this.setState({ modalVisible: false })
+          this.getClientProjects()
+        } else {
+          this.setState({ modalVisible: false })
+        }
+      })
+      .catch(error => {
+        this.setState({ modalVisible: false })
+      })
+    } else {
+      alert('Please input the digital value')
+    }
+  }
+
+  handleCancel = e => {
+    this.setState({ modalVisible: false })
+  }
+
+  checkDigital = (value) => {
+    return /^\d+$/.test(value)
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     const {
@@ -294,6 +323,8 @@ class ClientDetail extends React.Component {
       clientName2,
       clientEmail,
       ownSignersTeamCount,
+      modalVisible,
+      donations_value,
     } = this.state
     if (config.clientKey == '') {
       return <Redirect push to="/clients" />
@@ -320,7 +351,14 @@ class ClientDetail extends React.Component {
             <h6>${item.donations_value}</h6>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
-            <Button type="primary">Update Donations</Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                this.showModal(index)
+              }}
+            >
+              Update Donations
+            </Button>
           </div>
         </div>,
       )
@@ -531,6 +569,23 @@ class ClientDetail extends React.Component {
                   </div>
                 </TabPane>
                 <TabPane tab={<span>{`Projects (${clientProjects.length})`}</span>} key="3">
+                  <Modal
+                    title="Project Donations"
+                    visible={modalVisible}
+                    footer={[
+                      <Button key="back" onClick={this.handleCancel}>
+                        Cancel
+                      </Button>,
+                      <Button key="submit" type="primary" onClick={this.handleOk}>
+                        Save
+                      </Button>,
+                    ]}
+                  >
+                    <div className="dashboardPage__modalContainer">
+                      <label>Total amount donated as of today</label>
+                      <Input style={{ width: 180, height: 40, marginTop: 20, marginBottom: 20 }} onChange={e=>{this.setState({ donations_value: e.target.value })}} value={donations_value} />
+                    </div>
+                  </Modal>
                   <div className="clientNewPage__projectsContainer">{renderProjects}</div>
                 </TabPane>
               </Tabs>
