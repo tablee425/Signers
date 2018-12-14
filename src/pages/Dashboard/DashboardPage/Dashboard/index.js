@@ -6,177 +6,76 @@ import ChartCard from 'components/CleanComponents/ChartCard'
 import { Button, Input, Icon, Table, Card, Avatar, Tabs } from 'antd'
 import { clientData, projectData } from './data.json'
 import { Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import './style.scss'
+import axios from 'axios'
+import { baseUrl } from '../../../../config'
 
-const TabPane = Tabs.TabPane
+const mapStateToProps = (state, props) => ({
+  userState: state.app.userState,
+})
+
+@connect(
+  mapStateToProps,
+)
 
 class Dashboard extends React.Component {
   state = {
-    clientData: clientData,
-    projectData: projectData,
-    clientsColumns: [],
-    projectsColumns: [],
+    clientProjects: [],
   }
 
   componentDidMount() {
-    this.setState({
-      clientsColumns: [
-        {
-          title: 'Picture',
-          dataIndex: 'Picture',
-          key: 'picture',
-          render: (text, record) => (
-            <span>
-              <Avatar src={record.Picture} style={{ width: 30, height: 30 }} />
-            </span>
-          ),
-        },
-        {
-          title: 'Client Name',
-          dataIndex: 'name',
-          key: 'name',
-        },
-        {
-          title: '# Total Projects',
-          dataIndex: 'tp',
-          key: 'tp',
-          sorter: (a, b) => a.tp - b.tp,
-        },
-        {
-          title: '# Active Projects',
-          dataIndex: 'ap',
-          key: 'ap',
-          sorter: (a, b) => a.ap - b.ap,
-        },
-        {
-          title: '# Own Signers',
-          dataIndex: 'os',
-          key: 'os',
-          sorter: (a, b) => a.os - b.os,
-        },
-      ],
-      projectsColumns: [
-        {
-          title: 'Name',
-          dataIndex: 'name',
-          key: 'name',
-        },
-        {
-          title: 'Volunteers',
-          dataIndex: 'volunteers',
-          key: 'volunteers',
-        },
-        {
-          title: 'Donations',
-          dataIndex: 'donations',
-          key: 'donations',
-        },
-        {
-          title: 'Description',
-          dataIndex: 'description',
-          key: 'description',
-        },
-        {
-          title: 'Starts',
-          dataIndex: 'Starts',
-          key: 'Starts',
-        },
-        {
-          title: 'Ends',
-          dataIndex: 'Ends',
-          key: 'Ends',
-        },
-        {
-          title: 'Voters Needed',
-          dataIndex: 'vn',
-          key: 'vn',
-          sorter: (a, b) => a.vn - b.vn,
-        },
-        {
-          title: 'Voters Signed',
-          dataIndex: 'vs',
-          key: 'vs',
-          sorter: (a, b) => a.vs - b.vs,
-        },
-        {
-          title: 'Type',
-          dataIndex: 'type',
-          key: 'type',
-        },
-        {
-          title: 'Location',
-          dataIndex: 'location',
-          key: 'location',
-        },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (text, record) => (
-            <span>
-              <Button
-                onClick={() => {
-                  this.onProjectDetail(record.key)
-                }}
-              >
-                Detail
-              </Button>
-            </span>
-          ),
-        },
-      ],
-    })
+    this.getClientProjects()
+  }
+
+  getClientProjects = () => {
+    const { userState } = this.props
+    axios
+      .post(`${baseUrl}/projects/list/admin`, {
+        user_id: userState.clientId,
+      })
+      .then(res => {
+        if (res.data.success) {
+          this.setState({ clientProjects: res.data.data })
+        } else {
+          this.setState({ clientProjects: [] })
+        }
+      })
+      .catch(error => {
+        this.setState({ clientProjects: [] })
+      })
   }
 
   render() {
-    const { clientsColumns, projectsColumns } = this.state
+    const { clientProjects } = this.state
+    const { userState } = this.props
+    let renderProjects = []
+    clientProjects.map((item, index) => {
+      renderProjects.push(
+        <div className="dashboardPage__projectsItem" style={{}}>
+          <h4>{item.name}</h4>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 15 }}>
+            <h6>Cost per project</h6>
+            <h6>${item.cost}</h6>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <h6>Total Paid to Signers</h6>
+            <h6>${item.total_paid}</h6>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <h6>Current Donations</h6>
+            <h6>${item.donations_value}</h6>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+            <Button type="primary">Update Donations</Button>
+          </div>
+        </div>,
+      )
+    })
     return (
       <div>
-        <div className="row">
-          <div className="col-xl-3">
-            <Card style={{ width: 300, borderRadius: 8 }}>
-              <h1>129</h1>
-              <h5>Active Projects</h5>
-            </Card>
-          </div>
-          <div className="col-xl-3">
-            <Card style={{ width: 300, borderRadius: 8 }}>
-              <h1>129</h1>
-              <h5>Active Clients</h5>
-            </Card>
-          </div>
-          <div className="col-xl-3">
-            <Card style={{ width: 300, borderRadius: 8 }}>
-              <h1>$12,932</h1>
-              <h5>Assets in Active Projects</h5>
-            </Card>
-          </div>
-        </div>
-
         <section className="card mt-5">
-          <div className="card-body">
-            <Tabs defaultActiveKey="1" onChange={this.onChangeTabs}>
-              <TabPane tab={<span>Clients</span>} key="1">
-                <Table
-                  columns={clientsColumns}
-                  dataSource={this.state.clientData}
-                  onChange={this.handleChange}
-                />
-              </TabPane>
-              <TabPane tab={<span>Projects</span>} key="2">
-                <Table
-                  columns={projectsColumns}
-                  dataSource={this.state.projectData}
-                  onChange={this.handleChange}
-                />
-              </TabPane>
-              <TabPane tab={<span>Assets</span>} key="3">
-                <Table
-                  columns={clientsColumns}
-                  dataSource={this.state.clientData}
-                  onChange={this.handleChange}
-                />
-              </TabPane>
-            </Tabs>
-          </div>
+          <div className="dashboardPage__projectsContainer">{renderProjects}</div>
         </section>
       </div>
     )

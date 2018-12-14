@@ -322,7 +322,7 @@ class ClientDetail extends React.Component {
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
             <Button type="primary">Update Donations</Button>
           </div>
-        </div>,
+        </div>
       )
     })
     const operations =
