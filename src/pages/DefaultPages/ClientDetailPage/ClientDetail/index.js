@@ -1,13 +1,5 @@
 import React from 'react'
-import {
-  Collapse,
-  Form,
-  Tabs,
-  Input,
-  Button,
-  Pagination,
-  Modal
-} from 'antd'
+import { Collapse, Form, Tabs, Input, Button, Pagination, Modal } from 'antd'
 import './style.scss'
 import { Link, withRouter } from 'react-router-dom'
 import FileInput from 'react-simple-file-input'
@@ -277,27 +269,31 @@ class ClientDetail extends React.Component {
     // this.props.form.setFieldsValue({
     //   modalDonation: this.state.clientProjects[index].donations_value,
     // })
-    this.setState({ modalVisible: true, projectIndex: index, donations_value: this.state.clientProjects[index].donations_value })
+    this.setState({
+      modalVisible: true,
+      projectIndex: index,
+      donations_value: this.state.clientProjects[index].donations_value,
+    })
   }
 
   handleOk = e => {
-    if(this.checkDigital(this.state.donations_value)) {
+    if (this.checkDigital(this.state.donations_value)) {
       axios
-      .post(`${baseUrl}/update/donation`, {
-        project_id: this.state.clientProjects[this.state.projectIndex]._id,
-        donations_value: parseInt(this.state.donations_value),
-      })
-      .then(res => {
-        if (res.data.success) {
+        .post(`${baseUrl}/update/donation`, {
+          project_id: this.state.clientProjects[this.state.projectIndex]._id,
+          donations_value: parseInt(this.state.donations_value),
+        })
+        .then(res => {
+          if (res.data.success) {
+            this.setState({ modalVisible: false })
+            this.getClientProjects()
+          } else {
+            this.setState({ modalVisible: false })
+          }
+        })
+        .catch(error => {
           this.setState({ modalVisible: false })
-          this.getClientProjects()
-        } else {
-          this.setState({ modalVisible: false })
-        }
-      })
-      .catch(error => {
-        this.setState({ modalVisible: false })
-      })
+        })
     } else {
       alert('Please input the digital value')
     }
@@ -307,7 +303,7 @@ class ClientDetail extends React.Component {
     this.setState({ modalVisible: false })
   }
 
-  checkDigital = (value) => {
+  checkDigital = value => {
     return /^\d+$/.test(value)
   }
 
@@ -583,7 +579,13 @@ class ClientDetail extends React.Component {
                   >
                     <div className="dashboardPage__modalContainer">
                       <label>Total amount donated as of today</label>
-                      <Input style={{ width: 180, height: 40, marginTop: 20, marginBottom: 20 }} onChange={e=>{this.setState({ donations_value: e.target.value })}} value={donations_value} />
+                      <Input
+                        style={{ width: 180, height: 40, marginTop: 20, marginBottom: 20 }}
+                        onChange={e => {
+                          this.setState({ donations_value: e.target.value })
+                        }}
+                        value={donations_value}
+                      />
                     </div>
                   </Modal>
                   <div className="clientNewPage__projectsContainer">{renderProjects}</div>
