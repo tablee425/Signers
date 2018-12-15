@@ -13,7 +13,6 @@ import {
   Avatar,
 } from 'antd'
 import './style.scss'
-import { tableData } from './data.json'
 import { Link, withRouter } from 'react-router-dom'
 import config from '../../../../web-config'
 import { Redirect } from 'react-router'
@@ -27,6 +26,7 @@ class Project extends React.Component {
     tableData: [],
     tableColumns: [],
     redirect: 0,
+    allProjects: [],
   }
 
   componentDidMount() {
@@ -120,7 +120,7 @@ class Project extends React.Component {
       .post(`${baseUrl}/projects/list/admin`, {})
       .then(res => {
         if (res.data.success) {
-          this.setState({ tableData: res.data.data })
+          this.setState({ allProjects: res.data.data, tableData: res.data.data })
         } else {
           this.setState({ tableData: [] })
         }
@@ -134,25 +134,17 @@ class Project extends React.Component {
     // console.info(e.target.value)
     let filterStr = e.target.value
     if (filterStr == '') {
-      this.setState({ tableData })
+      this.setState({ tableData: this.state.allProjects })
     } else {
       let newData = []
-      tableData.map(item => {
+      this.state.allProjects.map(item => {
         if (item.name.includes(filterStr)) {
-          newData.push(item)
-        } else if (item.expects_volunteers.toString().includes(filterStr)) {
-          newData.push(item)
-        } else if (item.donations.toString().includes(filterStr)) {
           newData.push(item)
         } else if (item.description.toString().includes(filterStr)) {
           newData.push(item)
-        } else if (item.Starts.toString().includes(filterStr)) {
+        } else if (item.expected_voters.toString().includes(filterStr)) {
           newData.push(item)
-        } else if (item.Ends.toString().includes(filterStr)) {
-          newData.push(item)
-        } else if (item.vn.toString().includes(filterStr)) {
-          newData.push(item)
-        } else if (item.vs.toString().includes(filterStr)) {
+        } else if (item.signed_voters.toString().includes(filterStr)) {
           newData.push(item)
         } else if (item.type.toString().includes(filterStr)) {
           newData.push(item)
@@ -165,7 +157,7 @@ class Project extends React.Component {
   }
 
   render() {
-    const { redirect, tableColumns, tableData } = this.state
+    const { redirect, tableColumns, allProjects, tableData } = this.state
     if (redirect == 1) {
       return <Redirect push to="/projects/detail" />
     }
@@ -173,7 +165,7 @@ class Project extends React.Component {
       <section className="card">
         <div className="card-header">
           <div className="utils__title">
-            <strong>{`Projects (${tableData.length})`}</strong>
+            <strong>{`Projects (${allProjects.length})`}</strong>
             <div className="projectPage__searchInputContainer">
               <Input
                 className="livesearch__topInput"
