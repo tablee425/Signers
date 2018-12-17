@@ -140,6 +140,7 @@ class ProjectEdit extends React.Component {
                     donations_url: values.donationsUrl,
                     description: values.description,
                     photos: [res.data.newUuid],
+                    pay_for_votes: values.payForVotes
                   })
                   .then(res1 => {
                     if (res1.data.success) {
@@ -212,6 +213,7 @@ class ProjectEdit extends React.Component {
     let projectCountry = project ? project.country : ''
     let projectLocation = project ? project.location : ''
     let description = project ? project.description : ''
+    let payForVotes = project ? project.pay_for_votes : false
 
     let src = previewUrl || 'resources/images/plus.png'
     let regions = []
@@ -402,6 +404,20 @@ class ProjectEdit extends React.Component {
                         { validator: this.checkDigital },
                       ],
                     })(<Input style={{ width: 180, height: 40 }} placeholder="" />)}
+                  </FormItem>
+                </div>
+                <div style={{ marginTop: 15, marginLeft: 25 }}>
+                  <label className="form-label mb-0">Pay For Votes</label>
+                  <FormItem>
+                    {getFieldDecorator('payForVotes', {
+                      initialValue: payForVotes,
+                      rules: [{ required: true, message: 'Please select the pay for votes' }],
+                    })(
+                      <Select style={{ width: 180, height: 40 }}>
+                        <Option value={true}>Yes</Option>
+                        <Option value={false}>No</Option>
+                      </Select>,
+                    )}
                   </FormItem>
                 </div>
               </div>
