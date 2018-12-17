@@ -140,7 +140,7 @@ class ProjectEdit extends React.Component {
                     donations_url: values.donationsUrl,
                     description: values.description,
                     photos: [res.data.newUuid],
-                    pay_for_votes: values.payForVotes
+                    pay_for_votes: values.payForVotes,
                   })
                   .then(res1 => {
                     if (res1.data.success) {

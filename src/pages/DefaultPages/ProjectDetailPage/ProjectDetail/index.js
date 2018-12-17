@@ -87,8 +87,8 @@ class ProjectDetail extends React.Component {
     let donationsUrl = project ? project.donations_url : ''
     let pricePerVoters = project
       ? `${project.unit_voters} voters = $${project.price_for_signers_for_100_voters}`
-      : '';
-    let payForVotes = project ? project.pay_for_votes ? 'Yes' : 'No' : 'No';
+      : ''
+    let payForVotes = project ? (project.pay_for_votes ? 'Yes' : 'No') : 'No'
     let location = project ? `${project.country} - ${project.location}` : ''
     let startEndDate = project ? `${project.date_registered} - ${project.date_expiration}` : ''
     let description = project ? project.description : ''
