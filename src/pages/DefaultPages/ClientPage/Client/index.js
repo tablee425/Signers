@@ -30,61 +30,63 @@ class Client extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      tableColumns: [
-        {
-          title: 'Picture',
-          dataIndex: 'Picture',
-          key: 'picture',
-          render: (text, record) => (
-            <span>
-              <Avatar src={record.Picture} style={{ width: 50, height: 50 }} />
-            </span>
-          ),
-        },
-        {
-          title: 'Client Name',
-          dataIndex: 'name',
-          key: 'name',
-        },
-        {
-          title: '# Total Projects',
-          dataIndex: 'tp',
-          key: 'tp',
-          sorter: (a, b) => a.tp - b.tp,
-        },
-        {
-          title: '# Active Projects',
-          dataIndex: 'ap',
-          key: 'ap',
-          sorter: (a, b) => a.ap - b.ap,
-        },
-        {
-          title: '# Own Signers',
-          dataIndex: 'os',
-          key: 'os',
-          sorter: (a, b) => a.os - b.os,
-        },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (text, record) => (
-            <span>
-              <Button
-                onClick={() => {
-                  this.onClientDetail(record.key)
-                }}
-              >
-                Detail
-              </Button>
-            </span>
-          ),
-        },
-      ],
-    }, () => {
-      this.fetchClients()
-    })
-
+    this.setState(
+      {
+        tableColumns: [
+          {
+            title: 'Picture',
+            dataIndex: 'Picture',
+            key: 'picture',
+            render: (text, record) => (
+              <span>
+                <Avatar src={record.Picture} style={{ width: 50, height: 50 }} />
+              </span>
+            ),
+          },
+          {
+            title: 'Client Name',
+            dataIndex: 'name',
+            key: 'name',
+          },
+          {
+            title: '# Total Projects',
+            dataIndex: 'tp',
+            key: 'tp',
+            sorter: (a, b) => a.tp - b.tp,
+          },
+          {
+            title: '# Active Projects',
+            dataIndex: 'ap',
+            key: 'ap',
+            sorter: (a, b) => a.ap - b.ap,
+          },
+          {
+            title: '# Own Signers',
+            dataIndex: 'os',
+            key: 'os',
+            sorter: (a, b) => a.os - b.os,
+          },
+          {
+            title: 'Action',
+            key: 'action',
+            render: (text, record) => (
+              <span>
+                <Button
+                  onClick={() => {
+                    this.onClientDetail(record.key)
+                  }}
+                >
+                  Detail
+                </Button>
+              </span>
+            ),
+          },
+        ],
+      },
+      () => {
+        this.fetchClients()
+      },
+    )
   }
 
   fetchClients = async () => {
