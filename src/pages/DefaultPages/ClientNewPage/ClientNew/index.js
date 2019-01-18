@@ -64,6 +64,15 @@ class ClientNew extends React.Component {
     }
   }
 
+  checkEmailValidate = (rule, value, callback) => {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (value && !re.test(value.toLowerCase())) {
+      callback('Email is not valid format!')
+    } else {
+      callback()
+    }
+  }
+
   cancelButtonClicked = () => {
     return this.state.cancelButtonClicked
   }
@@ -254,7 +263,7 @@ class ClientNew extends React.Component {
                       <FormItem>
                         <label className="form-label mb-0">Email</label>
                         {getFieldDecorator('email', {
-                          rules: [{ required: true, message: 'Please input your email' }],
+                          rules: [{ required: true, message: 'Please input your email' }, { validator: this.checkEmailValidate }],
                         })(<Input placeholder="Enter email" />)}
                       </FormItem>
                     </div>

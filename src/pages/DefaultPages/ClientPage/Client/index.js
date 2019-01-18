@@ -81,19 +81,21 @@ class Client extends React.Component {
           ),
         },
       ],
+    }, () => {
+      this.fetchClients()
     })
 
-    this.fetchClients()
   }
 
-  fetchClients = () => {
+  fetchClients = async () => {
     axios
       .post(`${baseUrl}/admin/list`, {})
-      .then(res => {
+      .then(async res => {
         if (res.data.success) {
+          console.info(res.data.data.length)
           let tableData = []
-          res.data.data.map((item, index) => {
-            tableData.push({
+          await res.data.data.map(async (item, index) => {
+            await tableData.push({
               key: `${item._id}`,
               Picture: `${baseUrl}/image?id=${item.photoID}`,
               name: item.firstName,
