@@ -108,8 +108,10 @@ class Project extends React.Component {
   }
 
   getTimeFormat = d => {
-    let md = moment(d);
-    return `${md.month()<9?'0':''}${md.month()+1}.${md.date()<10?'0':''}${md.date()}.${md.year()}`
+    let md = moment(d)
+    return `${md.month() < 9 ? '0' : ''}${md.month() + 1}.${
+      md.date() < 10 ? '0' : ''
+    }${md.date()}.${md.year()}`
   }
 
   handleChange = (pagination, filters, sorter) => {
