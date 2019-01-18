@@ -10,6 +10,7 @@ import ClientPage from 'pages/DefaultPages/ClientPage'
 import ClientNewPage from 'pages/DefaultPages/ClientNewPage'
 import ClientDetailPage from 'pages/DefaultPages/ClientDetailPage'
 import LoginPage from 'pages/DefaultPages/LoginPage'
+import ForgotPasswordPage from 'pages/DefaultPages/ForgotPasswordPage'
 import ProjectPage from 'pages/DefaultPages/ProjectPage'
 import ProjectNewPage from 'pages/DefaultPages/ProjectNewPage'
 import ProjectDetailPage from 'pages/DefaultPages/ProjectDetailPage'
@@ -28,6 +29,9 @@ const loadableRoutes = {
   // Default Pages
   '/login': {
     component: loadable(() => import('pages/DefaultPages/LoginPage')),
+  },
+  '/forgotpassword': {
+    component: loadable(() => import('pages/DefaultPages/ForgotPasswordPage')),
   },
   '/clients': {
     component: loadable(() => import('pages/DefaultPages/ClientPage')),
@@ -81,6 +85,7 @@ class Routes extends React.Component {
       <ConnectedSwitch>
         <Route exact path="/" component={LoginPage} />
         <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/forgotpassword" component={ForgotPasswordPage} />
         <Route exact path="/clients" component={ClientPage} />
         <Route exact path="/clients/new" component={ClientNewPage} />
         <Route exact path="/clients/detail" component={ClientDetailPage} />
