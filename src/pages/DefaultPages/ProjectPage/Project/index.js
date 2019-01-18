@@ -18,6 +18,7 @@ import config from '../../../../web-config'
 import { Redirect } from 'react-router'
 import axios from 'axios'
 import { baseUrl } from '../../../../config'
+import moment from 'moment'
 
 const Panel = Collapse.Panel
 
@@ -57,12 +58,12 @@ class Project extends React.Component {
         {
           title: 'Starts',
           key: 'date_registered',
-          render: (text, record) => <div>{`${record.date_registered}`}</div>,
+          render: (text, record) => <div>{`${this.getTimeFormat(record.date_registered)}`}</div>,
         },
         {
           title: 'Ends',
           key: 'date_expiration',
-          render: (text, record) => <div>{`${record.date_expiration}`}</div>,
+          render: (text, record) => <div>{`${this.getTimeFormat(record.date_expiration)}`}</div>,
         },
         {
           title: 'Voters Needed',
@@ -104,6 +105,11 @@ class Project extends React.Component {
       ],
     })
     this.getAllProjects()
+  }
+
+  getTimeFormat = d => {
+    let md = moment(d);
+    return `${md.month()<9?'0':''}${md.month()+1}.${md.date()<10?'0':''}${md.date()}.${md.year()}`
   }
 
   handleChange = (pagination, filters, sorter) => {
