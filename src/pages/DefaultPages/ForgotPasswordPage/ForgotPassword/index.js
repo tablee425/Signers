@@ -3,17 +3,12 @@ import React from 'react'
 class ForgotPassword extends React.Component {
   state = {}
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
-  componentWillUnmount() {
-  }
+  componentWillUnmount() {}
 
   render() {
-    return (
-      <div className="main-login main-login--fullscreen">
-      </div>
-    )
+    return <div className="main-login main-login--fullscreen" />
   }
 }
 
