@@ -118,7 +118,11 @@ class ClientNew extends React.Component {
                     if (res1.data.success) {
                       this.setState({ redirect: 1 })
                     } else {
-                      alert(res1.data.message)
+                      if (res1.data.errInfo.errorCode == 101) {
+                        alert('User with this email is already registered.')
+                      } else {
+                        alert('Internal Server Problem.')
+                      }
                     }
                   })
                   .catch(error => {})
@@ -224,9 +228,9 @@ class ClientNew extends React.Component {
                 onChange={this.onChangeTabs}
               >
                 <TabPane tab={<span>Information</span>} key="1">
-                  <h5 className="text-black mt-4">
+                  {/* <h5 className="text-black mt-4">
                     <strong>Personal Information</strong>
-                  </h5>
+                  </h5> */}
                   <div className="row">
                     <div className="col-lg-6">
                       <FormItem>

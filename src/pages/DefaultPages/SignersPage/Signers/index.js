@@ -149,6 +149,7 @@ class Signers extends React.Component {
             <Modal
               title="Block or Assign"
               visible={modalVisible}
+              onCancel={this.handleCancel}
               footer={[
                 <Button key="back" onClick={this.handleCancel}>
                   Cancel

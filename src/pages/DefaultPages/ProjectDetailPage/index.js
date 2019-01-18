@@ -13,7 +13,7 @@ class ProjectDetailPage extends React.Component {
     const props = this.props
     return (
       <Page {...props}>
-        <Helmet title="New Project" />
+        <Helmet title="Project Detail" />
         <ProjectDetail />
       </Page>
     )
