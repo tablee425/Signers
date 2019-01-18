@@ -96,8 +96,8 @@ class ProjectDetail extends React.Component {
     return (
       <div>
         <div className="row">
-          <div style={{ width: 230, height: 425, backgroundColor: 'white', padding: 15 }}>
-            <img style={{ width: 200, height: 395 }} src={src} />
+          <div style={{ width: 120, height: 220, backgroundColor: 'white', padding: 10 }}>
+            <img style={{ width: 100, height: 200 }} src={src} />
           </div>
           <div style={{ flex: 1, paddingLeft: 30 }}>
             <div className="row">

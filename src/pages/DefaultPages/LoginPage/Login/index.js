@@ -22,22 +22,7 @@ class Login extends React.Component {
               <LoginForm email={this.state.restoredEmail} />
             </div>
             <div className="main-login__block__sidebar">
-              <h4 className="main-login__block__sidebar__title text-white">
-                <strong>Agile Dev Meetup</strong>
-                <br />
-                <span>August 2018</span>
-              </h4>
-              <div className="main-login__block__sidebar__item">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                Ipsum has been the industry's standard dummy text ever since the 1500s.
-              </div>
-              <div className="main-login__block__sidebar__item">
-                Ipsum has been the industry's standard dummy text ever since the 1500s.
-              </div>
-              <div className="main-login__block__sidebar__place">
-                <i className="icmn-location mr-3" />
-                New York, USA
-              </div>
+              <img style={{ width: 220, height: 58 }} src={'resources/images/logo-inverse.png'} />
             </div>
           </div>
         </div>

@@ -25,6 +25,7 @@ import { US_Region, Mexico_Region } from './data.json'
 import axios from 'axios'
 import { baseUrl } from '../../../../config'
 import config from '../../../../web-config'
+import moment from 'moment'
 
 const Option = Select.Option
 const { RangePicker } = DatePicker
@@ -134,7 +135,6 @@ class ProjectEdit extends React.Component {
                     price_for_signers_for_100_voters: values.pricePerVoters,
                     type: values.projectType,
                     cost: values.projectCost,
-                    donations_value: values.donationsValue,
                     country: values.selectedCountry,
                     location: values.selectedArea,
                     donations_url: values.donationsUrl,
@@ -155,7 +155,34 @@ class ProjectEdit extends React.Component {
             })
             .catch(error => {})
         } else {
-          alert('Please upload the project image')
+          axios
+            .post(`${baseUrl}/projects/update`, {
+              project_id: config.projectKey,
+              name: values.projectName,
+              allowed_age: 15,
+              date_registered: new Date(values.projectPeriod[0].format()),
+              date_expiration: new Date(values.projectPeriod[1].format()),
+              expected_voters: values.votersNeeded,
+              expects_volunteers: values.selectedDonationsFlag == 'Yes',
+              expects_donations: values.selectedDonationsFlag == 'Yes',
+              unit_voters: values.perVoterCount,
+              price_for_signers_for_100_voters: values.pricePerVoters,
+              type: values.projectType,
+              cost: values.projectCost,
+              country: values.selectedCountry,
+              location: values.selectedArea,
+              donations_url: values.donationsUrl,
+              description: values.description,
+              pay_for_votes: values.payForVotes,
+            })
+            .then(res1 => {
+              if (res1.data.success) {
+                this.setState({ redirect: 1 })
+              } else {
+                alert(res1.data.message)
+              }
+            })
+            .catch(error => {})
         }
       }
     })
@@ -206,7 +233,6 @@ class ProjectEdit extends React.Component {
     let votersNeeded = project ? project.expected_voters : ''
     let volunteersFlag = project ? (project.expects_volunteers ? 'Yes' : 'No') : ''
     let donationsFlag = project ? (project.expects_donations ? 'Yes' : 'No') : ''
-    let donationsValue = project ? `${project.donations_value}` : ''
     let donationsUrl = project ? project.donations_url : ''
     let perVoterCount = project ? project.unit_voters : ''
     let pricePerVoters = project ? `${project.price_for_signers_for_100_voters}` : ''
@@ -214,6 +240,8 @@ class ProjectEdit extends React.Component {
     let projectLocation = project ? project.location : ''
     let description = project ? project.description : ''
     let payForVotes = project ? project.pay_for_votes : false
+    let projectStartDate = project ? moment(project.date_registered) : moment()
+    let projectEndDate = project ? moment(project.date_expiration) : moment()
 
     let src = previewUrl || 'resources/images/plus.png'
     let regions = []
@@ -228,8 +256,8 @@ class ProjectEdit extends React.Component {
       <div>
         <Form onSubmit={this.handleSubmit} className="login-form">
           <div className="row">
-            <div style={{ width: 230, height: 425, backgroundColor: 'white', padding: 15 }}>
-              <img style={{ width: 200, height: 350 }} src={src} />
+            <div style={{ width: 120, height: 220, backgroundColor: 'white', padding: 10 }}>
+              <img style={{ width: 100, height: 200 }} src={src} />
               <label style={{ marginTop: 15 }}>
                 <FileInput
                   readAs="binary"
@@ -242,7 +270,7 @@ class ProjectEdit extends React.Component {
                   onCancel={this.showInvalidFileTypeMessage}
                   onAbort={this.resetCancelButtonClicked}
                 />
-                <div className="projectNewPage__changeProjectImageButton">Change Image</div>
+                <div className="clientNewPage__changeProjectImageButton">Change Image</div>
               </label>
             </div>
             <div style={{ flex: 1, paddingLeft: 30 }}>
@@ -356,18 +384,6 @@ class ProjectEdit extends React.Component {
 
               <div className="row">
                 <div style={{ marginTop: 15 }}>
-                  <label className="form-label mb-0">Donations Value</label>
-                  <FormItem>
-                    {getFieldDecorator('donationsValue', {
-                      initialValue: donationsValue,
-                      rules: [
-                        { required: true, message: 'Please input the donations value' },
-                        { validator: this.checkDigital },
-                      ],
-                    })(<Input style={{ width: 180, height: 40 }} placeholder="" />)}
-                  </FormItem>
-                </div>
-                <div style={{ marginTop: 15, marginLeft: 230 }}>
                   <label className="form-label mb-0">Donations Url</label>
                   <FormItem>
                     {getFieldDecorator('donationsUrl', {
@@ -380,7 +396,7 @@ class ProjectEdit extends React.Component {
 
               <div className="row">
                 <div style={{ marginTop: 15 }}>
-                  <label className="form-label mb-0">Price Per Voters</label>
+                  <label className="form-label mb-0">For Every XXX Voters</label>
                   <FormItem>
                     {getFieldDecorator('perVoterCount', {
                       initialValue: perVoterCount,
@@ -464,6 +480,7 @@ class ProjectEdit extends React.Component {
                   <label className="form-label mb-0">Start / End Date</label>
                   <FormItem>
                     {getFieldDecorator('projectPeriod', {
+                      initialValue: [projectStartDate, projectEndDate],
                       rules: [{ required: true, message: 'Please input the project name' }],
                     })(<RangePicker style={{ width: 385 }} />)}
                   </FormItem>

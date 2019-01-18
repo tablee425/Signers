@@ -28,4 +28,13 @@
     &__cancelBtn {
         text-align: center;
     }
+    &__changeProjectImageButton {
+        width: 100px;
+        border: rem(1) solid lightgray;
+        padding-top: rem(5);
+        padding-bottom: rem(5);
+        border-radius: rem(3);
+        text-align: center;
+        background-color: #D1D8E0;
+    }
 }
