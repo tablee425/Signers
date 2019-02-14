@@ -46,6 +46,14 @@ class ProjectNew extends React.Component {
     }
   }
 
+  checkDates = (rule, value, callback) => {
+    if (value && new Date(value[0].format()).getTime() < new Date().getTime()) {
+      callback('Wrong Start Time')
+    } else {
+      callback()
+    }
+  }
+
   cancelButtonClicked = () => {
     return this.state.cancelButtonClicked
   }
@@ -382,7 +390,7 @@ class ProjectNew extends React.Component {
                   <label className="form-label mb-0">Start / End Date</label>
                   <FormItem>
                     {getFieldDecorator('projectPeriod', {
-                      rules: [{ required: true, message: 'Please input the project name' }],
+                      rules: [{ required: true, message: 'Please input the project name' }, { validator: this.checkDates }],
                     })(<RangePicker style={{ width: 385 }} />)}
                   </FormItem>
                 </div>
