@@ -72,7 +72,7 @@ class ProfileMenu extends React.Component {
         >
           <a className="ant-dropdown-link" href="/">
             {/* <Badge count={count}> */}
-            <Avatar className="topbar__avatar" shape="square" size="large" icon="user" />
+            <img style={{ width: 40, height: 40, borderRadius: 5 }} src={`http://localhost:4000/image?id=${userState.clientAvatarId}#/`} />
             {/* </Badge> */}
           </a>
         </Dropdown>

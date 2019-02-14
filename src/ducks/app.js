@@ -42,6 +42,7 @@ export const initAuth = roles => (dispatch, getState) => {
   const firstName = window.localStorage.getItem('app.Firstname')
   const lastName = window.localStorage.getItem('app.Lastname')
   const clientId = window.localStorage.getItem('app.ClientID')
+  const clientAvatarId = window.localStorage.getItem('app.ClientAvatarID')
   const state = getState()
 
   const setUser = userState => {
@@ -55,7 +56,7 @@ export const initAuth = roles => (dispatch, getState) => {
     return Promise.resolve(true)
   }
 
-  return setUser({ email, role, firstName, lastName, clientId }, role)
+  return setUser({ email, role, firstName, lastName, clientId, clientAvatarId }, role)
 }
 
 export function login(username, password, dispatch) {
@@ -70,6 +71,7 @@ export function login(username, password, dispatch) {
         window.localStorage.setItem('app.Firstname', res.data.user.firstName)
         window.localStorage.setItem('app.Lastname', res.data.user.lastName)
         window.localStorage.setItem('app.ClientID', res.data.user._id)
+        window.localStorage.setItem('app.ClientAvatarID', res.data.user.photoID)
         dispatch(_setHideLogin(true))
         dispatch(push(res.data.user.role == 'admin' ? '/clients' : '/dashboard'))
         notification.open({
@@ -102,6 +104,7 @@ export const logout = () => (dispatch, getState) => {
         firstName: '',
         lastName: '',
         clientId: '',
+        clientAvatarId: '',
       },
     }),
   )
@@ -110,6 +113,7 @@ export const logout = () => (dispatch, getState) => {
   window.localStorage.setItem('app.Firstname', '')
   window.localStorage.setItem('app.Lastname', '')
   window.localStorage.setItem('app.ClientID', '')
+  window.localStorage.setItem('app.ClientAvatarID', '')
   dispatch(push('/login'))
 }
 
@@ -143,6 +147,7 @@ const initialState = {
     firstName: '',
     lastName: '',
     clientId: '',
+    clientAvatarId: '',
   },
 }
 
