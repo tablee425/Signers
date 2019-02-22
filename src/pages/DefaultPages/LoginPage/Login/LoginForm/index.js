@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { REDUCER, submit } from 'ducks/login'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, Checkbox } from 'antd'
 
 const FormItem = Form.Item
 
@@ -25,6 +25,10 @@ class LoginForm extends React.Component {
         }
       })
     }
+  }
+
+  onChange = (e) => {
+    console.log(`checked = ${e.target.checked}`);
   }
 
   render() {
@@ -52,20 +56,31 @@ class LoginForm extends React.Component {
               rules: [{ required: true, message: 'Please input your password' }],
             })(<Input size="default" type="password" />)}
           </FormItem>
-          <div className="mb-2">
-            <a href="javascript: void(0);" className="utils__link--blue utils__link--underlined">
-              Forgot password
-            </a>
+          <div className="mb-2" style={{ display: 'flex' }}>
+            <div>
+              <Checkbox onChange={this.onChange}>Remember me</Checkbox>
+            </div>
+            <div style={{ flex: 1 }} />
+            <div>
+              <a href="javascript: void(0);" className="utils__link--blue utils__link--underlined">
+                Forgot password?
+              </a>
+            </div>            
           </div>
           <div className="form-actions">
             <Button
               type="primary"
-              className="width-150 mr-4 mt-5"
+              className="mr-4 mt-5"
               htmlType="submit"
               loading={isSubmitForm}
+              style={{ width: 80 }}
             >
-              Sign in
+              Sign In
             </Button>
+            <a href="javascript: void(0);" className="utils__link--blue utils__link--underlined">
+              Register
+            </a>
+            <label style={{ marginLeft: 5 }}>if you don't have an account</label>
           </div>
         </Form>
       </div>

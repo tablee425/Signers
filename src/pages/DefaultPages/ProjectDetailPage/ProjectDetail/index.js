@@ -64,6 +64,11 @@ class ProjectDetail extends React.Component {
       .catch(error => {})
   }
 
+  formattedDate = (date) => {
+    let d = new Date(date);
+    return `${d.getMonth()+1<10?'0':''}${d.getMonth()+1}.${d.getDate()<10?'0':''}${d.getDate()}.${d.getFullYear()}`
+  }
+
   render() {
     const { redirect, project } = this.state
 
@@ -90,7 +95,7 @@ class ProjectDetail extends React.Component {
       : ''
     let payForVotes = project ? (project.pay_for_votes ? 'Yes' : 'No') : 'No'
     let location = project ? `${project.country} - ${project.location}` : ''
-    let startEndDate = project ? `${project.date_registered} - ${project.date_expiration}` : ''
+    let startEndDate = project ? `${this.formattedDate(project.date_registered)} - ${this.formattedDate(project.date_expiration)}` : ''
     let description = project ? project.description : ''
 
     return (

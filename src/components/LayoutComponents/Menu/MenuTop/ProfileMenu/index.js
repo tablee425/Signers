@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { logout } from 'ducks/app'
 import { Menu, Dropdown, Avatar, Badge } from 'antd'
+import { baseUrl } from '../../../../../config'
 
 const mapDispatchToProps = dispatch => ({
   logout: event => {
@@ -74,7 +75,7 @@ class ProfileMenu extends React.Component {
             {/* <Badge count={count}> */}
             <img
               style={{ width: 40, height: 40, borderRadius: 5 }}
-              src={`http://localhost:4000/image?id=${userState.clientAvatarId}#/`}
+              src={`${baseUrl}/image?id=${userState.clientAvatarId}#/`}
             />
             {/* </Badge> */}
           </a>
