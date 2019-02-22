@@ -27,8 +27,8 @@ class LoginForm extends React.Component {
     }
   }
 
-  onChange = (e) => {
-    console.log(`checked = ${e.target.checked}`);
+  onChange = e => {
+    console.log(`checked = ${e.target.checked}`)
   }
 
   render() {
@@ -65,7 +65,7 @@ class LoginForm extends React.Component {
               <a href="javascript: void(0);" className="utils__link--blue utils__link--underlined">
                 Forgot password?
               </a>
-            </div>            
+            </div>
           </div>
           <div className="form-actions">
             <Button

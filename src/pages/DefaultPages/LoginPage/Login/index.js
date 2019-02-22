@@ -22,7 +22,10 @@ class Login extends React.Component {
               <LoginForm email={this.state.restoredEmail} />
             </div>
             <div className="main-login__block__sidebar">
-              <img style={{ width: 110, height: 29, marginLeft: 55, }} src={'resources/images/logo-inverse.png'} />
+              <img
+                style={{ width: 110, height: 29, marginLeft: 55 }}
+                src={'resources/images/logo-inverse.png'}
+              />
             </div>
           </div>
         </div>
