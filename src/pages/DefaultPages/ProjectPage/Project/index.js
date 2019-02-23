@@ -30,13 +30,23 @@ class Project extends React.Component {
     allProjects: [],
   }
 
+  fitString = str => {
+    if (str.length > 20) {
+      return str.substring(0, 20) + '...';
+    } else {
+      return str;
+    }
+  }
+
   componentDidMount() {
     this.setState({
       tableColumns: [
         {
           title: 'Name',
           dataIndex: 'name',
-          key: 'name',
+          render: (text, record) => (
+            <text>{`${this.fitString(record.name)}`}</text>
+          ),
         },
         {
           title: 'Volunteers',
@@ -52,7 +62,7 @@ class Project extends React.Component {
           title: 'Description',
           key: 'description',
           render: (text, record) => (
-            <div className="projectPage__table_description">{`${record.description}`}</div>
+            <div className="projectPage__table_description">{`${this.fitString(record.description)}`}</div>
           ),
         },
         {
