@@ -98,6 +98,14 @@ class Report extends React.Component {
     }${year}`
   }
 
+  fitString = str => {
+    if (str.length > 20) {
+      return str.substring(0, 20) + '...'
+    } else {
+      return str
+    }
+  }
+
   render() {
     const { redirect, clientProjects } = this.state
     if (redirect == 1) {
@@ -107,7 +115,7 @@ class Report extends React.Component {
     clientProjects.map((item, index) => {
       renderProjects.push(
         <div className="reportPage__projectsItem">
-          <h4>{item.name}</h4>
+          <h4>{this.fitString(item.name)}</h4>
           <img
             className="reportPage__item-thumb-img"
             src={`${baseUrl}/image?id=${item.photos[0]}`}
